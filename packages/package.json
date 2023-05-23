@@ -1,0 +1,28 @@
+{
+  "name": "mini-vite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "mini-vite": "bin/mini-vite.js"
+  },
+  "scripts": {
+    "dev": " tsup ./src/node/cli.ts --dts --format cjs,esm --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/connect": "^3.4.35",
+    "@types/ws": "^8.5.4",
+    "commander": "^10.0.1",
+    "connect": "^3.7.0",
+    "ws": "^8.13.0"
+  },
+  "dependencies": {
+    "cac": "^6.7.14"
+  }
+}

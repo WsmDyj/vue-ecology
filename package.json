@@ -4,9 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "pnpm run -C packages dev"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^4.3.4",
+    "ts-node": "^10.9.1",
+    "tsup": "^6.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.0.4"
+  }
 }
