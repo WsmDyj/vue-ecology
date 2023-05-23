@@ -29,6 +29,7 @@ importers:
       cac: ^6.7.14
       commander: ^10.0.1
       connect: ^3.7.0
+      rollup: ^3.23.0
       ws: ^8.13.0
 
     dependencies:
@@ -39,14 +40,17 @@ importers:
       '@types/ws': 8.5.4
       commander: 10.0.1
       connect: 3.7.0
+      rollup: 3.23.0
       ws: 8.13.0
 
   playground:
     specifiers:
-      mini-vite: ../packages
+      mini-vite: workspace:*
+      rollup: ^3.23.0
       vue: ^3.3.4
     dependencies:
       mini-vite: link:../packages
+      rollup: 3.23.0
       vue: 3.3.4
 
 packages:
@@ -1031,7 +1035,6 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
-    dev: false
 
   /run-parallel/1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
