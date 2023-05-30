@@ -46,11 +46,9 @@ importers:
   playground:
     specifiers:
       mini-vite: workspace:*
-      rollup: ^3.23.0
       vue: ^3.3.4
     dependencies:
       mini-vite: link:../packages
-      rollup: 3.23.0
       vue: 3.3.4
 
 packages:
