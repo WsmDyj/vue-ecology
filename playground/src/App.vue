@@ -1,11 +1,10 @@
 <template>
   <h1>hello vite</h1>
   <h2>
-    <span>count is {{count}} *2={{double}}</span>
+    <span>count is {{count}}*2={{double}}</span>
     <button @click="count++">戳我</button>
   </h2>
 </template>
-
 <script>
 import { ref, computed, defineComponent } from 'vue'
 export default defineComponent({
