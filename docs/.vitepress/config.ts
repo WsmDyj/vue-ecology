@@ -4,6 +4,7 @@ import { sidebar, nav } from './relaConf';
 export default defineConfig({
   base: '/zh',
   title: 'vue-ecology',
+  outDir: 'dist',
   description: 'vue三大生态',
   themeConfig: {
     logo: '/logo.png',
