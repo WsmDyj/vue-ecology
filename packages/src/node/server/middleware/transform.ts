@@ -1,6 +1,6 @@
 import type { NextHandleFunction } from 'connect'
 import type { ViteDevServer } from '../../server'
-import { isJSRequest } from "../../utils"
+import { isJSRequest, isImportRequest, isCSSRequest } from "../../utils"
 import { transformRequest } from '../transformRequest'
 
 export function transformMiddleware(server: ViteDevServer): NextHandleFunction {
@@ -9,9 +9,17 @@ export function transformMiddleware(server: ViteDevServer): NextHandleFunction {
       return next()
     }
     let url = req.url!
-    if (isJSRequest(url)) {
-      const result = await transformRequest(url, server)
-      console.log(result)
+
+    if (isJSRequest(url) || isImportRequest(url) || isCSSRequest(url)) {
+      try {
+        const result = await transformRequest(url, server)
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/javascript");
+        return res.end(result.code);
+      } catch (e) {
+        console.log(e)
+      }
+    
     }
     next()
   }

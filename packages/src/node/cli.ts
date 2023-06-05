@@ -7,7 +7,8 @@ cli
   .alias("dev")
   .action(async () => {
     const { createServer } = await import('./server')
-    await createServer()
+    const server = await createServer()
+    await server.listen()
   });
 
 cli.help();
