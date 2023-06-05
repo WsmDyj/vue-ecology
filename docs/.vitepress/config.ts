@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress';
 import { sidebar, nav } from './relaConf';
 
 export default defineConfig({
-  base: '/zh',
+  base: './',
   title: 'vue-ecology',
   outDir: 'dist',
   description: 'vue三大生态',
