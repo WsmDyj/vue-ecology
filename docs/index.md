@@ -20,15 +20,15 @@ hero:
     actions:
     - theme: brand
       text: 进入主页
-      link: /column/views/guide
+      link: /zh/vite-design/index
 features:
   - title: 🌈 vite-design
     details: vite原理解析
-    link: /zh/vite-design
+    link: /zh/vite-design/index
   - title: 🍭 vue-compiler
     details: vue编译原理
-    link: /zh/vue-compiler
+    link: /zh/vue-compiler/index
   - title: 😋 vue-design
     details: vue实现原理
-    link: /zh/vue-design
+    link: /zh/vue-design/index
 ---

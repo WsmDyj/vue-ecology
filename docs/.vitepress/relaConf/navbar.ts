@@ -2,47 +2,20 @@ import { DefaultTheme } from 'vitepress';
 
 export const nav: DefaultTheme.NavItem[] = [
   {
-    text: '首页',
-    link: '/'
-  },
-  {
     text: 'vite-design',
     items: [
       {
-        text: '大江南北游记',
-        link: '/column/Travel/'
+        text: '服务端',
+        link: '/zh/vite-design/index',
       },
-      {
-        text: '所思·所想',
-        link: '/column/Growing/'
-      }
     ]
   },
   {
     text: 'vue-design',
-    items: [
-      {
-        text: '数据结构与算法',
-        link: '/column/Algorithm/'
-      }
-    ]
+    link: '/zh/vue-design'
   },
   {
     text: 'vue-compiler',
-    items: [
-      { text: 'Github', link: 'https://github.com/Jacqueline712' },
-      {
-        text: '掘金',
-        link: 'https://juejin.cn/user/3131845139247960/posts'
-      },
-      {
-        text: '飞书社区',
-        link: 'https://pzfqk98jn1.feishu.cn/wiki/space/7193915595975491587?ccm_open_type=lark_wiki_spaceLink'
-      },
-      {
-        text: '知乎',
-        link: 'https://www.zhihu.com/people/zheng-zi-ji-67-89/posts'
-      }
-    ]
+   link: '/zh/vue-compiler'
   }
 ];
