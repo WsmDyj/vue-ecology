@@ -5,8 +5,7 @@ home: true
 
 # https://vitepress.dev/reference/default-theme-home-page
 title: vue-ecology
-description: 'vue技术生态解析'
-titleTemplate: Hi，终于等到你
+titleTemplate: vue技术生态解析
 editLink: true
 lastUpdated: true
 
