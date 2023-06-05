@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as n}from"./chunks/framework.9e25a19e.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"zh/vite-design/index.md"}'),a={name:"zh/vite-design/index.md"};function r(s,o,i,c,d,p){return t(),n("div")}const f=e(a,[["render",r]]);export{m as __pageData,f as default};
