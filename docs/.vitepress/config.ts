@@ -6,6 +6,10 @@ export default defineConfig({
   outDir: 'dist',
   description: 'vue三大生态',
   themeConfig: {
+     editLink: {
+      pattern: 'https://github.com/WsmDyj/vue-ecology/tree/main/docs/:path',
+      text: '在 GitHub 上编辑此页'
+    },
     logo: '/logo.png',
     nav: nav,
     sidebar: sidebar,

@@ -7,7 +7,7 @@ export const sidebar: DefaultTheme.Sidebar = {
     },
     {
       text: "创建后台服务",
-      link: "/zh/vite-design/index"
+      link: "/zh/vite-design/server/index"
     }
   ]
 }
