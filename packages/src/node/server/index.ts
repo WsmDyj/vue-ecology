@@ -1,5 +1,7 @@
 import connect from "connect";
 
+import { initDepsOptimizer } from '../optimizer'
+
 import { transformMiddleware } from './middleware/transform'
 import { indexHtmlMiddleware } from './middleware/indexHtml'
 
@@ -29,6 +31,8 @@ export async function createServer(): Promise<ViteDevServer> {
     config,
     pluginContainer: container,
     async listen() {
+      // 依赖构建
+      // await initDepsOptimizer(config)
       app.listen(3000, async () => {
         console.log(`> 本地访问路径: "http://localhost:3000"`);
       });

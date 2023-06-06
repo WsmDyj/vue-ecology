@@ -6,8 +6,8 @@ export const sidebar: DefaultTheme.Sidebar = {
       link: "/zh/vite-design/index"
     },
     {
-      text: "创建后台服务",
-      link: "/zh/vite-design/server/index"
+      text: "依赖构建",
+      link: "/zh/vite-design/server/optimizer"
     }
   ]
 }
