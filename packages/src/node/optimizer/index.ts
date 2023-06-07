@@ -1,3 +1,1 @@
-
-export async function initDepsOptimizer(config: ResolvedConfig) {
-}
+export { initDepsOptimizer } from './optimizer'

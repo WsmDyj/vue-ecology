@@ -7,6 +7,31 @@
   <title>Document</title>
 </head>
 <body>
+  <!-- <script>
+      window.process = {
+          env: {
+            NODE_ENV: 'dev'
+          }
+        }
+        const sheetMap = new Map()
+          document.querySelectorAll('style[data-vite-dev-id]').forEach((el) => {
+            sheetMap.set(el.getAttribute('data-vite-dev-id'), el)
+          })
+  
+         function updateStyle (id, content) {
+            let style = sheetMap.get(id)
+            if (!style) {
+              style = document.createElement('style')
+              style.setAttribute('type', 'text/css')
+              style.setAttribute('data-vite-dev-id', id)
+              style.textContent = content
+              document.head.appendChild(style)
+            } else {
+              style.textContent = content
+            }
+            sheetMap.set(id, style)
+          }
+    </script> -->
   <script type="module" src="./main.js"></script>
 </body>
 </html>

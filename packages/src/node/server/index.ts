@@ -32,7 +32,7 @@ export async function createServer(): Promise<ViteDevServer> {
     pluginContainer: container,
     async listen() {
       // 依赖构建
-      // await initDepsOptimizer(config)
+      await initDepsOptimizer(config)
       app.listen(3000, async () => {
         console.log(`> 本地访问路径: "http://localhost:3000"`);
       });

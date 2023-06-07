@@ -1,4 +1,5 @@
 import path from "path"
+import os from 'node:os'
 
 // 获取根路由
 const postfixRE = /[?#].*$/s
@@ -26,3 +27,17 @@ export const isImportRequest = (url: string): boolean => importQueryRE.test(url)
 
 export const isCSSRequest = (request: string): boolean => CSS_LANGS_RE.test(request)
 export const isHTMLProxy = (id: string): boolean => htmlProxyRE.test(id)
+
+
+export const isWindows = os.platform() === 'win32'
+
+const VOLUME_RE = /^[A-Z]:/i
+const windowsSlashRE = /\\/g
+
+export function slash(p: string): string {
+  return p.replace(windowsSlashRE, '/')
+}
+
+export function normalizePath(id: string): string {
+  return path.posix.normalize(isWindows ? slash(id) : id)
+}
