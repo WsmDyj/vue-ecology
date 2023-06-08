@@ -6,7 +6,7 @@
   </h2>
 </template>
 <script>
-import { ref, computed, defineComponent } from 'vue'
+import { ref, computed, defineComponent, onMounted } from 'vue'
 export default defineComponent({
   setup(){
     const count = ref(6)
@@ -14,7 +14,14 @@ export default defineComponent({
       count.value++
     }
     const double = computed(()=>count.value*2)
-    return {count,add,double}
+    // onMounted(() => {
+    //   console.log(isFunction(double.value))
+    // })
+    return {
+      count,
+      add,
+      double
+    }
   }
 })
 </script>

@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "mini-vite dev"
+    "dev": "vite dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mini-vite": "workspace:*",
+    "vite": "workspace:*",
     "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "lodash-es": "^4.17.21"
   }
 }
