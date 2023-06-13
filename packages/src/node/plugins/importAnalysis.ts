@@ -3,6 +3,8 @@ import MagicString from 'magic-string'
 import { Plugin } from '../plugin'
 import { normalizePath } from '../utils'
 import path from 'path'
+import { getDepsOptimizer } from '../optimizer'
+
 import { ResolvedConfig } from '../server/index'
 
 // n 表示模块的名称
@@ -28,9 +30,11 @@ export function importAnalysisPlugin(config: ResolvedConfig): Plugin {
 
       const normalizeUrl = async (url: string, pos: number) => {
          const resolved = await (this as any).resolve(url, importer);
-          if (resolved.id.startsWith(root + '/')) {
-            url = resolved.id.slice(root.length)
-          }
+           const optimizerInfo = getDepsOptimizer()
+            if (resolved.id.startsWith(root + "/")) {
+              url = resolved.id.slice(root.length)
+              console.log(resolved.id, url, cacheDir)
+           }
          return [url, resolved.id]
       }
       await Promise.all(imports.map(async (importSpecifier, index) => {

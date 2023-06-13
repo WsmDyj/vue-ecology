@@ -4,6 +4,8 @@ import { scanImports } from './scan'
 import esbuild, { build } from 'esbuild'
 import { normalizePath } from '../utils'
 
+let metadata: Record<string, string> = {}
+
 export async function initDepsOptimizer(config: ResolvedConfig) {
   // 第一步：3.4获取缓存
   const cachedMetadata = await loadCachedDepOptimizationMetadata(config);
@@ -23,7 +25,23 @@ export async function initDepsOptimizer(config: ResolvedConfig) {
     splitting: true, // 在多个 entry 入口之间共享的代码，会被分成单独共享文件（chunk 文件）
     outdir: depsCacheDir
   })
+  
+  metadata = deps
+  // "@vue/runtime-core": {
+  //   "src": "../../@vue/runtime-core/dist/runtime-core.esm-bundler.js",
+  //   "file": "@vue_runtime-core.js",
+  //   "fileHash": "5496c597",
+  //   "needsInterop": false
+  // },
+  // for (let id in deps) {
+  //   const src = deps[id]
+  //   metadata[id] = {
+  //     src
+  //   }
+  // }
 }
+
+
 
 
 function getDepsCacheDir(config: ResolvedConfig) {
@@ -40,5 +58,5 @@ function loadCachedDepOptimizationMetadata(config: ResolvedConfig) {
 
 
 export function getDepsOptimizer() {
-  // return depsOptimizerMap.get()
+  return metadata
 }
