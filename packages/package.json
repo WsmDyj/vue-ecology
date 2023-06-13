@@ -1,5 +1,5 @@
 {
-  "name": "mini-vite",
+  "name": "vite",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -7,7 +7,7 @@
     "dist"
   ],
   "bin": {
-    "mini-vite": "bin/mini-vite.js"
+    "vite": "bin/vite.js"
   },
   "scripts": {
     "dev": "tsup ./src/node/cli.ts --dts --external esbuild --format cjs,esm --watch --clean"

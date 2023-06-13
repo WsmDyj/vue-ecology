@@ -1,6 +1,9 @@
 import { init, parse as parseImports } from 'es-module-lexer'
 import MagicString from 'magic-string'
 import { Plugin } from '../plugin'
+import { normalizePath } from '../utils'
+import path from 'path'
+import { ResolvedConfig } from '../server/index'
 
 // n 表示模块的名称
 // s 表示模块名称在导入语句中的开始位置
@@ -14,25 +17,51 @@ import { Plugin } from '../plugin'
 //   { n: './index.css', s: 68, e: 79, ss: 60, se: 80, d: -1, a: -1 }
 // ]
 
-export function importAnalysisPlugin(): Plugin {
+export function importAnalysisPlugin(config: ResolvedConfig): Plugin {
+  const {root} = config
   return {
     name: 'vite:import-analysis',
     async transform(source, importer) {
       let s = new MagicString(source)
       await init
       const [imports, exports] = parseImports(source) 
+
+      const normalizeUrl = async (url: string, pos: number) => {
+         const resolved = await (this as any).resolve(url, importer);
+          if (resolved.id.startsWith(root + '/')) {
+            url = resolved.id.slice(root.length)
+          }
+          console.log(url, resolved.id)
+         return [url, resolved.id]
+      }
       await Promise.all(imports.map(async (importSpecifier, index) => {
         const {
           n: specifier,
           s: start,
           e: end,
         } = importSpecifier
-        if (specifier) {
-          const resolved = await (this as any).resolve(specifier, importer);
-          if (resolved?.id) {
-            s.overwrite(start, end, resolved.id);
-          }
-        }
+        
+         if (specifier) {
+          const [url, resolvedId] = await normalizeUrl(specifier, start);
+         }
+
+        // if (specifier) {
+        //        // normalize
+        //   if (/^[\w@][^:]/.test(specifier)) {
+        //     const bundlePath = normalizePath(
+        //       path.join(process.cwd(), 'node_modules/.vite/deps', `${specifier}.js`)
+        //     )
+        //     console.log(specifier, importer)
+        //     const resolved = await (this as any).resolve(specifier, importer);
+        //     s.overwrite(start, end, '/Users/kwai/Documents/me/vue-ecology/playground/node_modules/.vite/deps/vue.runtime.esm-bundler.js');
+        //   } else {
+        //     const resolved = await (this as any).resolve(specifier, importer);
+        //     if (resolved?.id) {
+        //       s.overwrite(start, end, resolved.id);
+        //     }
+        //   }
+          
+        // }
       }))
       return { code: s.toString() }
     }

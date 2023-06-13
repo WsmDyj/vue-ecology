@@ -13,6 +13,7 @@ export interface PluginContainer {
   transform(code: string, id: string): Promise<SourceDescription>
 }
 
+// ======= 初始化所有plugins =======
 export async function createPluginContainer(config: ResolvedConfig): Promise<PluginContainer> {
   const { root } = config
 
@@ -24,9 +25,11 @@ export async function createPluginContainer(config: ResolvedConfig): Promise<Plu
     }
   }
 
+   const plugins = await resolvePlugins(config)
+
   const container: PluginContainer = {
+    
     async resolveId(rawId, importer = join(root, 'index.html')) {
-      const plugins = await resolvePlugins()
       const ctx = new Context()
       let id: string | null = null
       const partial: Partial<PartialResolvedId> = {}
@@ -49,7 +52,6 @@ export async function createPluginContainer(config: ResolvedConfig): Promise<Plu
 
     async load(id) {
       const ctx = new Context()
-      const plugins = await resolvePlugins()
       for (const plugin of plugins) {
         if (!plugin.load) continue
         const result = await plugin.load.call(ctx, id)
@@ -62,7 +64,6 @@ export async function createPluginContainer(config: ResolvedConfig): Promise<Plu
 
     async transform(code, id) {
       const ctx = new Context()
-      const plugins = await resolvePlugins()
       for (const plugin of plugins) {
         if (!plugin.transform) continue
         const result = await plugin.transform.call(ctx as any, code, id)

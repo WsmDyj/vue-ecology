@@ -3,14 +3,9 @@ import fsp from 'node:fs/promises'
 import { ResolvedConfig } from '../server'
 import { PluginContainer, createPluginContainer } from '../server/pluginContainer'
 import * as esbuild from 'esbuild'
-import type { Plugin, OnLoadResult, Loader } from 'esbuild'
+import type { Plugin, OnLoadResult } from 'esbuild'
 import path from 'path'
 import { normalizePath } from '../utils'
-
-function isScannable(id: string): boolean {
-  return JS_TYPES_RE.test(id) || htmlTypesRE.test(id)
-}
-
 
 function shouldExternalizeDep(resolvedId: string, rawId: string): boolean {
   // not a valid file path
@@ -25,16 +20,25 @@ function shouldExternalizeDep(resolvedId: string, rawId: string): boolean {
 }
 
 
-export const JS_TYPES_RE = /\.(?:j|t)sx?$|\.mjs$/
-
 export const virtualModuleRE = /^virtual-module:.*/
 export const virtualModulePrefix = 'virtual-module:'
-
 const htmlTypesRE = /\.(html|vue|svelte|astro|imba)$/
+
 export const scriptRE =
   /(<script(?:\s+[a-z_:][-\w:]*(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^"'<>=\s]+))?)*\s*>)(.*?)<\/script>/gis
 
-  const srcRE = /\bsrc\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s'">]+))/i
+const srcRE = /\bsrc\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s'">]+))/i
+
+
+// 计算入口文件
+async function computeEntries(config: ResolvedConfig) {
+  return await glob("**/*.html", {
+    cwd: config.root,
+    ignore: ["**/node_modules/**"],
+    absolute: true,
+    suppressErrors: true // suppress EACCES errors
+  })
+}
 
 export async function scanImports(config: ResolvedConfig) {
   // 扫描到的依赖，会放到该对象
@@ -43,10 +47,40 @@ export async function scanImports(config: ResolvedConfig) {
   const missing: Record<string, string> = {}
   // 存储所有入口文件的数组
   let entries = await computeEntries(config)
+
   const esbuildContext = await prepareEsbuildScanner(config, entries, deps, missing)
-  const result = await esbuildContext.rebuild()
+  await esbuildContext.rebuild()
+
+  return {
+    deps,
+    missing
+  }
 }
 
+async function prepareEsbuildScanner(
+  config: ResolvedConfig,
+  entries: string[],
+  deps: Record<string, string>,
+  missing: Record<string, string>
+) {
+  const container = await createPluginContainer(config)
+
+  // esbuild 扫描插件，这个是重点！！！
+  const plugin = esbuildScanPlugin(config, container, deps, missing, entries)
+  
+  return await esbuild.context({
+    absWorkingDir: process.cwd(),
+    write: false,
+    bundle: true,
+    stdin: {
+      contents: entries.map((e) => `import ${JSON.stringify(e)}`).join('\n'),
+      loader: 'js',
+    },
+    format: "esm",
+    logLevel: "silent",
+    plugins: [plugin]
+  })
+}
 
 // esbuild 扫描插件，这个是重点
 function esbuildScanPlugin(
@@ -87,8 +121,8 @@ function esbuildScanPlugin(
       const scripts: Record<string, OnLoadResult> = {}
       // external urls
       build.onResolve({ filter: /^(https?:)?\/\// }, ({ path }) => ({
-          path,
-          external: true
+        path,
+        external: true
       }))
       
       build.onResolve({ filter: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|json|wasm)$/ }, ({ path }) => ({
@@ -98,30 +132,15 @@ function esbuildScanPlugin(
 
       // 匹配所有的虚拟模块，namespace 标记为 script
       build.onResolve({ filter: virtualModuleRE }, ({ path }) => {
-        console.log('----->', path)
         return {
           path: path.replace(virtualModulePrefix, ''),
           namespace: 'script',
         }
       })
 
-      // build.onLoad({ filter: /.*/, namespace: 'script' }, ({ path }) => {
-      //   return scripts[path]
-      // })
-
-      // 处理解析路径
-      build.onResolve({ filter: /.*/ }, async ({ path: id, importer }) => {
-        const resolved = await resolve(id, importer)
-        if (resolved) {
-          const namespace = htmlTypesRE.test(resolved) ? 'html' : undefined
-           return {
-              path: path.resolve(resolved),
-              namespace,
-            }
-        }
-         return externalUnlessEntry({ path: id })
+      build.onLoad({ filter: /.*/, namespace: 'script' }, ({ path }) => {
+        return scripts[path]
       })
-
   
       // 处理html
       build.onResolve({ filter: htmlTypesRE }, async ({ path, importer }) => {
@@ -140,7 +159,7 @@ function esbuildScanPlugin(
 
       build.onLoad({filter: htmlTypesRE, namespace: 'html'}, async ({path}) => {
         //  ------- /Users/kwai/Documents/me/vue-ecology/playground/index.html
-        //   ------- /Users/kwai/Documents/me/vue-ecology/playground/src/App.vue
+        //  ------- /Users/kwai/Documents/me/vue-ecology/playground/src/App.vue
         let raw = await fsp.readFile(path, 'utf-8')
         // 重置正则表达式的索引位置，因为同一个正则表达式对象，每次匹配后，lastIndex 都会改变
         // regex 会被重复使用，每次都需要重置为 0，代表从第 0 个字符开始正则匹配
@@ -165,8 +184,8 @@ function esbuildScanPlugin(
               loader: 'js',
               contents: content,
             }
-             // 虚拟模块的路径，如 virtual-module:D:/project/index.html?id=0
-            const virtualModulePath = virtualModulePrefix + key
+            // 虚拟模块的路径，如 virtual-module:D:/project/index.html?id=0
+            const virtualModulePath = JSON.stringify(virtualModulePrefix + key)
             js += `export * from ${virtualModulePath}\n`
           }
         }
@@ -179,74 +198,44 @@ function esbuildScanPlugin(
         }
       })
 
+      // 第一个字符串为字母或 @，且第二个字符串不是 : 冒号。如 vite、@vite/plugin-vue
+      // 目的是：避免匹配 window 路径，如 D:/xxx 
       build.onResolve({ filter: /^[\w@][^:]/ }, async ({path: id, importer}) => {
-        console.log('------/^[\w@][^:]/')
+    
         // 将模块路径转换成真实路径，实际上调用 container.resolveId
-         const resolved = await resolve(id, importer)
-          if (depImports[id]) {
+        const resolved = await resolve(id, importer)
+        if (depImports[id]) {
+          return externalUnlessEntry({ path: id })
+        }
+        if (resolved) {
+          if (shouldExternalizeDep(resolved, id)) {
             return externalUnlessEntry({ path: id })
           }
-          if (resolved) {
-            if (shouldExternalizeDep(resolved, id)) {
-              return externalUnlessEntry({ path: id })
-            }
-             // 如果模块在 node_modules 中，则记录 bare import
-            if (id.includes('node_modules')) {
-              // 记录 bare import
-             
-              depImports[id] = resolved
-              return externalUnlessEntry({ path: id })
-            }
-          } else {
-            // 解析不到依赖，则记录缺少的依赖
-            missing[id] = normalizePath(importer)
+            // 如果模块在 node_modules 中，则记录 bare import
+          if (resolved.includes('node_modules')) {
+            // 记录 bare import
+            depImports[id] = resolved
+            return externalUnlessEntry({ path: id })
           }
+        } else {
+          // 解析不到依赖，则记录缺少的依赖
+          missing[id] = normalizePath(importer)
+        }
       })
 
-      build.onLoad({ filter: JS_TYPES_RE }, async ({ path: id }) => {
-        let ext = path.extname(id).slice(1)
-        if (ext === 'mjs') ext = 'js'
-        let contents = await fsp.readFile(id, 'utf-8')
-        if (id === '/Users/kwai/Documents/me/vue-ecology/playground/src/main.js') {
-          console.log(contents)
+      // catch all -------------------------------------------------------------
+      // 处理解析路径
+      build.onResolve({ filter: /.*/ }, async ({ path: id, importer }) => {
+        const resolved = await resolve(id, importer)
+        if (resolved) {
+          const namespace = htmlTypesRE.test(resolved) ? 'html' : undefined
+           return {
+              path: path.resolve(resolved),
+              namespace,
+            }
         }
-        return {
-          loader: ext as Loader,
-          contents: contents
-        }
+         return externalUnlessEntry({ path: id })
       })
     }
   }
-}
-
-async function prepareEsbuildScanner(
-  config: ResolvedConfig,
-  entries: string[],
-  deps: Record<string, string>,
-  missing: Record<string, string>
-) {
-  const container = await createPluginContainer(config)
-
-  // esbuild 扫描插件，这个是重点！！！
-  const plugin = esbuildScanPlugin(config, container, deps, missing, entries)
-  
-  return await esbuild.context({
-    absWorkingDir: process.cwd(),
-    write: false,
-    bundle: true,
-    entryPoints: entries,
-    format: "esm",
-    logLevel: "silent",
-    plugins: [plugin]
-  })
-}
-
-// 确定入口文件
-async function computeEntries(config: ResolvedConfig) {
-  return glob("**/*.html", {
-    cwd: config.root,
-    ignore: ["**/node_modules/**"],
-    absolute: true,
-    suppressErrors: true // suppress EACCES errors
-  })
 }

@@ -6,7 +6,7 @@ const postfixRE = /[?#].*$/s
 export function cleanUrl(url: string): string {
   return url.replace(postfixRE, "")
 }
-
+export const bareImportRE = /^(?![a-zA-Z]:)[\w@](?!.*:\/\/)/
 const knownJsSrcRE = /\.(?:[jt]sx?|vue)(?:$|\?)/
 const importQueryRE = /(\?|&)import=?(?:&|$)/
 const CSS_LANGS_RE = /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/
