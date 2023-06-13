@@ -7,6 +7,7 @@
 </template>
 <script>
 import { ref, computed, defineComponent, onMounted } from 'vue'
+import { isFunction } from 'lodash-es'
 export default defineComponent({
   setup(){
     const count = ref(6)
@@ -14,9 +15,9 @@ export default defineComponent({
       count.value++
     }
     const double = computed(()=>count.value*2)
-    // onMounted(() => {
-    //   console.log(isFunction(double.value))
-    // })
+    onMounted(() => {
+      console.log(isFunction(double.value))
+    })
     return {
       count,
       add,

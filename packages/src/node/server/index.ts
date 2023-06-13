@@ -1,7 +1,5 @@
 import connect from "connect";
 
-import { ModuleGraph } from './moduleGraph'
-
 import { initDepsOptimizer } from '../optimizer'
 
 import { transformMiddleware } from './middleware/transform'

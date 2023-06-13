@@ -48,6 +48,7 @@ export async function scanImports(config: ResolvedConfig) {
   // 存储所有入口文件的数组
   let entries = await computeEntries(config)
 
+
   const esbuildContext = await prepareEsbuildScanner(config, entries, deps, missing)
   await esbuildContext.rebuild()
 
@@ -146,12 +147,8 @@ function esbuildScanPlugin(
       build.onResolve({ filter: htmlTypesRE }, async ({ path, importer }) => {
         const resolved = await resolve(path, importer)
         if (!resolved) return
-        //  // 不处理 node_modules 内的
-        if (resolved.includes('node_modules')) {
-          return
-        }
-         return {
-           path: resolved,
+          return {
+            path: resolved,
             // 标记 namespace 为 html 
             namespace: 'html'
           }

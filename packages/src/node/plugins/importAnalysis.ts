@@ -18,7 +18,7 @@ import { ResolvedConfig } from '../server/index'
 // ]
 
 export function importAnalysisPlugin(config: ResolvedConfig): Plugin {
-  const {root} = config
+  const {root, cacheDir} = config
   return {
     name: 'vite:import-analysis',
     async transform(source, importer) {
@@ -31,7 +31,6 @@ export function importAnalysisPlugin(config: ResolvedConfig): Plugin {
           if (resolved.id.startsWith(root + '/')) {
             url = resolved.id.slice(root.length)
           }
-          console.log(url, resolved.id)
          return [url, resolved.id]
       }
       await Promise.all(imports.map(async (importSpecifier, index) => {
@@ -42,26 +41,9 @@ export function importAnalysisPlugin(config: ResolvedConfig): Plugin {
         } = importSpecifier
         
          if (specifier) {
-          const [url, resolvedId] = await normalizeUrl(specifier, start);
+            const [url, resolvedId] = await normalizeUrl(specifier, start)
+            s.overwrite(start, end, url)
          }
-
-        // if (specifier) {
-        //        // normalize
-        //   if (/^[\w@][^:]/.test(specifier)) {
-        //     const bundlePath = normalizePath(
-        //       path.join(process.cwd(), 'node_modules/.vite/deps', `${specifier}.js`)
-        //     )
-        //     console.log(specifier, importer)
-        //     const resolved = await (this as any).resolve(specifier, importer);
-        //     s.overwrite(start, end, '/Users/kwai/Documents/me/vue-ecology/playground/node_modules/.vite/deps/vue.runtime.esm-bundler.js');
-        //   } else {
-        //     const resolved = await (this as any).resolve(specifier, importer);
-        //     if (resolved?.id) {
-        //       s.overwrite(start, end, resolved.id);
-        //     }
-        //   }
-          
-        // }
       }))
       return { code: s.toString() }
     }

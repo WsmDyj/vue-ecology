@@ -1,7 +1,7 @@
 import path from 'path'
 import { ResolvedConfig } from '../server'
 import { scanImports } from './scan'
-import { build } from 'esbuild'
+import esbuild, { build } from 'esbuild'
 import { normalizePath } from '../utils'
 
 export async function initDepsOptimizer(config: ResolvedConfig) {
@@ -12,13 +12,16 @@ export async function initDepsOptimizer(config: ResolvedConfig) {
   // 第三步：3.6没有缓存时进行依赖扫描，然后进行依赖打包到node_modules/.vite
   const depsCacheDir = getDepsCacheDir(config);
   const entryPoints = Object.entries(deps).map(([_, value]) => value)
+
   await build({
+    absWorkingDir: process.cwd(),
     entryPoints,
     write: true,
     bundle: true, // 打包一个文件意味着将任何导入的依赖项内联到文件中
     format: "esm",
+    sourcemap: true,
     splitting: true, // 在多个 entry 入口之间共享的代码，会被分成单独共享文件（chunk 文件）
-    outdir: depsCacheDir,
+    outdir: depsCacheDir
   })
 }
 
