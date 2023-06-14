@@ -1,5 +1,5 @@
 <template>
-  <h1>hello vite</h1>
+  <h1>小计算器</h1>
   <h2>
     <span>count is {{count}}*2={{double}}</span>
     <button @click="count++">戳我</button>
@@ -7,7 +7,7 @@
 </template>
 <script>
 import { ref, computed, defineComponent, onMounted } from 'vue'
-// import { isFunction } from 'lodash-es'
+import { isFunction } from 'lodash-es'
 export default defineComponent({
   setup(){
     const count = ref(6)
@@ -15,9 +15,9 @@ export default defineComponent({
       count.value++
     }
     const double = computed(()=>count.value*2)
-    // onMounted(() => {
-    //   console.log(isFunction(double.value))
-    // })
+    onMounted(() => {
+      console.log(isFunction(double.value))
+    })
     return {
       count,
       add,

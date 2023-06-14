@@ -1,6 +1,7 @@
 import type { NextHandleFunction } from 'connect'
 import type { ViteDevServer } from '../../server'
 import { isJSRequest, isImportRequest, isCSSRequest } from "../../utils"
+
 import { transformRequest } from '../transformRequest'
 
 export function transformMiddleware(server: ViteDevServer): NextHandleFunction {
@@ -19,7 +20,6 @@ export function transformMiddleware(server: ViteDevServer): NextHandleFunction {
       } catch (e) {
         console.log(e)
       }
-    
     }
     next()
   }

@@ -13,6 +13,7 @@ export async function initDepsOptimizer(config: ResolvedConfig) {
   const { deps } = await scanImports(config)
   // 第三步：3.6没有缓存时进行依赖扫描，然后进行依赖打包到node_modules/.vite
   const depsCacheDir = getDepsCacheDir(config);
+
   const entryPoints = Object.entries(deps).map(([_, value]) => value)
 
   await build({
@@ -44,7 +45,7 @@ export async function initDepsOptimizer(config: ResolvedConfig) {
 
 
 
-function getDepsCacheDir(config: ResolvedConfig) {
+export function getDepsCacheDir(config: ResolvedConfig) {
   return normalizePath(path.resolve(config.root, config.cacheDir, 'deps'))
 }
 

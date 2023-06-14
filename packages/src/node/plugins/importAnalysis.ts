@@ -3,7 +3,7 @@ import MagicString from 'magic-string'
 import { Plugin } from '../plugin'
 import { normalizePath } from '../utils'
 import path from 'path'
-import { getDepsOptimizer } from '../optimizer'
+import { getDepsOptimizer, getDepsCacheDir } from '../optimizer'
 
 import { ResolvedConfig } from '../server/index'
 
@@ -29,13 +29,17 @@ export function importAnalysisPlugin(config: ResolvedConfig): Plugin {
       const [imports, exports] = parseImports(source) 
 
       const normalizeUrl = async (url: string, pos: number) => {
-         const resolved = await (this as any).resolve(url, importer);
-           const optimizerInfo = getDepsOptimizer()
-            if (resolved.id.startsWith(root + "/")) {
-              url = resolved.id.slice(root.length)
-              console.log(resolved.id, url, cacheDir)
-           }
-         return [url, resolved.id]
+        const resolved = await (this as any).resolve(url, importer);
+        const optimizerInfo = getDepsOptimizer()
+        if (resolved.id.startsWith(root + "/")) {
+          if (Reflect.get(optimizerInfo, url)) {
+            const depsCacheDir = getDepsCacheDir(config).slice(root.length)
+            url = optimizerInfo[url].slice(root.length).replace('/node_modules', depsCacheDir)
+          } else {
+            url = resolved.id.slice(root.length)
+          }
+        }
+        return [url, resolved.id]
       }
       await Promise.all(imports.map(async (importSpecifier, index) => {
         const {
