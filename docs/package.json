@@ -4,16 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "vitepress": "1.0.0-alpha.65"
+    "medium-zoom": "^1.0.8",
+    "vitepress": "1.0.0-beta.1"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -21,5 +21,9 @@
         "@algolia/client-search"
       ]
     }
+  },
+  "dependencies": {
+    "@vitepress-demo-preview/component": "^2.3.0",
+    "@vitepress-demo-preview/plugin": "^1.1.11"
   }
 }

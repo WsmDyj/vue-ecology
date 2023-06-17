@@ -1,11 +1,16 @@
 import { init, parse as parseImports } from 'es-module-lexer'
 import MagicString from 'magic-string'
 import { Plugin } from '../plugin'
-import { normalizePath } from '../utils'
-import path from 'path'
-import { getDepsOptimizer, getDepsCacheDir } from '../optimizer'
+import fs from 'node:fs'
+import { getDepsCacheDir } from '../optimizer'
 
 import { ResolvedConfig } from '../server/index'
+
+ function getDepsOptimizer(config: ResolvedConfig) {
+  const dataPath = getDepsCacheDir(config, '_metadata.json')
+  const cachedMetadata = JSON.parse(fs.readFileSync(dataPath, 'utf-8'))
+  return cachedMetadata.optimized
+}
 
 // n 表示模块的名称
 // s 表示模块名称在导入语句中的开始位置
@@ -30,11 +35,10 @@ export function importAnalysisPlugin(config: ResolvedConfig): Plugin {
 
       const normalizeUrl = async (url: string, pos: number) => {
         const resolved = await (this as any).resolve(url, importer);
-        const optimizerInfo = getDepsOptimizer()
+        const cachedMetadata = getDepsOptimizer(config)
         if (resolved.id.startsWith(root + "/")) {
-          if (Reflect.get(optimizerInfo, url)) {
-            const depsCacheDir = getDepsCacheDir(config).slice(root.length)
-            url = optimizerInfo[url].slice(root.length).replace('/node_modules', depsCacheDir)
+          if (Reflect.get(cachedMetadata, url)) {
+            url = cachedMetadata[url].file.slice(root.length)
           } else {
             url = resolved.id.slice(root.length)
           }

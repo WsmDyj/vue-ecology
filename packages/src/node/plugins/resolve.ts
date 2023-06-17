@@ -1,8 +1,5 @@
 import path from 'path'
-import { getDepsOptimizer } from '../optimizer'
 import { Plugin } from '../plugin'
-import { pathExists } from "fs-extra";
-import { normalizePath } from '../utils'
 import { ResolvedConfig } from '../server/index'
 
 export const bareImportRE = /^(?![a-zA-Z]:)[\w@](?!.*:\/\/)/

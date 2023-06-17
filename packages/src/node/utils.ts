@@ -3,9 +3,11 @@ import os from 'node:os'
 
 // 获取根路由
 const postfixRE = /[?#].*$/s
+
 export function cleanUrl(url: string): string {
   return url.replace(postfixRE, "")
 }
+
 export const bareImportRE = /^(?![a-zA-Z]:)[\w@](?!.*:\/\/)/
 const knownJsSrcRE = /\.(?:[jt]sx?|vue)(?:$|\?)/
 const importQueryRE = /(\?|&)import=?(?:&|$)/
@@ -31,7 +33,6 @@ export const isHTMLProxy = (id: string): boolean => htmlProxyRE.test(id)
 
 export const isWindows = os.platform() === 'win32'
 
-const VOLUME_RE = /^[A-Z]:/i
 const windowsSlashRE = /\\/g
 
 export function slash(p: string): string {

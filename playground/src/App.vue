@@ -1,5 +1,5 @@
 <template>
-  <h1>小计算器</h1>
+  <h1>hello vite</h1>
   <h2>
     <span>count is {{count}}*2={{double}}</span>
     <button @click="count++">戳我</button>
