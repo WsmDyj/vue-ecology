@@ -20,16 +20,12 @@ export const sidebar: DefaultTheme.Sidebar = {
       ]
     },
     {
-      text: "第一章：创建本地服务",
+      text: "第一章：本地服务",
       collapsed: false,
       items: [
         {
-          text: "vite指令生成",
-          link: "/zh/vite-design/framing",
-        },
-        {
-          text: "创建本地node服务",
-          link: "/zh/vite-design/server/index"
+          text: "04 | 创建后台服务",
+          link: "/zh/vite-design/server/node/index"
         },
       ]
     },
