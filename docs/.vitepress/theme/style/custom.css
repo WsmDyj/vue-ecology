@@ -55,7 +55,9 @@
   border: none;
   padding: 10px 20px;
 }
-
+.vp-doc code {
+  padding: 0 12px!important;
+}
 .vp-doc th {
   font-size: 15px;
   font-weight: 600;
