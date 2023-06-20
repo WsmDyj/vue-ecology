@@ -19,11 +19,11 @@ hero:
     actions:
     - theme: brand
       text: 进入主页
-      link: /zh/vite-design/index
+      link: /zh/vite-design/guide
 features:
   - title: 🌈 vite-design
     details: vite原理解析
-    link: /zh/vite-design/index
+    link: /zh/vite-design/guide
   - title: 🍭 vue-compiler
     details: vue编译原理
     link: /zh/vue-compiler/index

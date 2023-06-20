@@ -6,21 +6,21 @@ export const sidebar: DefaultTheme.Sidebar = {
       collapsed: false,
       items: [
         {
-          text: "01 | 开始",
+          text: "01 | 故事的开始",
           link: "/zh/vite-design/guide",
         },
         {
           text: "02 | vite的本质",
-          link: "/zh/vite-design/index",
+          link: "/zh/vite-design/nature",
         },
         {
           text: "03 | 开发环境搭建",
-          link: "/zh/vite-design/iframing",
+          link: "/zh/vite-design/create",
         }
       ]
     },
     {
-      text: "第一章：vite本地服务",
+      text: "第一章：创建本地服务",
       collapsed: false,
       items: [
         {

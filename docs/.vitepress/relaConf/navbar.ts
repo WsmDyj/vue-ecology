@@ -6,7 +6,7 @@ export const nav: DefaultTheme.NavItem[] = [
     items: [
       {
         text: '服务端',
-        link: '/zh/vite-design/index',
+        link: '/zh/vite-design/guide',
       },
     ]
   },

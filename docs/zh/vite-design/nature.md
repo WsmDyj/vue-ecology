@@ -1,5 +1,5 @@
 # vite的本质
-Vite，一个基于浏览器原生 **ES imports** 的前端构建工具。利用浏览器去解析模块 imports，在服务器端按需编译返回。在 script 标签中设置 `type="module"`，浏览器会识别这种标签，并对该标签中所有的import关键字，发起http请求获取模块内容，从而做到加载页面内容，完全本地开发环境下全部依赖打包的概念。
+Vite，一个基于浏览器原生 **ES imports** 的前端构建工具。利用浏览器去解析模块 imports，在服务器端按需编译返回。比如在 script 标签中设置 `type="module"`，浏览器会识别这种标签，并对该标签中所有的import关键字，发起http请求获取模块内容，从而做到加载页面内容，完全去除本地开发环境下全部依赖打包的概念。
 ## 什么是ES Module
 ES6 Module 也被称作 **ES Module(或 ESM)**，在代码中通过定义 `export、import` 用于对模块的导出或者导入。
 如果在 HTML 中加入含有 type="module" 属性的 script 标签，浏览器会按照 ES Module 规范来进行依赖加载和模块解析。在开发环境下就不在需要处理打包的概念，直接交给浏览器进行解析，这也是 Vite 在开发阶段实现 no-bundle 的原因。
@@ -39,7 +39,11 @@ export default function print() {
   console.log('hello ES Module')
 }
 ```
-通过 [live-server](https://www.freecodecamp.org/chinese/news/vscode-live-server-auto-refresh-browser/) 启动html，在控制台可以看到打印的 `hello ES Module`
+启动html，在控制台可以看到打印的 `hello ES Module`
+
+> TIP
+>
+> 完整代码&在线体验地址：[https://codesandbox.io/s/demo01-37hzg9](https://codesandbox.io/s/demo01-37hzg9) 
 
 
 ## 现在工程化的痛点
@@ -53,5 +57,3 @@ webpack 的核心原理就是通过分析 JavaScript 中的 require 语句，分
 但是随着项目规模的爆炸式增长，webpack 也带来了一些**痛点问题**。
 
 由于 webpack 在项目调试之前，要把所有文件的依赖关系收集完，打包处理后才能启动测试，很多大项目我们执行调试命令后需要等 1 分钟以上才能开始调试。这对于开发者来说，这段时间除了摸鱼什么都干不了，而且热更新也需要等几秒钟才能生效，极大地影响了我们开发的效率。所以针对 webpack 这种打包 bundle 的思路，社区就诞生了 bundless 的框架，Vite 就是其中的佼佼者。
-
-##

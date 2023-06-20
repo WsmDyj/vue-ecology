@@ -1,0 +1,20 @@
+{
+  "name": "vite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "vite": "bin/vite.js"
+  },
+  "scripts": {
+    "dev": "tsup ./src/node/cli.ts --dts --external esbuild --format cjs,esm --watch --clean"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cac": "^6.7.14",
+    "esbuild": "^0.18.5",
+    "tsup": "^7.0.0"
+  }
+}
