@@ -7,15 +7,11 @@ export const sidebar: DefaultTheme.Sidebar = {
       items: [
         {
           text: "01 | 故事的开始",
-          link: "/zh/vite-design/guide",
+          link: "/zh/vite-design/guide"
         },
         {
           text: "02 | vite的本质",
-          link: "/zh/vite-design/nature",
-        },
-        {
-          text: "03 | 开发环境搭建",
-          link: "/zh/vite-design/create",
+          link: "/zh/vite-design/nature"
         }
       ]
     },
@@ -24,9 +20,17 @@ export const sidebar: DefaultTheme.Sidebar = {
       collapsed: false,
       items: [
         {
-          text: "04 | 创建后台服务",
-          link: "/zh/vite-design/server/node/index"
+          text: "03 | 开发环境搭建",
+          link: "/zh/vite-design/create"
         },
+        {
+          text: "04 | 创建后台服务",
+          link: "/zh/vite-design/server/node/server"
+        },
+        {
+          text: "05 | 静态资源加载",
+          link: "/zh/vite-design/server/node/static"
+        }
       ]
     },
     {
@@ -34,36 +38,32 @@ export const sidebar: DefaultTheme.Sidebar = {
       collapsed: false,
       items: [
         {
-          text: "04 | 介绍",
-          link: "/zh/vite-design/server/optimizer/index",
+          text: "06 | 介绍",
+          link: "/zh/vite-design/server/optimizer/index"
         },
         {
-          text: "05 | 依赖扫描",
-          link: "/zh/vite-design/server/optimizer/scan",
+          text: "07 | 依赖扫描",
+          link: "/zh/vite-design/server/optimizer/scan"
         },
         {
-          text: "06 | 依赖构建",
-          link: "/zh/vite-design/server/optimizer/build",
+          text: "08 | 依赖构建",
+          link: "/zh/vite-design/server/optimizer/build"
         },
         {
           text: "07 | 依赖替换",
-          link: "/zh/vite-design/server/optimizer/code",
-        },
+          link: "/zh/vite-design/server/optimizer/code"
+        }
       ]
     },
     {
       text: "第三章：插件体系",
       collapsed: false,
-      items: [
-       
-      ]
+      items: []
     },
     {
       text: "第四章：热更新",
       collapsed: false,
-      items: [
-       
-      ]
+      items: []
     }
   ]
 }
