@@ -21,7 +21,7 @@ export const sidebar: DefaultTheme.Sidebar = {
       items: [
         {
           text: "03 | 开发环境搭建",
-          link: "/zh/vite-design/create"
+          link: "/zh/vite-design/server/node/create"
         },
         {
           text: "04 | 创建后台服务",

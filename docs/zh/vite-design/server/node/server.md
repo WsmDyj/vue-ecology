@@ -34,11 +34,12 @@ export async function createServer(): Promise<ViteDevServer> {
 ```
 替换 `packages/src/node/cli.ts` 中action内容，动态引入server文件并执行listen方法，内容如下：
 ```typescript
-.action(async () => {
-  const { createServer } = await import('./server')
-  const server = await createServer()
-  await server.listen()
-})
+cli
+  .action(async () => {
+    const { createServer } = await import('./server')
+    const server = await createServer()
+    await server.listen()
+  })
 ```
 进入 packages 执行 `pnpm run dev` 启动我们的vite，这时在 playground 下执行dev启动项目控制台输出 `启动本地服务`。
 
@@ -102,7 +103,7 @@ export interface ResolvedConfig {
   root: string 
 }
 export interface ViteDevServer {
-  config: ResolvedConfig
+  config: ResolvedConfig // 新增全局配置文件
   listen(): Promise<void>
 }
 export async function createServer(): Promise<ViteDevServer> {
@@ -117,4 +118,4 @@ export async function createServer(): Promise<ViteDevServer> {
   return server
 }
 ```
-当我们在playground下，再次启动项目的时候，页面便渲染了定义的html内容。
+当我们在playground下，再次启动项目的时候，可以看到页面已经渲染了html内容。
