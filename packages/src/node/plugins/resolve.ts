@@ -9,7 +9,6 @@ export function resolvePlugin(resolveOptions: ResolvedConfig): Plugin {
   return {
     name: 'vite:resolve',
     async resolveId(id, importer) {
-
       const { root } = resolveOptions
 
       if (id[0] === '/' && !id.startsWith(root)) {

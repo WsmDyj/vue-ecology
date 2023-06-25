@@ -594,7 +594,7 @@ var dist_default = cac;
 // src/node/cli.ts
 var cli = dist_default("vite");
 cli.command("[root]", "start dev server").alias("serve").alias("dev").action(async () => {
-  const { createServer } = await import("./server-I74QAX74.mjs");
+  const { createServer } = await import("./server-BFHMDQU6.mjs");
   const server = await createServer();
   await server.listen();
 });

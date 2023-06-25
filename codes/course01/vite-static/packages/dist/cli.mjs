@@ -1,3 +1,5 @@
+import "./chunk-TTFRSOOU.mjs";
+
 // ../node_modules/.pnpm/cac@6.7.14/node_modules/cac/dist/index.mjs
 import { EventEmitter } from "events";
 function toArr(any) {
@@ -592,7 +594,9 @@ var dist_default = cac;
 // src/node/cli.ts
 var cli = dist_default("vite");
 cli.command("[root]", "start dev server").alias("serve").alias("dev").action(async () => {
-  console.log("vite dev \u542F\u52A8\u9879\u76EE");
+  const { createServer } = await import("./server-4I6D5XP4.mjs");
+  const server = await createServer();
+  await server.listen();
 });
 cli.help();
 cli.parse();

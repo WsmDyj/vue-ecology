@@ -70,3 +70,4 @@ pnpm add vite --filter playground --workspace
 }
 ```
 在playground下运行 `pnpm run dev` 指令，控制台可以看到输出 **`vite dev 启动项目`**。表明我们的 vite dev 指令生效了，项目搭建成功，后续会逐步实现vite的功能模块。请确保这一步是成功的，如果失败了，可直接拷贝开头已经创建好的模版。
+

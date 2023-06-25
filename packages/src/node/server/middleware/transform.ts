@@ -6,6 +6,7 @@ import { transformRequest } from '../transformRequest'
 
 export function transformMiddleware(server: ViteDevServer): NextHandleFunction {
   return async (req, res, next) => {
+    // 只处理 GET 请求，其他不处理
     if (req.method !== "GET") {
       return next()
     }

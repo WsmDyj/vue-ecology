@@ -96,7 +96,7 @@ export function indexHtmlMiddleware(server: ViteDevServer): NextHandleFunction {
   }
 }
 ``` 
-为了统一配置，在server文件下新增 config 配置，在 vite 中这快config会和用户配置的 vite.config.ts 内容合并，为了更好的理解，将简化这一部分内容，手动自定义一些全局的config。于是在 `packages/src/node/server/index.ts` 中我们新增 config内容，并注册刚写的 `indexHtmlMiddleware` 中间件，内容如下：
+为了统一配置，在server文件下新增 config 配置，在 vite 中config会和用户配置的 vite.config.ts 内容合并，为了更好的理解，将简化这一部分内容，手动自定义一些全局的config。于是在 `packages/src/node/server/index.ts` 中我们新增 config内容，并注册刚写的 `indexHtmlMiddleware` 中间件用于加载html内容，内容如下：
 ```typescript
 import { indexHtmlMiddleware } from "./middleware/indexHtml"
 export interface ResolvedConfig {
@@ -118,4 +118,61 @@ export async function createServer(): Promise<ViteDevServer> {
   return server
 }
 ```
-当我们在playground下，再次启动项目的时候，可以看到页面已经渲染了html内容。
+最后，在playground下再次启动项目，可以看到页面已经渲染了html内容。
+
+## 进阶
+上文我们已经可以通过 `http://localhost:3000` 的方式去加载页面，但这时候会遇到一个问题：
+
+比如在这路径上新增一些路由 `http://localhost:3000/test` 去访问，页面并不会去加载我们的index.html文件，因为当携带路由访问页面的时候，后端并没有处理当前路径，因此就会返回 404。
+
+在如今前端大多数项目一般都会基于 Vue、React或者Angual 去实现单页应用，单页面应用程序 (SPA) 通常指使用一个 web 浏览器去访问项目中的索引文件，比如 index.html，然后，在 HTML5 History API 的帮助下（react-router、vue-router 就是基于 History API 实现的）实现在不刷新页面的前提下动态改变浏览器地址栏中的URL地址，动态修改页面上所显示资源实现所谓的路由。
+
+因此我们需要把所有的get请求都定位到指定的索引文件（index.html），然后再由vue-router、react-router等来接管页面路由。而不再根据路径的path（'/'）来直接去加载index.html。
+
+借助 [connect-history-api-fallback](https://www.npmjs.com/package/connect-history-api-fallback) 把所有的get方式的请求都发给/index.html。在packages下安装依赖包：`pnpm i connect-history-api-fallback -D`。自定义一个connect中间件去处理这部分逻辑，新建`/packages/src/node/server/middleware/htmlFallback.ts` 内容如下：
+```typescript
+import fs from 'node:fs'
+import path from 'node:path'
+import history from 'connect-history-api-fallback'
+import type { NextHandleFunction } from "connect"
+import type { ViteDevServer } from "../../server"
+
+export function htmlFallbackMiddleware(server: ViteDevServer): NextHandleFunction {
+  return async (req, res, next) => {
+    const historyHtmlFallbackMiddleware = history({
+      rewrites: [
+        {
+          from: /\/$/,
+          to({ parsedUrl }: any) {
+            // 转发到/index.html下
+            const rewritten = decodeURIComponent(parsedUrl.pathname) + 'index.html'
+            return rewritten
+          },
+        },
+      ],
+    })
+    return historyHtmlFallbackMiddleware(req, res, next)
+  } 
+}
+```
+最后在server下注册这个中间件 `app.use(htmlFallbackMiddleware(server))`，并修改下之前`indexHtmlMiddleware`中间件的匹配逻辑
+```typescript
+// ... indexHtml.ts
+export function indexHtmlMiddleware(server: ViteDevServer): NextHandleFunction {
+  return async (req, res, next) => {
+    const url = req.url
+    if (url?.endsWith('.html')) { // 将 url === '/' 改成根据后缀配置
+      // ...之前代码逻辑
+    }
+  }
+}
+```
+至此，当我们再去修改 `http://localhost:3000` 的路径地址每次都能加载index.html。对于路由vue-router、react-router的实现过程，有兴趣的可以自己搜索下，后续有时间也将会补充这块内容。
+## 总结
+在这一章中我们通过 Connect 创建了一个后台服务，利用 Connect 的中间件机制：每个中间件可以用来处理单独的业务逻辑，处理完之后调用next函数，将请求交给下一个中间件处理。
+
+<center>
+  <ZoomImg src="../../../../public/images/node/middleware.png" />
+</center>
+
+因此我们开发了 `indexHtmlMiddleware` 中间件根据根路径（path= '/'）去加载html内容并返回给浏览器。但是这种方式会遇到一个问题：比如在路径上新增一些路由 `http://localhost:3000/test` 去访问，页面返回 404， 并不会去加载index.html文件。为了解决这个问题，新增了 `htmlFallbackMiddleware` 这个中间件利用 `connect-history-api-fallback` 这个库将所有的请求转发到html上，再通过匹配路径后缀 **url?.endsWith('.html')** 方式加载html。至此，我们实现了通过不同路径访问也能加载html功能。

@@ -1,4 +1,3 @@
-import { isJSRequest } from '../utils'
 import { readFile } from 'fs/promises'
 import { Plugin } from '../plugin'
 import hash from 'hash-sum'
@@ -84,7 +83,6 @@ export function buildPlugin(): Plugin {
           `
        }
       }
-     
       return { code }
     }
   }

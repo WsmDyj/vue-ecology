@@ -45,7 +45,7 @@ var require_ms = __commonJS({
       options = options || {};
       var type = typeof val;
       if (type === "string" && val.length > 0) {
-        return parse(val);
+        return parse3(val);
       } else if (type === "number" && isNaN(val) === false) {
         return options.long ? fmtLong(val) : fmtShort(val);
       }
@@ -53,7 +53,7 @@ var require_ms = __commonJS({
         "val is not a non-empty string or a valid number. val=" + JSON.stringify(val)
       );
     };
-    function parse(str) {
+    function parse3(str) {
       str = String(str);
       if (str.length > 100) {
         return;
@@ -64,7 +64,7 @@ var require_ms = __commonJS({
       if (!match) {
         return;
       }
-      var n2 = parseFloat(match[1]);
+      var n = parseFloat(match[1]);
       var type = (match[2] || "ms").toLowerCase();
       switch (type) {
         case "years":
@@ -72,35 +72,35 @@ var require_ms = __commonJS({
         case "yrs":
         case "yr":
         case "y":
-          return n2 * y;
+          return n * y;
         case "days":
         case "day":
         case "d":
-          return n2 * d;
+          return n * d;
         case "hours":
         case "hour":
         case "hrs":
         case "hr":
         case "h":
-          return n2 * h;
+          return n * h;
         case "minutes":
         case "minute":
         case "mins":
         case "min":
         case "m":
-          return n2 * m;
+          return n * m;
         case "seconds":
         case "second":
         case "secs":
         case "sec":
         case "s":
-          return n2 * s;
+          return n * s;
         case "milliseconds":
         case "millisecond":
         case "msecs":
         case "msec":
         case "ms":
-          return n2;
+          return n;
         default:
           return void 0;
       }
@@ -123,14 +123,14 @@ var require_ms = __commonJS({
     function fmtLong(ms) {
       return plural(ms, d, "day") || plural(ms, h, "hour") || plural(ms, m, "minute") || plural(ms, s, "second") || ms + " ms";
     }
-    function plural(ms, n2, name) {
-      if (ms < n2) {
+    function plural(ms, n, name) {
+      if (ms < n) {
         return;
       }
-      if (ms < n2 * 1.5) {
-        return Math.floor(ms / n2) + " " + name;
+      if (ms < n * 1.5) {
+        return Math.floor(ms / n) + " " + name;
       }
-      return Math.ceil(ms / n2) + " " + name + "s";
+      return Math.ceil(ms / n) + " " + name + "s";
     }
   }
 });
@@ -422,8 +422,8 @@ var require_node = __commonJS({
           }
           break;
         case "FILE":
-          var fs = require("fs");
-          stream2 = new fs.SyncWriteStream(fd2, { autoClose: false });
+          var fs2 = require("fs");
+          stream2 = new fs2.SyncWriteStream(fd2, { autoClose: false });
           stream2._type = "fs";
           break;
         case "PIPE":
@@ -684,7 +684,7 @@ var require_parseurl = __commonJS({
   "../node_modules/.pnpm/parseurl@1.3.3/node_modules/parseurl/index.js"(exports, module2) {
     "use strict";
     var url = require("url");
-    var parse = url.parse;
+    var parse3 = url.parse;
     var Url = url.Url;
     module2.exports = parseurl;
     module2.exports.original = originalurl;
@@ -716,7 +716,7 @@ var require_parseurl = __commonJS({
     }
     function fastparse(str) {
       if (typeof str !== "string" || str.charCodeAt(0) !== 47) {
-        return parse(str);
+        return parse3(str);
       }
       var pathname = str;
       var query = null;
@@ -738,7 +738,7 @@ var require_parseurl = __commonJS({
           case 35:
           case 160:
           case 65279:
-            return parse(str);
+            return parse3(str);
         }
       }
       var url2 = Url !== void 0 ? new Url() : {};
@@ -877,16 +877,16 @@ var require_statuses = __commonJS({
       if (typeof code !== "string") {
         throw new TypeError("code must be a number or string");
       }
-      var n2 = parseInt(code, 10);
-      if (!isNaN(n2)) {
-        if (!status[n2])
-          throw new Error("invalid status code: " + n2);
-        return n2;
+      var n = parseInt(code, 10);
+      if (!isNaN(n)) {
+        if (!status[n])
+          throw new Error("invalid status code: " + n);
+        return n;
       }
-      n2 = status[code.toLowerCase()];
-      if (!n2)
+      n = status[code.toLowerCase()];
+      if (!n)
         throw new Error('invalid status message: "' + code + '"');
-      return n2;
+      return n;
     }
   }
 });
@@ -984,7 +984,7 @@ var require_finalhandler = __commonJS({
           req.socket.destroy();
           return;
         }
-        send(req, res, status, headers, msg);
+        send2(req, res, status, headers, msg);
       };
     }
     function getErrorHeaders(err) {
@@ -1035,7 +1035,7 @@ var require_finalhandler = __commonJS({
     function headersSent(res) {
       return typeof res.headersSent !== "boolean" ? Boolean(res._header) : res.headersSent;
     }
-    function send(req, res, status, headers, message) {
+    function send2(req, res, status, headers, message) {
       function write() {
         var body = createHtmlDocument(message);
         res.statusCode = status;
@@ -1115,14 +1115,14 @@ var require_connect = __commonJS({
     }
     proto.use = function use(route, fn) {
       var handle = fn;
-      var path2 = route;
+      var path4 = route;
       if (typeof route !== "string") {
         handle = route;
-        path2 = "/";
+        path4 = "/";
       }
       if (typeof handle.handle === "function") {
         var server = handle;
-        server.route = path2;
+        server.route = path4;
         handle = function(req, res, next) {
           server.handle(req, res, next);
         };
@@ -1130,11 +1130,11 @@ var require_connect = __commonJS({
       if (handle instanceof http.Server) {
         handle = handle.listeners("request")[0];
       }
-      if (path2[path2.length - 1] === "/") {
-        path2 = path2.slice(0, -1);
+      if (path4[path4.length - 1] === "/") {
+        path4 = path4.slice(0, -1);
       }
-      debug("use %s %s", path2 || "/", handle.name || "anonymous");
-      this.stack.push({ route: path2, handle });
+      debug("use %s %s", path4 || "/", handle.name || "anonymous");
+      this.stack.push({ route: path4, handle });
       return this;
     };
     proto.handle = function handle(req, res, out) {
@@ -1162,12 +1162,12 @@ var require_connect = __commonJS({
           defer(done, err);
           return;
         }
-        var path2 = parseUrl(req).pathname || "/";
+        var path4 = parseUrl(req).pathname || "/";
         var route = layer.route;
-        if (path2.toLowerCase().substr(0, route.length) !== route.toLowerCase()) {
+        if (path4.toLowerCase().substr(0, route.length) !== route.toLowerCase()) {
           return next(err);
         }
-        var c = path2.length > route.length && path2[route.length];
+        var c = path4.length > route.length && path4[route.length];
         if (c && c !== "/" && c !== ".") {
           return next(err);
         }
@@ -1219,1051 +1219,40 @@ var require_connect = __commonJS({
   }
 });
 
-// ../node_modules/.pnpm/@jridgewell+sourcemap-codec@1.4.15/node_modules/@jridgewell/sourcemap-codec/dist/sourcemap-codec.mjs
-function encode(decoded) {
-  const state = new Int32Array(5);
-  const bufLength = 1024 * 16;
-  const subLength = bufLength - 36;
-  const buf = new Uint8Array(bufLength);
-  const sub = buf.subarray(0, subLength);
-  let pos = 0;
-  let out = "";
-  for (let i = 0; i < decoded.length; i++) {
-    const line = decoded[i];
-    if (i > 0) {
-      if (pos === bufLength) {
-        out += td.decode(buf);
-        pos = 0;
-      }
-      buf[pos++] = semicolon;
-    }
-    if (line.length === 0)
-      continue;
-    state[0] = 0;
-    for (let j = 0; j < line.length; j++) {
-      const segment = line[j];
-      if (pos > subLength) {
-        out += td.decode(sub);
-        buf.copyWithin(0, subLength, pos);
-        pos -= subLength;
-      }
-      if (j > 0)
-        buf[pos++] = comma;
-      pos = encodeInteger(buf, pos, state, segment, 0);
-      if (segment.length === 1)
-        continue;
-      pos = encodeInteger(buf, pos, state, segment, 1);
-      pos = encodeInteger(buf, pos, state, segment, 2);
-      pos = encodeInteger(buf, pos, state, segment, 3);
-      if (segment.length === 4)
-        continue;
-      pos = encodeInteger(buf, pos, state, segment, 4);
-    }
-  }
-  return out + td.decode(buf.subarray(0, pos));
-}
-function encodeInteger(buf, pos, state, segment, j) {
-  const next = segment[j];
-  let num = next - state[j];
-  state[j] = next;
-  num = num < 0 ? -num << 1 | 1 : num << 1;
-  do {
-    let clamped = num & 31;
-    num >>>= 5;
-    if (num > 0)
-      clamped |= 32;
-    buf[pos++] = intToChar[clamped];
-  } while (num > 0);
-  return pos;
-}
-var comma, semicolon, chars, intToChar, charToInt, td;
-var init_sourcemap_codec = __esm({
-  "../node_modules/.pnpm/@jridgewell+sourcemap-codec@1.4.15/node_modules/@jridgewell/sourcemap-codec/dist/sourcemap-codec.mjs"() {
-    "use strict";
-    comma = ",".charCodeAt(0);
-    semicolon = ";".charCodeAt(0);
-    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    intToChar = new Uint8Array(64);
-    charToInt = new Uint8Array(128);
-    for (let i = 0; i < chars.length; i++) {
-      const c = chars.charCodeAt(i);
-      intToChar[i] = c;
-      charToInt[c] = i;
-    }
-    td = typeof TextDecoder !== "undefined" ? /* @__PURE__ */ new TextDecoder() : typeof Buffer !== "undefined" ? {
-      decode(buf) {
-        const out = Buffer.from(buf.buffer, buf.byteOffset, buf.byteLength);
-        return out.toString();
-      }
-    } : {
-      decode(buf) {
-        let out = "";
-        for (let i = 0; i < buf.length; i++) {
-          out += String.fromCharCode(buf[i]);
-        }
-        return out;
-      }
-    };
-  }
-});
-
-// ../node_modules/.pnpm/magic-string@0.30.0/node_modules/magic-string/dist/magic-string.es.mjs
-function getBtoa() {
-  if (typeof window !== "undefined" && typeof window.btoa === "function") {
-    return (str) => window.btoa(unescape(encodeURIComponent(str)));
-  } else if (typeof Buffer === "function") {
-    return (str) => Buffer.from(str, "utf-8").toString("base64");
-  } else {
-    return () => {
-      throw new Error("Unsupported environment: `window.btoa` or `Buffer` should be supported.");
-    };
-  }
-}
-function guessIndent(code) {
-  const lines = code.split("\n");
-  const tabbed = lines.filter((line) => /^\t+/.test(line));
-  const spaced = lines.filter((line) => /^ {2,}/.test(line));
-  if (tabbed.length === 0 && spaced.length === 0) {
-    return null;
-  }
-  if (tabbed.length >= spaced.length) {
-    return "	";
-  }
-  const min = spaced.reduce((previous, current) => {
-    const numSpaces = /^ +/.exec(current)[0].length;
-    return Math.min(numSpaces, previous);
-  }, Infinity);
-  return new Array(min + 1).join(" ");
-}
-function getRelativePath(from, to) {
-  const fromParts = from.split(/[/\\]/);
-  const toParts = to.split(/[/\\]/);
-  fromParts.pop();
-  while (fromParts[0] === toParts[0]) {
-    fromParts.shift();
-    toParts.shift();
-  }
-  if (fromParts.length) {
-    let i = fromParts.length;
-    while (i--)
-      fromParts[i] = "..";
-  }
-  return fromParts.concat(toParts).join("/");
-}
-function isObject(thing) {
-  return toString.call(thing) === "[object Object]";
-}
-function getLocator(source) {
-  const originalLines = source.split("\n");
-  const lineOffsets = [];
-  for (let i = 0, pos = 0; i < originalLines.length; i++) {
-    lineOffsets.push(pos);
-    pos += originalLines[i].length + 1;
-  }
-  return function locate(index) {
-    let i = 0;
-    let j = lineOffsets.length;
-    while (i < j) {
-      const m = i + j >> 1;
-      if (index < lineOffsets[m]) {
-        j = m;
-      } else {
-        i = m + 1;
-      }
-    }
-    const line = i - 1;
-    const column = index - lineOffsets[line];
-    return { line, column };
-  };
-}
-var BitSet, Chunk, btoa, SourceMap, toString, Mappings, n, warned, MagicString;
-var init_magic_string_es = __esm({
-  "../node_modules/.pnpm/magic-string@0.30.0/node_modules/magic-string/dist/magic-string.es.mjs"() {
-    "use strict";
-    init_sourcemap_codec();
-    BitSet = class _BitSet {
-      constructor(arg) {
-        this.bits = arg instanceof _BitSet ? arg.bits.slice() : [];
-      }
-      add(n2) {
-        this.bits[n2 >> 5] |= 1 << (n2 & 31);
-      }
-      has(n2) {
-        return !!(this.bits[n2 >> 5] & 1 << (n2 & 31));
-      }
-    };
-    Chunk = class _Chunk {
-      constructor(start, end, content) {
-        this.start = start;
-        this.end = end;
-        this.original = content;
-        this.intro = "";
-        this.outro = "";
-        this.content = content;
-        this.storeName = false;
-        this.edited = false;
-        {
-          this.previous = null;
-          this.next = null;
-        }
-      }
-      appendLeft(content) {
-        this.outro += content;
-      }
-      appendRight(content) {
-        this.intro = this.intro + content;
-      }
-      clone() {
-        const chunk = new _Chunk(this.start, this.end, this.original);
-        chunk.intro = this.intro;
-        chunk.outro = this.outro;
-        chunk.content = this.content;
-        chunk.storeName = this.storeName;
-        chunk.edited = this.edited;
-        return chunk;
-      }
-      contains(index) {
-        return this.start < index && index < this.end;
-      }
-      eachNext(fn) {
-        let chunk = this;
-        while (chunk) {
-          fn(chunk);
-          chunk = chunk.next;
-        }
-      }
-      eachPrevious(fn) {
-        let chunk = this;
-        while (chunk) {
-          fn(chunk);
-          chunk = chunk.previous;
-        }
-      }
-      edit(content, storeName, contentOnly) {
-        this.content = content;
-        if (!contentOnly) {
-          this.intro = "";
-          this.outro = "";
-        }
-        this.storeName = storeName;
-        this.edited = true;
-        return this;
-      }
-      prependLeft(content) {
-        this.outro = content + this.outro;
-      }
-      prependRight(content) {
-        this.intro = content + this.intro;
-      }
-      split(index) {
-        const sliceIndex = index - this.start;
-        const originalBefore = this.original.slice(0, sliceIndex);
-        const originalAfter = this.original.slice(sliceIndex);
-        this.original = originalBefore;
-        const newChunk = new _Chunk(index, this.end, originalAfter);
-        newChunk.outro = this.outro;
-        this.outro = "";
-        this.end = index;
-        if (this.edited) {
-          newChunk.edit("", false);
-          this.content = "";
-        } else {
-          this.content = originalBefore;
-        }
-        newChunk.next = this.next;
-        if (newChunk.next)
-          newChunk.next.previous = newChunk;
-        newChunk.previous = this;
-        this.next = newChunk;
-        return newChunk;
-      }
-      toString() {
-        return this.intro + this.content + this.outro;
-      }
-      trimEnd(rx) {
-        this.outro = this.outro.replace(rx, "");
-        if (this.outro.length)
-          return true;
-        const trimmed = this.content.replace(rx, "");
-        if (trimmed.length) {
-          if (trimmed !== this.content) {
-            this.split(this.start + trimmed.length).edit("", void 0, true);
-          }
-          return true;
-        } else {
-          this.edit("", void 0, true);
-          this.intro = this.intro.replace(rx, "");
-          if (this.intro.length)
-            return true;
-        }
-      }
-      trimStart(rx) {
-        this.intro = this.intro.replace(rx, "");
-        if (this.intro.length)
-          return true;
-        const trimmed = this.content.replace(rx, "");
-        if (trimmed.length) {
-          if (trimmed !== this.content) {
-            this.split(this.end - trimmed.length);
-            this.edit("", void 0, true);
-          }
-          return true;
-        } else {
-          this.edit("", void 0, true);
-          this.outro = this.outro.replace(rx, "");
-          if (this.outro.length)
-            return true;
-        }
-      }
-    };
-    btoa = /* @__PURE__ */ getBtoa();
-    SourceMap = class {
-      constructor(properties) {
-        this.version = 3;
-        this.file = properties.file;
-        this.sources = properties.sources;
-        this.sourcesContent = properties.sourcesContent;
-        this.names = properties.names;
-        this.mappings = encode(properties.mappings);
-        if (typeof properties.x_google_ignoreList !== "undefined") {
-          this.x_google_ignoreList = properties.x_google_ignoreList;
-        }
-      }
-      toString() {
-        return JSON.stringify(this);
-      }
-      toUrl() {
-        return "data:application/json;charset=utf-8;base64," + btoa(this.toString());
-      }
-    };
-    toString = Object.prototype.toString;
-    Mappings = class {
-      constructor(hires) {
-        this.hires = hires;
-        this.generatedCodeLine = 0;
-        this.generatedCodeColumn = 0;
-        this.raw = [];
-        this.rawSegments = this.raw[this.generatedCodeLine] = [];
-        this.pending = null;
-      }
-      addEdit(sourceIndex, content, loc, nameIndex) {
-        if (content.length) {
-          const segment = [this.generatedCodeColumn, sourceIndex, loc.line, loc.column];
-          if (nameIndex >= 0) {
-            segment.push(nameIndex);
-          }
-          this.rawSegments.push(segment);
-        } else if (this.pending) {
-          this.rawSegments.push(this.pending);
-        }
-        this.advance(content);
-        this.pending = null;
-      }
-      addUneditedChunk(sourceIndex, chunk, original, loc, sourcemapLocations) {
-        let originalCharIndex = chunk.start;
-        let first = true;
-        while (originalCharIndex < chunk.end) {
-          if (this.hires || first || sourcemapLocations.has(originalCharIndex)) {
-            this.rawSegments.push([this.generatedCodeColumn, sourceIndex, loc.line, loc.column]);
-          }
-          if (original[originalCharIndex] === "\n") {
-            loc.line += 1;
-            loc.column = 0;
-            this.generatedCodeLine += 1;
-            this.raw[this.generatedCodeLine] = this.rawSegments = [];
-            this.generatedCodeColumn = 0;
-            first = true;
-          } else {
-            loc.column += 1;
-            this.generatedCodeColumn += 1;
-            first = false;
-          }
-          originalCharIndex += 1;
-        }
-        this.pending = null;
-      }
-      advance(str) {
-        if (!str)
-          return;
-        const lines = str.split("\n");
-        if (lines.length > 1) {
-          for (let i = 0; i < lines.length - 1; i++) {
-            this.generatedCodeLine++;
-            this.raw[this.generatedCodeLine] = this.rawSegments = [];
-          }
-          this.generatedCodeColumn = 0;
-        }
-        this.generatedCodeColumn += lines[lines.length - 1].length;
-      }
-    };
-    n = "\n";
-    warned = {
-      insertLeft: false,
-      insertRight: false,
-      storeName: false
-    };
-    MagicString = class _MagicString {
-      constructor(string, options = {}) {
-        const chunk = new Chunk(0, string.length, string);
-        Object.defineProperties(this, {
-          original: { writable: true, value: string },
-          outro: { writable: true, value: "" },
-          intro: { writable: true, value: "" },
-          firstChunk: { writable: true, value: chunk },
-          lastChunk: { writable: true, value: chunk },
-          lastSearchedChunk: { writable: true, value: chunk },
-          byStart: { writable: true, value: {} },
-          byEnd: { writable: true, value: {} },
-          filename: { writable: true, value: options.filename },
-          indentExclusionRanges: { writable: true, value: options.indentExclusionRanges },
-          sourcemapLocations: { writable: true, value: new BitSet() },
-          storedNames: { writable: true, value: {} },
-          indentStr: { writable: true, value: void 0 },
-          ignoreList: { writable: true, value: options.ignoreList }
-        });
-        this.byStart[0] = chunk;
-        this.byEnd[string.length] = chunk;
-      }
-      addSourcemapLocation(char) {
-        this.sourcemapLocations.add(char);
-      }
-      append(content) {
-        if (typeof content !== "string")
-          throw new TypeError("outro content must be a string");
-        this.outro += content;
-        return this;
-      }
-      appendLeft(index, content) {
-        if (typeof content !== "string")
-          throw new TypeError("inserted content must be a string");
-        this._split(index);
-        const chunk = this.byEnd[index];
-        if (chunk) {
-          chunk.appendLeft(content);
-        } else {
-          this.intro += content;
-        }
-        return this;
-      }
-      appendRight(index, content) {
-        if (typeof content !== "string")
-          throw new TypeError("inserted content must be a string");
-        this._split(index);
-        const chunk = this.byStart[index];
-        if (chunk) {
-          chunk.appendRight(content);
-        } else {
-          this.outro += content;
-        }
-        return this;
-      }
-      clone() {
-        const cloned = new _MagicString(this.original, { filename: this.filename });
-        let originalChunk = this.firstChunk;
-        let clonedChunk = cloned.firstChunk = cloned.lastSearchedChunk = originalChunk.clone();
-        while (originalChunk) {
-          cloned.byStart[clonedChunk.start] = clonedChunk;
-          cloned.byEnd[clonedChunk.end] = clonedChunk;
-          const nextOriginalChunk = originalChunk.next;
-          const nextClonedChunk = nextOriginalChunk && nextOriginalChunk.clone();
-          if (nextClonedChunk) {
-            clonedChunk.next = nextClonedChunk;
-            nextClonedChunk.previous = clonedChunk;
-            clonedChunk = nextClonedChunk;
-          }
-          originalChunk = nextOriginalChunk;
-        }
-        cloned.lastChunk = clonedChunk;
-        if (this.indentExclusionRanges) {
-          cloned.indentExclusionRanges = this.indentExclusionRanges.slice();
-        }
-        cloned.sourcemapLocations = new BitSet(this.sourcemapLocations);
-        cloned.intro = this.intro;
-        cloned.outro = this.outro;
-        return cloned;
-      }
-      generateDecodedMap(options) {
-        options = options || {};
-        const sourceIndex = 0;
-        const names = Object.keys(this.storedNames);
-        const mappings = new Mappings(options.hires);
-        const locate = getLocator(this.original);
-        if (this.intro) {
-          mappings.advance(this.intro);
-        }
-        this.firstChunk.eachNext((chunk) => {
-          const loc = locate(chunk.start);
-          if (chunk.intro.length)
-            mappings.advance(chunk.intro);
-          if (chunk.edited) {
-            mappings.addEdit(
-              sourceIndex,
-              chunk.content,
-              loc,
-              chunk.storeName ? names.indexOf(chunk.original) : -1
-            );
-          } else {
-            mappings.addUneditedChunk(sourceIndex, chunk, this.original, loc, this.sourcemapLocations);
-          }
-          if (chunk.outro.length)
-            mappings.advance(chunk.outro);
-        });
-        return {
-          file: options.file ? options.file.split(/[/\\]/).pop() : void 0,
-          sources: [options.source ? getRelativePath(options.file || "", options.source) : options.file || ""],
-          sourcesContent: options.includeContent ? [this.original] : void 0,
-          names,
-          mappings: mappings.raw,
-          x_google_ignoreList: this.ignoreList ? [sourceIndex] : void 0
-        };
-      }
-      generateMap(options) {
-        return new SourceMap(this.generateDecodedMap(options));
-      }
-      _ensureindentStr() {
-        if (this.indentStr === void 0) {
-          this.indentStr = guessIndent(this.original);
-        }
-      }
-      _getRawIndentString() {
-        this._ensureindentStr();
-        return this.indentStr;
-      }
-      getIndentString() {
-        this._ensureindentStr();
-        return this.indentStr === null ? "	" : this.indentStr;
-      }
-      indent(indentStr, options) {
-        const pattern = /^[^\r\n]/gm;
-        if (isObject(indentStr)) {
-          options = indentStr;
-          indentStr = void 0;
-        }
-        if (indentStr === void 0) {
-          this._ensureindentStr();
-          indentStr = this.indentStr || "	";
-        }
-        if (indentStr === "")
-          return this;
-        options = options || {};
-        const isExcluded = {};
-        if (options.exclude) {
-          const exclusions = typeof options.exclude[0] === "number" ? [options.exclude] : options.exclude;
-          exclusions.forEach((exclusion) => {
-            for (let i = exclusion[0]; i < exclusion[1]; i += 1) {
-              isExcluded[i] = true;
-            }
-          });
-        }
-        let shouldIndentNextCharacter = options.indentStart !== false;
-        const replacer = (match) => {
-          if (shouldIndentNextCharacter)
-            return `${indentStr}${match}`;
-          shouldIndentNextCharacter = true;
-          return match;
-        };
-        this.intro = this.intro.replace(pattern, replacer);
-        let charIndex = 0;
-        let chunk = this.firstChunk;
-        while (chunk) {
-          const end = chunk.end;
-          if (chunk.edited) {
-            if (!isExcluded[charIndex]) {
-              chunk.content = chunk.content.replace(pattern, replacer);
-              if (chunk.content.length) {
-                shouldIndentNextCharacter = chunk.content[chunk.content.length - 1] === "\n";
-              }
-            }
-          } else {
-            charIndex = chunk.start;
-            while (charIndex < end) {
-              if (!isExcluded[charIndex]) {
-                const char = this.original[charIndex];
-                if (char === "\n") {
-                  shouldIndentNextCharacter = true;
-                } else if (char !== "\r" && shouldIndentNextCharacter) {
-                  shouldIndentNextCharacter = false;
-                  if (charIndex === chunk.start) {
-                    chunk.prependRight(indentStr);
-                  } else {
-                    this._splitChunk(chunk, charIndex);
-                    chunk = chunk.next;
-                    chunk.prependRight(indentStr);
-                  }
-                }
-              }
-              charIndex += 1;
-            }
-          }
-          charIndex = chunk.end;
-          chunk = chunk.next;
-        }
-        this.outro = this.outro.replace(pattern, replacer);
-        return this;
-      }
-      insert() {
-        throw new Error(
-          "magicString.insert(...) is deprecated. Use prependRight(...) or appendLeft(...)"
-        );
-      }
-      insertLeft(index, content) {
-        if (!warned.insertLeft) {
-          console.warn(
-            "magicString.insertLeft(...) is deprecated. Use magicString.appendLeft(...) instead"
-          );
-          warned.insertLeft = true;
-        }
-        return this.appendLeft(index, content);
-      }
-      insertRight(index, content) {
-        if (!warned.insertRight) {
-          console.warn(
-            "magicString.insertRight(...) is deprecated. Use magicString.prependRight(...) instead"
-          );
-          warned.insertRight = true;
-        }
-        return this.prependRight(index, content);
-      }
-      move(start, end, index) {
-        if (index >= start && index <= end)
-          throw new Error("Cannot move a selection inside itself");
-        this._split(start);
-        this._split(end);
-        this._split(index);
-        const first = this.byStart[start];
-        const last = this.byEnd[end];
-        const oldLeft = first.previous;
-        const oldRight = last.next;
-        const newRight = this.byStart[index];
-        if (!newRight && last === this.lastChunk)
-          return this;
-        const newLeft = newRight ? newRight.previous : this.lastChunk;
-        if (oldLeft)
-          oldLeft.next = oldRight;
-        if (oldRight)
-          oldRight.previous = oldLeft;
-        if (newLeft)
-          newLeft.next = first;
-        if (newRight)
-          newRight.previous = last;
-        if (!first.previous)
-          this.firstChunk = last.next;
-        if (!last.next) {
-          this.lastChunk = first.previous;
-          this.lastChunk.next = null;
-        }
-        first.previous = newLeft;
-        last.next = newRight || null;
-        if (!newLeft)
-          this.firstChunk = first;
-        if (!newRight)
-          this.lastChunk = last;
-        return this;
-      }
-      overwrite(start, end, content, options) {
-        options = options || {};
-        return this.update(start, end, content, { ...options, overwrite: !options.contentOnly });
-      }
-      update(start, end, content, options) {
-        if (typeof content !== "string")
-          throw new TypeError("replacement content must be a string");
-        while (start < 0)
-          start += this.original.length;
-        while (end < 0)
-          end += this.original.length;
-        if (end > this.original.length)
-          throw new Error("end is out of bounds");
-        if (start === end)
-          throw new Error(
-            "Cannot overwrite a zero-length range \u2013 use appendLeft or prependRight instead"
-          );
-        this._split(start);
-        this._split(end);
-        if (options === true) {
-          if (!warned.storeName) {
-            console.warn(
-              "The final argument to magicString.overwrite(...) should be an options object. See https://github.com/rich-harris/magic-string"
-            );
-            warned.storeName = true;
-          }
-          options = { storeName: true };
-        }
-        const storeName = options !== void 0 ? options.storeName : false;
-        const overwrite = options !== void 0 ? options.overwrite : false;
-        if (storeName) {
-          const original = this.original.slice(start, end);
-          Object.defineProperty(this.storedNames, original, {
-            writable: true,
-            value: true,
-            enumerable: true
-          });
-        }
-        const first = this.byStart[start];
-        const last = this.byEnd[end];
-        if (first) {
-          let chunk = first;
-          while (chunk !== last) {
-            if (chunk.next !== this.byStart[chunk.end]) {
-              throw new Error("Cannot overwrite across a split point");
-            }
-            chunk = chunk.next;
-            chunk.edit("", false);
-          }
-          first.edit(content, storeName, !overwrite);
-        } else {
-          const newChunk = new Chunk(start, end, "").edit(content, storeName);
-          last.next = newChunk;
-          newChunk.previous = last;
-        }
-        return this;
-      }
-      prepend(content) {
-        if (typeof content !== "string")
-          throw new TypeError("outro content must be a string");
-        this.intro = content + this.intro;
-        return this;
-      }
-      prependLeft(index, content) {
-        if (typeof content !== "string")
-          throw new TypeError("inserted content must be a string");
-        this._split(index);
-        const chunk = this.byEnd[index];
-        if (chunk) {
-          chunk.prependLeft(content);
-        } else {
-          this.intro = content + this.intro;
-        }
-        return this;
-      }
-      prependRight(index, content) {
-        if (typeof content !== "string")
-          throw new TypeError("inserted content must be a string");
-        this._split(index);
-        const chunk = this.byStart[index];
-        if (chunk) {
-          chunk.prependRight(content);
-        } else {
-          this.outro = content + this.outro;
-        }
-        return this;
-      }
-      remove(start, end) {
-        while (start < 0)
-          start += this.original.length;
-        while (end < 0)
-          end += this.original.length;
-        if (start === end)
-          return this;
-        if (start < 0 || end > this.original.length)
-          throw new Error("Character is out of bounds");
-        if (start > end)
-          throw new Error("end must be greater than start");
-        this._split(start);
-        this._split(end);
-        let chunk = this.byStart[start];
-        while (chunk) {
-          chunk.intro = "";
-          chunk.outro = "";
-          chunk.edit("");
-          chunk = end > chunk.end ? this.byStart[chunk.end] : null;
-        }
-        return this;
-      }
-      lastChar() {
-        if (this.outro.length)
-          return this.outro[this.outro.length - 1];
-        let chunk = this.lastChunk;
-        do {
-          if (chunk.outro.length)
-            return chunk.outro[chunk.outro.length - 1];
-          if (chunk.content.length)
-            return chunk.content[chunk.content.length - 1];
-          if (chunk.intro.length)
-            return chunk.intro[chunk.intro.length - 1];
-        } while (chunk = chunk.previous);
-        if (this.intro.length)
-          return this.intro[this.intro.length - 1];
-        return "";
-      }
-      lastLine() {
-        let lineIndex = this.outro.lastIndexOf(n);
-        if (lineIndex !== -1)
-          return this.outro.substr(lineIndex + 1);
-        let lineStr = this.outro;
-        let chunk = this.lastChunk;
-        do {
-          if (chunk.outro.length > 0) {
-            lineIndex = chunk.outro.lastIndexOf(n);
-            if (lineIndex !== -1)
-              return chunk.outro.substr(lineIndex + 1) + lineStr;
-            lineStr = chunk.outro + lineStr;
-          }
-          if (chunk.content.length > 0) {
-            lineIndex = chunk.content.lastIndexOf(n);
-            if (lineIndex !== -1)
-              return chunk.content.substr(lineIndex + 1) + lineStr;
-            lineStr = chunk.content + lineStr;
-          }
-          if (chunk.intro.length > 0) {
-            lineIndex = chunk.intro.lastIndexOf(n);
-            if (lineIndex !== -1)
-              return chunk.intro.substr(lineIndex + 1) + lineStr;
-            lineStr = chunk.intro + lineStr;
-          }
-        } while (chunk = chunk.previous);
-        lineIndex = this.intro.lastIndexOf(n);
-        if (lineIndex !== -1)
-          return this.intro.substr(lineIndex + 1) + lineStr;
-        return this.intro + lineStr;
-      }
-      slice(start = 0, end = this.original.length) {
-        while (start < 0)
-          start += this.original.length;
-        while (end < 0)
-          end += this.original.length;
-        let result = "";
-        let chunk = this.firstChunk;
-        while (chunk && (chunk.start > start || chunk.end <= start)) {
-          if (chunk.start < end && chunk.end >= end) {
-            return result;
-          }
-          chunk = chunk.next;
-        }
-        if (chunk && chunk.edited && chunk.start !== start)
-          throw new Error(`Cannot use replaced character ${start} as slice start anchor.`);
-        const startChunk = chunk;
-        while (chunk) {
-          if (chunk.intro && (startChunk !== chunk || chunk.start === start)) {
-            result += chunk.intro;
-          }
-          const containsEnd = chunk.start < end && chunk.end >= end;
-          if (containsEnd && chunk.edited && chunk.end !== end)
-            throw new Error(`Cannot use replaced character ${end} as slice end anchor.`);
-          const sliceStart = startChunk === chunk ? start - chunk.start : 0;
-          const sliceEnd = containsEnd ? chunk.content.length + end - chunk.end : chunk.content.length;
-          result += chunk.content.slice(sliceStart, sliceEnd);
-          if (chunk.outro && (!containsEnd || chunk.end === end)) {
-            result += chunk.outro;
-          }
-          if (containsEnd) {
-            break;
-          }
-          chunk = chunk.next;
-        }
-        return result;
-      }
-      // TODO deprecate this? not really very useful
-      snip(start, end) {
-        const clone = this.clone();
-        clone.remove(0, start);
-        clone.remove(end, clone.original.length);
-        return clone;
-      }
-      _split(index) {
-        if (this.byStart[index] || this.byEnd[index])
-          return;
-        let chunk = this.lastSearchedChunk;
-        const searchForward = index > chunk.end;
-        while (chunk) {
-          if (chunk.contains(index))
-            return this._splitChunk(chunk, index);
-          chunk = searchForward ? this.byStart[chunk.end] : this.byEnd[chunk.start];
-        }
-      }
-      _splitChunk(chunk, index) {
-        if (chunk.edited && chunk.content.length) {
-          const loc = getLocator(this.original)(index);
-          throw new Error(
-            `Cannot split a chunk that has already been edited (${loc.line}:${loc.column} \u2013 "${chunk.original}")`
-          );
-        }
-        const newChunk = chunk.split(index);
-        this.byEnd[index] = chunk;
-        this.byStart[index] = newChunk;
-        this.byEnd[newChunk.end] = newChunk;
-        if (chunk === this.lastChunk)
-          this.lastChunk = newChunk;
-        this.lastSearchedChunk = chunk;
-        return true;
-      }
-      toString() {
-        let str = this.intro;
-        let chunk = this.firstChunk;
-        while (chunk) {
-          str += chunk.toString();
-          chunk = chunk.next;
-        }
-        return str + this.outro;
-      }
-      isEmpty() {
-        let chunk = this.firstChunk;
-        do {
-          if (chunk.intro.length && chunk.intro.trim() || chunk.content.length && chunk.content.trim() || chunk.outro.length && chunk.outro.trim())
-            return false;
-        } while (chunk = chunk.next);
-        return true;
-      }
-      length() {
-        let chunk = this.firstChunk;
-        let length = 0;
-        do {
-          length += chunk.intro.length + chunk.content.length + chunk.outro.length;
-        } while (chunk = chunk.next);
-        return length;
-      }
-      trimLines() {
-        return this.trim("[\\r\\n]");
-      }
-      trim(charType) {
-        return this.trimStart(charType).trimEnd(charType);
-      }
-      trimEndAborted(charType) {
-        const rx = new RegExp((charType || "\\s") + "+$");
-        this.outro = this.outro.replace(rx, "");
-        if (this.outro.length)
-          return true;
-        let chunk = this.lastChunk;
-        do {
-          const end = chunk.end;
-          const aborted = chunk.trimEnd(rx);
-          if (chunk.end !== end) {
-            if (this.lastChunk === chunk) {
-              this.lastChunk = chunk.next;
-            }
-            this.byEnd[chunk.end] = chunk;
-            this.byStart[chunk.next.start] = chunk.next;
-            this.byEnd[chunk.next.end] = chunk.next;
-          }
-          if (aborted)
-            return true;
-          chunk = chunk.previous;
-        } while (chunk);
-        return false;
-      }
-      trimEnd(charType) {
-        this.trimEndAborted(charType);
-        return this;
-      }
-      trimStartAborted(charType) {
-        const rx = new RegExp("^" + (charType || "\\s") + "+");
-        this.intro = this.intro.replace(rx, "");
-        if (this.intro.length)
-          return true;
-        let chunk = this.firstChunk;
-        do {
-          const end = chunk.end;
-          const aborted = chunk.trimStart(rx);
-          if (chunk.end !== end) {
-            if (chunk === this.lastChunk)
-              this.lastChunk = chunk.next;
-            this.byEnd[chunk.end] = chunk;
-            this.byStart[chunk.next.start] = chunk.next;
-            this.byEnd[chunk.next.end] = chunk.next;
-          }
-          if (aborted)
-            return true;
-          chunk = chunk.next;
-        } while (chunk);
-        return false;
-      }
-      trimStart(charType) {
-        this.trimStartAborted(charType);
-        return this;
-      }
-      hasChanged() {
-        return this.original !== this.toString();
-      }
-      _replaceRegexp(searchValue, replacement) {
-        function getReplacement(match, str) {
-          if (typeof replacement === "string") {
-            return replacement.replace(/\$(\$|&|\d+)/g, (_, i) => {
-              if (i === "$")
-                return "$";
-              if (i === "&")
-                return match[0];
-              const num = +i;
-              if (num < match.length)
-                return match[+i];
-              return `$${i}`;
-            });
-          } else {
-            return replacement(...match, match.index, str, match.groups);
-          }
-        }
-        function matchAll(re, str) {
-          let match;
-          const matches = [];
-          while (match = re.exec(str)) {
-            matches.push(match);
-          }
-          return matches;
-        }
-        if (searchValue.global) {
-          const matches = matchAll(searchValue, this.original);
-          matches.forEach((match) => {
-            if (match.index != null)
-              this.overwrite(
-                match.index,
-                match.index + match[0].length,
-                getReplacement(match, this.original)
-              );
-          });
-        } else {
-          const match = this.original.match(searchValue);
-          if (match && match.index != null)
-            this.overwrite(
-              match.index,
-              match.index + match[0].length,
-              getReplacement(match, this.original)
-            );
-        }
-        return this;
-      }
-      _replaceString(string, replacement) {
-        const { original } = this;
-        const index = original.indexOf(string);
-        if (index !== -1) {
-          this.overwrite(index, index + string.length, replacement);
-        }
-        return this;
-      }
-      replace(searchValue, replacement) {
-        if (typeof searchValue === "string") {
-          return this._replaceString(searchValue, replacement);
-        }
-        return this._replaceRegexp(searchValue, replacement);
-      }
-      _replaceAllString(string, replacement) {
-        const { original } = this;
-        const stringLength = string.length;
-        for (let index = original.indexOf(string); index !== -1; index = original.indexOf(string, index + stringLength)) {
-          this.overwrite(index, index + stringLength, replacement);
-        }
-        return this;
-      }
-      replaceAll(searchValue, replacement) {
-        if (typeof searchValue === "string") {
-          return this._replaceAllString(searchValue, replacement);
-        }
-        if (!searchValue.global) {
-          throw new TypeError(
-            "MagicString.prototype.replaceAll called with a non-global RegExp argument"
-          );
-        }
-        return this._replaceRegexp(searchValue, replacement);
-      }
-    };
-  }
-});
-
 // src/node/server/middleware/indexHtml.ts
+function incrementIndent(indent = "") {
+  return `${indent}${indent[0] === "	" ? "	" : "  "}`;
+}
+function injectToHead(html, tags) {
+  const headPrependInjectRE = /([ \t]*)<head[^>]*>/i;
+  return html.replace(headPrependInjectRE, (match, p1) => {
+    console.log(match, incrementIndent(p1));
+  });
+}
+function createDevHtmlTransformFn(html) {
+  const devHtmlHook = {
+    html,
+    tags: [
+      {
+        tag: "script",
+        attrs: {
+          type: "module",
+          src: import_path.default.posix.join("/", `/@vite/client`)
+        },
+        injectTo: "head-prepend"
+      }
+    ]
+  };
+  html = injectToHead(devHtmlHook.html, devHtmlHook.tags);
+  return html;
+}
 function indexHtmlMiddleware(server) {
   return async (req, res, next) => {
     const url = req.url;
     if (url?.endsWith(".html")) {
       const htmlPath = import_path.default.resolve(server.config.root, "index.html");
       let html = await (0, import_promises.readFile)(htmlPath, "utf-8");
-      const s = new MagicString(html);
+      html = createDevHtmlTransformFn(html);
       res.statusCode = 200;
       res.setHeader("Content-Type", "text/html");
       return res.end(html);
@@ -2276,7 +1265,6 @@ var init_indexHtml = __esm({
   "src/node/server/middleware/indexHtml.ts"() {
     "use strict";
     import_path = __toESM(require("path"));
-    init_magic_string_es();
     import_promises = require("fs/promises");
   }
 });
@@ -2420,6 +1408,739 @@ var init_htmlFallback = __esm({
   }
 });
 
+// ../node_modules/.pnpm/totalist@3.0.1/node_modules/totalist/sync/index.mjs
+function totalist(dir, callback, pre = "") {
+  dir = (0, import_path2.resolve)(".", dir);
+  let arr = (0, import_fs.readdirSync)(dir);
+  let i = 0, abs, stats;
+  for (; i < arr.length; i++) {
+    abs = (0, import_path2.join)(dir, arr[i]);
+    stats = (0, import_fs.statSync)(abs);
+    stats.isDirectory() ? totalist(abs, callback, (0, import_path2.join)(pre, arr[i])) : callback((0, import_path2.join)(pre, arr[i]), abs, stats);
+  }
+}
+var import_path2, import_fs;
+var init_sync = __esm({
+  "../node_modules/.pnpm/totalist@3.0.1/node_modules/totalist/sync/index.mjs"() {
+    "use strict";
+    import_path2 = require("path");
+    import_fs = require("fs");
+  }
+});
+
+// ../node_modules/.pnpm/@polka+url@1.0.0-next.21/node_modules/@polka/url/build.mjs
+function parse2(req) {
+  let raw = req.url;
+  if (raw == null)
+    return;
+  let prev = req._parsedUrl;
+  if (prev && prev.raw === raw)
+    return prev;
+  let pathname = raw, search = "", query;
+  if (raw.length > 1) {
+    let idx = raw.indexOf("?", 1);
+    if (idx !== -1) {
+      search = raw.substring(idx);
+      pathname = raw.substring(0, idx);
+      if (search.length > 1) {
+        query = qs.parse(search.substring(1));
+      }
+    }
+  }
+  return req._parsedUrl = { pathname, search, query, raw };
+}
+var qs;
+var init_build = __esm({
+  "../node_modules/.pnpm/@polka+url@1.0.0-next.21/node_modules/@polka/url/build.mjs"() {
+    "use strict";
+    qs = __toESM(require("querystring"), 1);
+  }
+});
+
+// ../node_modules/.pnpm/mrmime@1.0.1/node_modules/mrmime/index.mjs
+function lookup(extn) {
+  let tmp = ("" + extn).trim().toLowerCase();
+  let idx = tmp.lastIndexOf(".");
+  return mimes[!~idx ? tmp : tmp.substring(++idx)];
+}
+var mimes;
+var init_mrmime = __esm({
+  "../node_modules/.pnpm/mrmime@1.0.1/node_modules/mrmime/index.mjs"() {
+    "use strict";
+    mimes = {
+      "ez": "application/andrew-inset",
+      "aw": "application/applixware",
+      "atom": "application/atom+xml",
+      "atomcat": "application/atomcat+xml",
+      "atomdeleted": "application/atomdeleted+xml",
+      "atomsvc": "application/atomsvc+xml",
+      "dwd": "application/atsc-dwd+xml",
+      "held": "application/atsc-held+xml",
+      "rsat": "application/atsc-rsat+xml",
+      "bdoc": "application/bdoc",
+      "xcs": "application/calendar+xml",
+      "ccxml": "application/ccxml+xml",
+      "cdfx": "application/cdfx+xml",
+      "cdmia": "application/cdmi-capability",
+      "cdmic": "application/cdmi-container",
+      "cdmid": "application/cdmi-domain",
+      "cdmio": "application/cdmi-object",
+      "cdmiq": "application/cdmi-queue",
+      "cu": "application/cu-seeme",
+      "mpd": "application/dash+xml",
+      "davmount": "application/davmount+xml",
+      "dbk": "application/docbook+xml",
+      "dssc": "application/dssc+der",
+      "xdssc": "application/dssc+xml",
+      "es": "application/ecmascript",
+      "ecma": "application/ecmascript",
+      "emma": "application/emma+xml",
+      "emotionml": "application/emotionml+xml",
+      "epub": "application/epub+zip",
+      "exi": "application/exi",
+      "fdt": "application/fdt+xml",
+      "pfr": "application/font-tdpfr",
+      "geojson": "application/geo+json",
+      "gml": "application/gml+xml",
+      "gpx": "application/gpx+xml",
+      "gxf": "application/gxf",
+      "gz": "application/gzip",
+      "hjson": "application/hjson",
+      "stk": "application/hyperstudio",
+      "ink": "application/inkml+xml",
+      "inkml": "application/inkml+xml",
+      "ipfix": "application/ipfix",
+      "its": "application/its+xml",
+      "jar": "application/java-archive",
+      "war": "application/java-archive",
+      "ear": "application/java-archive",
+      "ser": "application/java-serialized-object",
+      "class": "application/java-vm",
+      "js": "application/javascript",
+      "mjs": "application/javascript",
+      "json": "application/json",
+      "map": "application/json",
+      "json5": "application/json5",
+      "jsonml": "application/jsonml+json",
+      "jsonld": "application/ld+json",
+      "lgr": "application/lgr+xml",
+      "lostxml": "application/lost+xml",
+      "hqx": "application/mac-binhex40",
+      "cpt": "application/mac-compactpro",
+      "mads": "application/mads+xml",
+      "webmanifest": "application/manifest+json",
+      "mrc": "application/marc",
+      "mrcx": "application/marcxml+xml",
+      "ma": "application/mathematica",
+      "nb": "application/mathematica",
+      "mb": "application/mathematica",
+      "mathml": "application/mathml+xml",
+      "mbox": "application/mbox",
+      "mscml": "application/mediaservercontrol+xml",
+      "metalink": "application/metalink+xml",
+      "meta4": "application/metalink4+xml",
+      "mets": "application/mets+xml",
+      "maei": "application/mmt-aei+xml",
+      "musd": "application/mmt-usd+xml",
+      "mods": "application/mods+xml",
+      "m21": "application/mp21",
+      "mp21": "application/mp21",
+      "mp4s": "application/mp4",
+      "m4p": "application/mp4",
+      "doc": "application/msword",
+      "dot": "application/msword",
+      "mxf": "application/mxf",
+      "nq": "application/n-quads",
+      "nt": "application/n-triples",
+      "cjs": "application/node",
+      "bin": "application/octet-stream",
+      "dms": "application/octet-stream",
+      "lrf": "application/octet-stream",
+      "mar": "application/octet-stream",
+      "so": "application/octet-stream",
+      "dist": "application/octet-stream",
+      "distz": "application/octet-stream",
+      "pkg": "application/octet-stream",
+      "bpk": "application/octet-stream",
+      "dump": "application/octet-stream",
+      "elc": "application/octet-stream",
+      "deploy": "application/octet-stream",
+      "exe": "application/octet-stream",
+      "dll": "application/octet-stream",
+      "deb": "application/octet-stream",
+      "dmg": "application/octet-stream",
+      "iso": "application/octet-stream",
+      "img": "application/octet-stream",
+      "msi": "application/octet-stream",
+      "msp": "application/octet-stream",
+      "msm": "application/octet-stream",
+      "buffer": "application/octet-stream",
+      "oda": "application/oda",
+      "opf": "application/oebps-package+xml",
+      "ogx": "application/ogg",
+      "omdoc": "application/omdoc+xml",
+      "onetoc": "application/onenote",
+      "onetoc2": "application/onenote",
+      "onetmp": "application/onenote",
+      "onepkg": "application/onenote",
+      "oxps": "application/oxps",
+      "relo": "application/p2p-overlay+xml",
+      "xer": "application/patch-ops-error+xml",
+      "pdf": "application/pdf",
+      "pgp": "application/pgp-encrypted",
+      "asc": "application/pgp-signature",
+      "sig": "application/pgp-signature",
+      "prf": "application/pics-rules",
+      "p10": "application/pkcs10",
+      "p7m": "application/pkcs7-mime",
+      "p7c": "application/pkcs7-mime",
+      "p7s": "application/pkcs7-signature",
+      "p8": "application/pkcs8",
+      "ac": "application/pkix-attr-cert",
+      "cer": "application/pkix-cert",
+      "crl": "application/pkix-crl",
+      "pkipath": "application/pkix-pkipath",
+      "pki": "application/pkixcmp",
+      "pls": "application/pls+xml",
+      "ai": "application/postscript",
+      "eps": "application/postscript",
+      "ps": "application/postscript",
+      "provx": "application/provenance+xml",
+      "cww": "application/prs.cww",
+      "pskcxml": "application/pskc+xml",
+      "raml": "application/raml+yaml",
+      "rdf": "application/rdf+xml",
+      "owl": "application/rdf+xml",
+      "rif": "application/reginfo+xml",
+      "rnc": "application/relax-ng-compact-syntax",
+      "rl": "application/resource-lists+xml",
+      "rld": "application/resource-lists-diff+xml",
+      "rs": "application/rls-services+xml",
+      "rapd": "application/route-apd+xml",
+      "sls": "application/route-s-tsid+xml",
+      "rusd": "application/route-usd+xml",
+      "gbr": "application/rpki-ghostbusters",
+      "mft": "application/rpki-manifest",
+      "roa": "application/rpki-roa",
+      "rsd": "application/rsd+xml",
+      "rss": "application/rss+xml",
+      "rtf": "application/rtf",
+      "sbml": "application/sbml+xml",
+      "scq": "application/scvp-cv-request",
+      "scs": "application/scvp-cv-response",
+      "spq": "application/scvp-vp-request",
+      "spp": "application/scvp-vp-response",
+      "sdp": "application/sdp",
+      "senmlx": "application/senml+xml",
+      "sensmlx": "application/sensml+xml",
+      "setpay": "application/set-payment-initiation",
+      "setreg": "application/set-registration-initiation",
+      "shf": "application/shf+xml",
+      "siv": "application/sieve",
+      "sieve": "application/sieve",
+      "smi": "application/smil+xml",
+      "smil": "application/smil+xml",
+      "rq": "application/sparql-query",
+      "srx": "application/sparql-results+xml",
+      "gram": "application/srgs",
+      "grxml": "application/srgs+xml",
+      "sru": "application/sru+xml",
+      "ssdl": "application/ssdl+xml",
+      "ssml": "application/ssml+xml",
+      "swidtag": "application/swid+xml",
+      "tei": "application/tei+xml",
+      "teicorpus": "application/tei+xml",
+      "tfi": "application/thraud+xml",
+      "tsd": "application/timestamped-data",
+      "toml": "application/toml",
+      "trig": "application/trig",
+      "ttml": "application/ttml+xml",
+      "ubj": "application/ubjson",
+      "rsheet": "application/urc-ressheet+xml",
+      "td": "application/urc-targetdesc+xml",
+      "vxml": "application/voicexml+xml",
+      "wasm": "application/wasm",
+      "wgt": "application/widget",
+      "hlp": "application/winhlp",
+      "wsdl": "application/wsdl+xml",
+      "wspolicy": "application/wspolicy+xml",
+      "xaml": "application/xaml+xml",
+      "xav": "application/xcap-att+xml",
+      "xca": "application/xcap-caps+xml",
+      "xdf": "application/xcap-diff+xml",
+      "xel": "application/xcap-el+xml",
+      "xns": "application/xcap-ns+xml",
+      "xenc": "application/xenc+xml",
+      "xhtml": "application/xhtml+xml",
+      "xht": "application/xhtml+xml",
+      "xlf": "application/xliff+xml",
+      "xml": "application/xml",
+      "xsl": "application/xml",
+      "xsd": "application/xml",
+      "rng": "application/xml",
+      "dtd": "application/xml-dtd",
+      "xop": "application/xop+xml",
+      "xpl": "application/xproc+xml",
+      "xslt": "application/xml",
+      "xspf": "application/xspf+xml",
+      "mxml": "application/xv+xml",
+      "xhvml": "application/xv+xml",
+      "xvml": "application/xv+xml",
+      "xvm": "application/xv+xml",
+      "yang": "application/yang",
+      "yin": "application/yin+xml",
+      "zip": "application/zip",
+      "3gpp": "video/3gpp",
+      "adp": "audio/adpcm",
+      "amr": "audio/amr",
+      "au": "audio/basic",
+      "snd": "audio/basic",
+      "mid": "audio/midi",
+      "midi": "audio/midi",
+      "kar": "audio/midi",
+      "rmi": "audio/midi",
+      "mxmf": "audio/mobile-xmf",
+      "mp3": "audio/mpeg",
+      "m4a": "audio/mp4",
+      "mp4a": "audio/mp4",
+      "mpga": "audio/mpeg",
+      "mp2": "audio/mpeg",
+      "mp2a": "audio/mpeg",
+      "m2a": "audio/mpeg",
+      "m3a": "audio/mpeg",
+      "oga": "audio/ogg",
+      "ogg": "audio/ogg",
+      "spx": "audio/ogg",
+      "opus": "audio/ogg",
+      "s3m": "audio/s3m",
+      "sil": "audio/silk",
+      "wav": "audio/wav",
+      "weba": "audio/webm",
+      "xm": "audio/xm",
+      "ttc": "font/collection",
+      "otf": "font/otf",
+      "ttf": "font/ttf",
+      "woff": "font/woff",
+      "woff2": "font/woff2",
+      "exr": "image/aces",
+      "apng": "image/apng",
+      "avif": "image/avif",
+      "bmp": "image/bmp",
+      "cgm": "image/cgm",
+      "drle": "image/dicom-rle",
+      "emf": "image/emf",
+      "fits": "image/fits",
+      "g3": "image/g3fax",
+      "gif": "image/gif",
+      "heic": "image/heic",
+      "heics": "image/heic-sequence",
+      "heif": "image/heif",
+      "heifs": "image/heif-sequence",
+      "hej2": "image/hej2k",
+      "hsj2": "image/hsj2",
+      "ief": "image/ief",
+      "jls": "image/jls",
+      "jp2": "image/jp2",
+      "jpg2": "image/jp2",
+      "jpeg": "image/jpeg",
+      "jpg": "image/jpeg",
+      "jpe": "image/jpeg",
+      "jph": "image/jph",
+      "jhc": "image/jphc",
+      "jpm": "image/jpm",
+      "jpx": "image/jpx",
+      "jpf": "image/jpx",
+      "jxr": "image/jxr",
+      "jxra": "image/jxra",
+      "jxrs": "image/jxrs",
+      "jxs": "image/jxs",
+      "jxsc": "image/jxsc",
+      "jxsi": "image/jxsi",
+      "jxss": "image/jxss",
+      "ktx": "image/ktx",
+      "ktx2": "image/ktx2",
+      "png": "image/png",
+      "btif": "image/prs.btif",
+      "pti": "image/prs.pti",
+      "sgi": "image/sgi",
+      "svg": "image/svg+xml",
+      "svgz": "image/svg+xml",
+      "t38": "image/t38",
+      "tif": "image/tiff",
+      "tiff": "image/tiff",
+      "tfx": "image/tiff-fx",
+      "webp": "image/webp",
+      "wmf": "image/wmf",
+      "disposition-notification": "message/disposition-notification",
+      "u8msg": "message/global",
+      "u8dsn": "message/global-delivery-status",
+      "u8mdn": "message/global-disposition-notification",
+      "u8hdr": "message/global-headers",
+      "eml": "message/rfc822",
+      "mime": "message/rfc822",
+      "3mf": "model/3mf",
+      "gltf": "model/gltf+json",
+      "glb": "model/gltf-binary",
+      "igs": "model/iges",
+      "iges": "model/iges",
+      "msh": "model/mesh",
+      "mesh": "model/mesh",
+      "silo": "model/mesh",
+      "mtl": "model/mtl",
+      "obj": "model/obj",
+      "stpz": "model/step+zip",
+      "stpxz": "model/step-xml+zip",
+      "stl": "model/stl",
+      "wrl": "model/vrml",
+      "vrml": "model/vrml",
+      "x3db": "model/x3d+fastinfoset",
+      "x3dbz": "model/x3d+binary",
+      "x3dv": "model/x3d-vrml",
+      "x3dvz": "model/x3d+vrml",
+      "x3d": "model/x3d+xml",
+      "x3dz": "model/x3d+xml",
+      "appcache": "text/cache-manifest",
+      "manifest": "text/cache-manifest",
+      "ics": "text/calendar",
+      "ifb": "text/calendar",
+      "coffee": "text/coffeescript",
+      "litcoffee": "text/coffeescript",
+      "css": "text/css",
+      "csv": "text/csv",
+      "html": "text/html",
+      "htm": "text/html",
+      "shtml": "text/html",
+      "jade": "text/jade",
+      "jsx": "text/jsx",
+      "less": "text/less",
+      "markdown": "text/markdown",
+      "md": "text/markdown",
+      "mml": "text/mathml",
+      "mdx": "text/mdx",
+      "n3": "text/n3",
+      "txt": "text/plain",
+      "text": "text/plain",
+      "conf": "text/plain",
+      "def": "text/plain",
+      "list": "text/plain",
+      "log": "text/plain",
+      "in": "text/plain",
+      "ini": "text/plain",
+      "dsc": "text/prs.lines.tag",
+      "rtx": "text/richtext",
+      "sgml": "text/sgml",
+      "sgm": "text/sgml",
+      "shex": "text/shex",
+      "slim": "text/slim",
+      "slm": "text/slim",
+      "spdx": "text/spdx",
+      "stylus": "text/stylus",
+      "styl": "text/stylus",
+      "tsv": "text/tab-separated-values",
+      "t": "text/troff",
+      "tr": "text/troff",
+      "roff": "text/troff",
+      "man": "text/troff",
+      "me": "text/troff",
+      "ms": "text/troff",
+      "ttl": "text/turtle",
+      "uri": "text/uri-list",
+      "uris": "text/uri-list",
+      "urls": "text/uri-list",
+      "vcard": "text/vcard",
+      "vtt": "text/vtt",
+      "yaml": "text/yaml",
+      "yml": "text/yaml",
+      "3gp": "video/3gpp",
+      "3g2": "video/3gpp2",
+      "h261": "video/h261",
+      "h263": "video/h263",
+      "h264": "video/h264",
+      "m4s": "video/iso.segment",
+      "jpgv": "video/jpeg",
+      "jpgm": "image/jpm",
+      "mj2": "video/mj2",
+      "mjp2": "video/mj2",
+      "ts": "video/mp2t",
+      "mp4": "video/mp4",
+      "mp4v": "video/mp4",
+      "mpg4": "video/mp4",
+      "mpeg": "video/mpeg",
+      "mpg": "video/mpeg",
+      "mpe": "video/mpeg",
+      "m1v": "video/mpeg",
+      "m2v": "video/mpeg",
+      "ogv": "video/ogg",
+      "qt": "video/quicktime",
+      "mov": "video/quicktime",
+      "webm": "video/webm"
+    };
+  }
+});
+
+// ../node_modules/.pnpm/sirv@2.0.3/node_modules/sirv/build.mjs
+function isMatch(uri, arr) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].test(uri))
+      return true;
+  }
+}
+function toAssume(uri, extns) {
+  let i = 0, x, len = uri.length - 1;
+  if (uri.charCodeAt(len) === 47) {
+    uri = uri.substring(0, len);
+  }
+  let arr = [], tmp = `${uri}/index`;
+  for (; i < extns.length; i++) {
+    x = extns[i] ? `.${extns[i]}` : "";
+    if (uri)
+      arr.push(uri + x);
+    arr.push(tmp + x);
+  }
+  return arr;
+}
+function viaCache(cache, uri, extns) {
+  let i = 0, data, arr = toAssume(uri, extns);
+  for (; i < arr.length; i++) {
+    if (data = cache[arr[i]])
+      return data;
+  }
+}
+function viaLocal(dir, isEtag, uri, extns) {
+  let i = 0, arr = toAssume(uri, extns);
+  let abs, stats, name, headers;
+  for (; i < arr.length; i++) {
+    abs = (0, import_path3.normalize)((0, import_path3.join)(dir, name = arr[i]));
+    if (abs.startsWith(dir) && fs.existsSync(abs)) {
+      stats = fs.statSync(abs);
+      if (stats.isDirectory())
+        continue;
+      headers = toHeaders(name, stats, isEtag);
+      headers["Cache-Control"] = isEtag ? "no-cache" : "no-store";
+      return { abs, stats, headers };
+    }
+  }
+}
+function is404(req, res) {
+  return res.statusCode = 404, res.end();
+}
+function send(req, res, file, stats, headers) {
+  let code = 200, tmp, opts = {};
+  headers = { ...headers };
+  for (let key in headers) {
+    tmp = res.getHeader(key);
+    if (tmp)
+      headers[key] = tmp;
+  }
+  if (tmp = res.getHeader("content-type")) {
+    headers["Content-Type"] = tmp;
+  }
+  if (req.headers.range) {
+    code = 206;
+    let [x, y] = req.headers.range.replace("bytes=", "").split("-");
+    let end = opts.end = parseInt(y, 10) || stats.size - 1;
+    let start = opts.start = parseInt(x, 10) || 0;
+    if (end >= stats.size) {
+      end = stats.size - 1;
+    }
+    if (start >= stats.size) {
+      res.setHeader("Content-Range", `bytes */${stats.size}`);
+      res.statusCode = 416;
+      return res.end();
+    }
+    headers["Content-Range"] = `bytes ${start}-${end}/${stats.size}`;
+    headers["Content-Length"] = end - start + 1;
+    headers["Accept-Ranges"] = "bytes";
+  }
+  res.writeHead(code, headers);
+  fs.createReadStream(file, opts).pipe(res);
+}
+function toHeaders(name, stats, isEtag) {
+  let enc = ENCODING[name.slice(-3)];
+  let ctype = lookup(name.slice(0, enc && -3)) || "";
+  if (ctype === "text/html")
+    ctype += ";charset=utf-8";
+  let headers = {
+    "Content-Length": stats.size,
+    "Content-Type": ctype,
+    "Last-Modified": stats.mtime.toUTCString()
+  };
+  if (enc)
+    headers["Content-Encoding"] = enc;
+  if (isEtag)
+    headers["ETag"] = `W/"${stats.size}-${stats.mtime.getTime()}"`;
+  return headers;
+}
+function build_default(dir, opts = {}) {
+  dir = (0, import_path3.resolve)(dir || ".");
+  let isNotFound = opts.onNoMatch || is404;
+  let setHeaders = opts.setHeaders || noop;
+  let extensions = opts.extensions || ["html", "htm"];
+  let gzips = opts.gzip && extensions.map((x) => `${x}.gz`).concat("gz");
+  let brots = opts.brotli && extensions.map((x) => `${x}.br`).concat("br");
+  const FILES = {};
+  let fallback = "/";
+  let isEtag = !!opts.etag;
+  let isSPA = !!opts.single;
+  if (typeof opts.single === "string") {
+    let idx = opts.single.lastIndexOf(".");
+    fallback += !!~idx ? opts.single.substring(0, idx) : opts.single;
+  }
+  let ignores = [];
+  if (opts.ignores !== false) {
+    ignores.push(/[/]([A-Za-z\s\d~$._-]+\.\w+){1,}$/);
+    if (opts.dotfiles)
+      ignores.push(/\/\.\w/);
+    else
+      ignores.push(/\/\.well-known/);
+    [].concat(opts.ignores || []).forEach((x) => {
+      ignores.push(new RegExp(x, "i"));
+    });
+  }
+  let cc = opts.maxAge != null && `public,max-age=${opts.maxAge}`;
+  if (cc && opts.immutable)
+    cc += ",immutable";
+  else if (cc && opts.maxAge === 0)
+    cc += ",must-revalidate";
+  if (!opts.dev) {
+    totalist(dir, (name, abs, stats) => {
+      if (/\.well-known[\\+\/]/.test(name)) {
+      } else if (!opts.dotfiles && /(^\.|[\\+|\/+]\.)/.test(name))
+        return;
+      let headers = toHeaders(name, stats, isEtag);
+      if (cc)
+        headers["Cache-Control"] = cc;
+      FILES["/" + name.normalize().replace(/\\+/g, "/")] = { abs, stats, headers };
+    });
+  }
+  let lookup2 = opts.dev ? viaLocal.bind(0, dir, isEtag) : viaCache.bind(0, FILES);
+  return function(req, res, next) {
+    let extns = [""];
+    let pathname = parse2(req).pathname;
+    let val = req.headers["accept-encoding"] || "";
+    if (gzips && val.includes("gzip"))
+      extns.unshift(...gzips);
+    if (brots && /(br|brotli)/i.test(val))
+      extns.unshift(...brots);
+    extns.push(...extensions);
+    if (pathname.indexOf("%") !== -1) {
+      try {
+        pathname = decodeURI(pathname);
+      } catch (err) {
+      }
+    }
+    let data = lookup2(pathname, extns) || isSPA && !isMatch(pathname, ignores) && lookup2(fallback, extns);
+    if (!data)
+      return next ? next() : isNotFound(req, res);
+    if (isEtag && req.headers["if-none-match"] === data.headers["ETag"]) {
+      res.writeHead(304);
+      return res.end();
+    }
+    if (gzips || brots) {
+      res.setHeader("Vary", "Accept-Encoding");
+    }
+    setHeaders(res, pathname, data.stats);
+    send(req, res, data.abs, data.stats, data.headers);
+  };
+}
+var fs, import_path3, noop, ENCODING;
+var init_build2 = __esm({
+  "../node_modules/.pnpm/sirv@2.0.3/node_modules/sirv/build.mjs"() {
+    "use strict";
+    fs = __toESM(require("fs"), 1);
+    import_path3 = require("path");
+    init_sync();
+    init_build();
+    init_mrmime();
+    noop = () => {
+    };
+    ENCODING = {
+      ".br": "br",
+      ".gz": "gzip"
+    };
+  }
+});
+
+// src/node/server/middleware/static.ts
+function serveStaticMiddleware(server) {
+  return function viteServeStaticMiddleware(req, res, next) {
+    const serve = build_default(
+      server.config.root,
+      // 项目根路径
+      sirvOptions
+    );
+    serve(req, res, next);
+  };
+}
+var sirvOptions;
+var init_static = __esm({
+  "src/node/server/middleware/static.ts"() {
+    "use strict";
+    init_build2();
+    sirvOptions = {
+      // sirv的一些配置
+      dev: true,
+      etag: true,
+      extensions: []
+    };
+  }
+});
+
+// src/node/utils.ts
+function cleanUrl(url) {
+  return url.replace(/[?#].*$/s, "");
+}
+function slash(p) {
+  return p.replace(/\\/g, "/");
+}
+function normalizePath(id) {
+  return import_node_path.default.posix.normalize(isWindows ? slash(id) : id);
+}
+var import_node_path, import_node_os, CSS_LANGS_RE, isCSSRequest, isWindows;
+var init_utils = __esm({
+  "src/node/utils.ts"() {
+    "use strict";
+    import_node_path = __toESM(require("path"));
+    import_node_os = __toESM(require("os"));
+    CSS_LANGS_RE = /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/;
+    isCSSRequest = (request) => CSS_LANGS_RE.test(request);
+    isWindows = import_node_os.default.platform() === "win32";
+  }
+});
+
+// src/node/server/middleware/cssTransform.ts
+function cssMiddleware(server) {
+  return async (req, res, next) => {
+    let url = cleanUrl(req.url);
+    if (isCSSRequest(url)) {
+      const cssPath = normalizePath(import_node_path2.default.join(server.config.root, url));
+      const cssContent = await (0, import_promises2.readFile)(cssPath, "utf-8");
+      const code = [
+        // `import { updateStyle as __vite__updateStyle } from ${JSON.stringify(
+        //   path.posix.join(config.base, CLIENT_PUBLIC_PATH),
+        // )}`,
+        `const id = "${url}"`,
+        `const __vite__css = ${JSON.stringify(cssContent)}`,
+        `__vite__updateStyle(id, __vite__css)`,
+        `export default __vite__css`
+      ].join("\n");
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/javascript");
+      return res.end(code);
+    }
+    next();
+  };
+}
+var import_node_path2, import_promises2;
+var init_cssTransform = __esm({
+  "src/node/server/middleware/cssTransform.ts"() {
+    "use strict";
+    import_node_path2 = __toESM(require("path"));
+    import_promises2 = require("fs/promises");
+    init_utils();
+  }
+});
+
 // src/node/server/index.ts
 var server_exports = {};
 __export(server_exports, {
@@ -2439,6 +2160,8 @@ async function createServer() {
       });
     }
   };
+  app.use(cssMiddleware(server));
+  app.use(serveStaticMiddleware(server));
   app.use(htmlFallbackMiddleware(server));
   app.use(indexHtmlMiddleware(server));
   return server;
@@ -2450,6 +2173,8 @@ var init_server = __esm({
     import_connect = __toESM(require_connect());
     init_indexHtml();
     init_htmlFallback();
+    init_static();
+    init_cssTransform();
   }
 });
 
@@ -2560,7 +2285,7 @@ var findAllBrackets = (v) => {
   const ANGLED_BRACKET_RE_GLOBAL = /<([^>]+)>/g;
   const SQUARE_BRACKET_RE_GLOBAL = /\[([^\]]+)\]/g;
   const res = [];
-  const parse = (match) => {
+  const parse3 = (match) => {
     let variadic = false;
     let value = match[1];
     if (value.startsWith("...")) {
@@ -2575,11 +2300,11 @@ var findAllBrackets = (v) => {
   };
   let angledMatch;
   while (angledMatch = ANGLED_BRACKET_RE_GLOBAL.exec(v)) {
-    res.push(parse(angledMatch));
+    res.push(parse3(angledMatch));
   }
   let squareMatch;
   while (squareMatch = SQUARE_BRACKET_RE_GLOBAL.exec(v)) {
-    res.push(parse(squareMatch));
+    res.push(parse3(squareMatch));
   }
   return res;
 };

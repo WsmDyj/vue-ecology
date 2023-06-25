@@ -19,6 +19,7 @@
     "connect-history-api-fallback": "^2.0.0",
     "esbuild": "^0.18.5",
     "magic-string": "^0.30.0",
+    "sirv": "^2.0.3",
     "tsup": "^7.0.0"
   }
 }
