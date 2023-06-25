@@ -2,7 +2,7 @@ import {
   __commonJS,
   __require,
   __toESM
-} from "./chunk-TTFRSOOU.mjs";
+} from "./chunk-QHOBBTS4.mjs";
 
 // ../node_modules/.pnpm/ms@2.0.0/node_modules/ms/index.js
 var require_ms = __commonJS({
@@ -1311,30 +1311,36 @@ var import_connect = __toESM(require_connect());
 // src/node/server/middleware/indexHtml.ts
 import path from "path";
 import { readFile } from "fs/promises";
-function incrementIndent(indent = "") {
-  return `${indent}${indent[0] === "	" ? "	" : "  "}`;
+function serializeAttrs(attrs) {
+  let res = "";
+  for (const key in attrs) {
+    res += ` ${key}=${JSON.stringify(attrs[key])}`;
+  }
+  return res;
 }
-function injectToHead(html, tags) {
-  const headPrependInjectRE = /([ \t]*)<head[^>]*>/i;
-  return html.replace(headPrependInjectRE, (match, p1) => {
-    console.log(match, incrementIndent(p1));
-  });
+function serializeTags(tags) {
+  return tags.map(({ tag, attrs }) => `<${tag}${serializeAttrs(attrs)}></${tag}>
+`).join("");
 }
+var headPrependInjectRE = /([ \t]*)<head[^>]*>/i;
 function createDevHtmlTransformFn(html) {
   const devHtmlHook = {
-    html,
     tags: [
       {
         tag: "script",
         attrs: {
           type: "module",
-          src: path.posix.join("/", `/@vite/client`)
+          src: path.posix.join("/", `./client/client.js`)
         },
         injectTo: "head-prepend"
       }
     ]
   };
-  html = injectToHead(devHtmlHook.html, devHtmlHook.tags);
+  html = html.replace(
+    headPrependInjectRE,
+    (match) => `${match}
+${serializeTags(devHtmlHook.tags)}`
+  );
   return html;
 }
 function indexHtmlMiddleware(server) {
@@ -2045,9 +2051,9 @@ function cssMiddleware(server) {
       const cssPath = normalizePath(path3.join(server.config.root, url));
       const cssContent = await readFile2(cssPath, "utf-8");
       const code = [
-        // `import { updateStyle as __vite__updateStyle } from ${JSON.stringify(
-        //   path.posix.join(config.base, CLIENT_PUBLIC_PATH),
-        // )}`,
+        `import { updateStyle as __vite__updateStyle } from ${JSON.stringify(
+          path3.posix.join("/", `/@vite/client`)
+        )}`,
         `const id = "${url}"`,
         `const __vite__css = ${JSON.stringify(cssContent)}`,
         `__vite__updateStyle(id, __vite__css)`,

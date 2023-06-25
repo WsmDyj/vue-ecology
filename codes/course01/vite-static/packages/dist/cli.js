@@ -1220,30 +1220,35 @@ var require_connect = __commonJS({
 });
 
 // src/node/server/middleware/indexHtml.ts
-function incrementIndent(indent = "") {
-  return `${indent}${indent[0] === "	" ? "	" : "  "}`;
+function serializeAttrs(attrs) {
+  let res = "";
+  for (const key in attrs) {
+    res += ` ${key}=${JSON.stringify(attrs[key])}`;
+  }
+  return res;
 }
-function injectToHead(html, tags) {
-  const headPrependInjectRE = /([ \t]*)<head[^>]*>/i;
-  return html.replace(headPrependInjectRE, (match, p1) => {
-    console.log(match, incrementIndent(p1));
-  });
+function serializeTags(tags) {
+  return tags.map(({ tag, attrs }) => `<${tag}${serializeAttrs(attrs)}></${tag}>
+`).join("");
 }
 function createDevHtmlTransformFn(html) {
   const devHtmlHook = {
-    html,
     tags: [
       {
         tag: "script",
         attrs: {
           type: "module",
-          src: import_path.default.posix.join("/", `/@vite/client`)
+          src: import_path.default.posix.join("/", `./client/client.js`)
         },
         injectTo: "head-prepend"
       }
     ]
   };
-  html = injectToHead(devHtmlHook.html, devHtmlHook.tags);
+  html = html.replace(
+    headPrependInjectRE,
+    (match) => `${match}
+${serializeTags(devHtmlHook.tags)}`
+  );
   return html;
 }
 function indexHtmlMiddleware(server) {
@@ -1260,12 +1265,13 @@ function indexHtmlMiddleware(server) {
     next();
   };
 }
-var import_path, import_promises;
+var import_path, import_promises, headPrependInjectRE;
 var init_indexHtml = __esm({
   "src/node/server/middleware/indexHtml.ts"() {
     "use strict";
     import_path = __toESM(require("path"));
     import_promises = require("fs/promises");
+    headPrependInjectRE = /([ \t]*)<head[^>]*>/i;
   }
 });
 
@@ -2116,9 +2122,9 @@ function cssMiddleware(server) {
       const cssPath = normalizePath(import_node_path2.default.join(server.config.root, url));
       const cssContent = await (0, import_promises2.readFile)(cssPath, "utf-8");
       const code = [
-        // `import { updateStyle as __vite__updateStyle } from ${JSON.stringify(
-        //   path.posix.join(config.base, CLIENT_PUBLIC_PATH),
-        // )}`,
+        `import { updateStyle as __vite__updateStyle } from ${JSON.stringify(
+          import_node_path2.default.posix.join("/", `/@vite/client`)
+        )}`,
         `const id = "${url}"`,
         `const __vite__css = ${JSON.stringify(cssContent)}`,
         `__vite__updateStyle(id, __vite__css)`,

@@ -7,44 +7,44 @@ import { readFile } from "fs/promises"
 export interface HtmlTagDescriptor {
   tag: string
   attrs?: Record<string, string | boolean | undefined>
-  children?: string | HtmlTagDescriptor[]
   injectTo?: 'head' | 'body' | 'head-prepend' | 'body-prepend'
 }
 
 export type IndexHtmlTransformResult = {
-  html: string
   tags: HtmlTagDescriptor[]
 }
 
-function incrementIndent(indent: string = '') {
-  return `${indent}${indent[0] === '\t' ? '\t' : '  '}`
+function serializeAttrs(attrs: HtmlTagDescriptor["attrs"]): string {
+  let res = ""
+  for (const key in attrs) {
+    res += ` ${key}=${JSON.stringify(attrs[key])}`
+  }
+  return res
 }
 
-function injectToHead(html: string, tags: HtmlTagDescriptor[]): string {
-  const headPrependInjectRE = /([ \t]*)<head[^>]*>/i
-
-  // const a = tags.map((tag) => `${indent}${serializeTag(tag, indent)}\n`).join('')
-
-  return html.replace(headPrependInjectRE, (match, p1) => {
-    console.log(match, incrementIndent(p1))
-  })
+function serializeTags(tags: HtmlTagDescriptor[]): string {
+  return tags.map(({tag, attrs}) => `<${tag}${serializeAttrs(attrs)}></${tag}>\n`).join("")
 }
+
+const headPrependInjectRE = /([ \t]*)<head[^>]*>/i
 
 export function createDevHtmlTransformFn(html: string): string {
   const devHtmlHook: IndexHtmlTransformResult = {
-    html,
     tags: [
       {
-        tag: 'script',
+        tag: "script",
         attrs: {
-          type: 'module',
-          src: path.posix.join('/', `/@vite/client`),
+          type: "module",
+          src: path.posix.join("/", `./client/client.js`)
         },
-        injectTo: 'head-prepend',
-      },
-    ],
+        injectTo: "head-prepend"
+      }
+    ]
   }
-  html = injectToHead(devHtmlHook.html, devHtmlHook.tags)
+  html = html.replace(
+    headPrependInjectRE,
+    (match) => `${match}\n${serializeTags(devHtmlHook.tags)}`
+  )
   return html
 }
 
