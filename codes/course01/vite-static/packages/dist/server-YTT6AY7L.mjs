@@ -1,47 +1,19 @@
-"use strict";
-var __create = Object.create;
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
-var __commonJS = (cb, mod) => function __require() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-};
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
+import {
+  __commonJS,
+  __require,
+  __toESM
+} from "./chunk-QHOBBTS4.mjs";
 
 // ../node_modules/.pnpm/ms@2.0.0/node_modules/ms/index.js
 var require_ms = __commonJS({
-  "../node_modules/.pnpm/ms@2.0.0/node_modules/ms/index.js"(exports, module2) {
+  "../node_modules/.pnpm/ms@2.0.0/node_modules/ms/index.js"(exports, module) {
     "use strict";
     var s = 1e3;
     var m = s * 60;
     var h = m * 60;
     var d = h * 24;
     var y = d * 365.25;
-    module2.exports = function(val, options) {
+    module.exports = function(val, options) {
       options = options || {};
       var type = typeof val;
       if (type === "string" && val.length > 0) {
@@ -137,9 +109,9 @@ var require_ms = __commonJS({
 
 // ../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/debug.js
 var require_debug = __commonJS({
-  "../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/debug.js"(exports, module2) {
+  "../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/debug.js"(exports, module) {
     "use strict";
-    exports = module2.exports = createDebug.debug = createDebug["default"] = createDebug;
+    exports = module.exports = createDebug.debug = createDebug["default"] = createDebug;
     exports.coerce = coerce;
     exports.disable = disable;
     exports.enable = enable;
@@ -247,9 +219,9 @@ var require_debug = __commonJS({
 
 // ../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/browser.js
 var require_browser = __commonJS({
-  "../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/browser.js"(exports, module2) {
+  "../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/browser.js"(exports, module) {
     "use strict";
-    exports = module2.exports = require_debug();
+    exports = module.exports = require_debug();
     exports.log = log;
     exports.formatArgs = formatArgs;
     exports.save = save;
@@ -336,11 +308,11 @@ var require_browser = __commonJS({
 
 // ../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/node.js
 var require_node = __commonJS({
-  "../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/node.js"(exports, module2) {
+  "../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/node.js"(exports, module) {
     "use strict";
-    var tty = require("tty");
-    var util = require("util");
-    exports = module2.exports = require_debug();
+    var tty = __require("tty");
+    var util = __require("util");
+    exports = module.exports = require_debug();
     exports.init = init;
     exports.log = log;
     exports.formatArgs = formatArgs;
@@ -422,13 +394,13 @@ var require_node = __commonJS({
           }
           break;
         case "FILE":
-          var fs2 = require("fs");
+          var fs2 = __require("fs");
           stream2 = new fs2.SyncWriteStream(fd2, { autoClose: false });
           stream2._type = "fs";
           break;
         case "PIPE":
         case "TCP":
-          var net = require("net");
+          var net = __require("net");
           stream2 = new net.Socket({
             fd: fd2,
             readable: false,
@@ -461,21 +433,21 @@ var require_node = __commonJS({
 
 // ../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/index.js
 var require_src = __commonJS({
-  "../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/index.js"(exports, module2) {
+  "../node_modules/.pnpm/debug@2.6.9/node_modules/debug/src/index.js"(exports, module) {
     "use strict";
     if (typeof process !== "undefined" && process.type === "renderer") {
-      module2.exports = require_browser();
+      module.exports = require_browser();
     } else {
-      module2.exports = require_node();
+      module.exports = require_node();
     }
   }
 });
 
 // ../node_modules/.pnpm/encodeurl@1.0.2/node_modules/encodeurl/index.js
 var require_encodeurl = __commonJS({
-  "../node_modules/.pnpm/encodeurl@1.0.2/node_modules/encodeurl/index.js"(exports, module2) {
+  "../node_modules/.pnpm/encodeurl@1.0.2/node_modules/encodeurl/index.js"(exports, module) {
     "use strict";
-    module2.exports = encodeUrl;
+    module.exports = encodeUrl;
     var ENCODE_CHARS_REGEXP = /(?:[^\x21\x25\x26-\x3B\x3D\x3F-\x5B\x5D\x5F\x61-\x7A\x7E]|%(?:[^0-9A-Fa-f]|[0-9A-Fa-f][^0-9A-Fa-f]|$))+/g;
     var UNMATCHED_SURROGATE_PAIR_REGEXP = /(^|[^\uD800-\uDBFF])[\uDC00-\uDFFF]|[\uD800-\uDBFF]([^\uDC00-\uDFFF]|$)/g;
     var UNMATCHED_SURROGATE_PAIR_REPLACE = "$1\uFFFD$2";
@@ -487,10 +459,10 @@ var require_encodeurl = __commonJS({
 
 // ../node_modules/.pnpm/escape-html@1.0.3/node_modules/escape-html/index.js
 var require_escape_html = __commonJS({
-  "../node_modules/.pnpm/escape-html@1.0.3/node_modules/escape-html/index.js"(exports, module2) {
+  "../node_modules/.pnpm/escape-html@1.0.3/node_modules/escape-html/index.js"(exports, module) {
     "use strict";
     var matchHtmlRegExp = /["'&<>]/;
-    module2.exports = escapeHtml;
+    module.exports = escapeHtml;
     function escapeHtml(string) {
       var str = "" + string;
       var match = matchHtmlRegExp.exec(str);
@@ -534,9 +506,9 @@ var require_escape_html = __commonJS({
 
 // ../node_modules/.pnpm/ee-first@1.1.1/node_modules/ee-first/index.js
 var require_ee_first = __commonJS({
-  "../node_modules/.pnpm/ee-first@1.1.1/node_modules/ee-first/index.js"(exports, module2) {
+  "../node_modules/.pnpm/ee-first@1.1.1/node_modules/ee-first/index.js"(exports, module) {
     "use strict";
-    module2.exports = first;
+    module.exports = first;
     function first(stuff, done) {
       if (!Array.isArray(stuff))
         throw new TypeError("arg must be an array of [ee, events...] arrays");
@@ -590,10 +562,10 @@ var require_ee_first = __commonJS({
 
 // ../node_modules/.pnpm/on-finished@2.3.0/node_modules/on-finished/index.js
 var require_on_finished = __commonJS({
-  "../node_modules/.pnpm/on-finished@2.3.0/node_modules/on-finished/index.js"(exports, module2) {
+  "../node_modules/.pnpm/on-finished@2.3.0/node_modules/on-finished/index.js"(exports, module) {
     "use strict";
-    module2.exports = onFinished;
-    module2.exports.isFinished = isFinished;
+    module.exports = onFinished;
+    module.exports.isFinished = isFinished;
     var first = require_ee_first();
     var defer = typeof setImmediate === "function" ? setImmediate : function(fn) {
       process.nextTick(fn.bind.apply(fn, arguments));
@@ -681,13 +653,13 @@ var require_on_finished = __commonJS({
 
 // ../node_modules/.pnpm/parseurl@1.3.3/node_modules/parseurl/index.js
 var require_parseurl = __commonJS({
-  "../node_modules/.pnpm/parseurl@1.3.3/node_modules/parseurl/index.js"(exports, module2) {
+  "../node_modules/.pnpm/parseurl@1.3.3/node_modules/parseurl/index.js"(exports, module) {
     "use strict";
-    var url = require("url");
+    var url = __require("url");
     var parse3 = url.parse;
     var Url = url.Url;
-    module2.exports = parseurl;
-    module2.exports.original = originalurl;
+    module.exports = parseurl;
+    module.exports.original = originalurl;
     function parseurl(req) {
       var url2 = req.url;
       if (url2 === void 0) {
@@ -759,8 +731,8 @@ var require_parseurl = __commonJS({
 
 // ../node_modules/.pnpm/statuses@1.5.0/node_modules/statuses/codes.json
 var require_codes = __commonJS({
-  "../node_modules/.pnpm/statuses@1.5.0/node_modules/statuses/codes.json"(exports, module2) {
-    module2.exports = {
+  "../node_modules/.pnpm/statuses@1.5.0/node_modules/statuses/codes.json"(exports, module) {
+    module.exports = {
       "100": "Continue",
       "101": "Switching Protocols",
       "102": "Processing",
@@ -831,10 +803,10 @@ var require_codes = __commonJS({
 
 // ../node_modules/.pnpm/statuses@1.5.0/node_modules/statuses/index.js
 var require_statuses = __commonJS({
-  "../node_modules/.pnpm/statuses@1.5.0/node_modules/statuses/index.js"(exports, module2) {
+  "../node_modules/.pnpm/statuses@1.5.0/node_modules/statuses/index.js"(exports, module) {
     "use strict";
     var codes = require_codes();
-    module2.exports = status;
+    module.exports = status;
     status.STATUS_CODES = codes;
     status.codes = populateStatusesMap(status, codes);
     status.redirect = {
@@ -893,9 +865,9 @@ var require_statuses = __commonJS({
 
 // ../node_modules/.pnpm/unpipe@1.0.0/node_modules/unpipe/index.js
 var require_unpipe = __commonJS({
-  "../node_modules/.pnpm/unpipe@1.0.0/node_modules/unpipe/index.js"(exports, module2) {
+  "../node_modules/.pnpm/unpipe@1.0.0/node_modules/unpipe/index.js"(exports, module) {
     "use strict";
-    module2.exports = unpipe;
+    module.exports = unpipe;
     function hasPipeDataListeners(stream) {
       var listeners = stream.listeners("data");
       for (var i = 0; i < listeners.length; i++) {
@@ -931,7 +903,7 @@ var require_unpipe = __commonJS({
 
 // ../node_modules/.pnpm/finalhandler@1.1.2/node_modules/finalhandler/index.js
 var require_finalhandler = __commonJS({
-  "../node_modules/.pnpm/finalhandler@1.1.2/node_modules/finalhandler/index.js"(exports, module2) {
+  "../node_modules/.pnpm/finalhandler@1.1.2/node_modules/finalhandler/index.js"(exports, module) {
     "use strict";
     var debug = require_src()("finalhandler");
     var encodeUrl = require_encodeurl();
@@ -950,7 +922,7 @@ var require_finalhandler = __commonJS({
       var body = escapeHtml(message).replace(NEWLINE_REGEXP, "<br>").replace(DOUBLE_SPACE_REGEXP, " &nbsp;");
       return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>' + body + "</pre>\n</body>\n</html>\n";
     }
-    module2.exports = finalhandler;
+    module.exports = finalhandler;
     function finalhandler(req, res, options) {
       var opts = options || {};
       var env = opts.env || process.env.NODE_ENV || "development";
@@ -1074,9 +1046,9 @@ var require_finalhandler = __commonJS({
 
 // ../node_modules/.pnpm/utils-merge@1.0.1/node_modules/utils-merge/index.js
 var require_utils_merge = __commonJS({
-  "../node_modules/.pnpm/utils-merge@1.0.1/node_modules/utils-merge/index.js"(exports, module2) {
+  "../node_modules/.pnpm/utils-merge@1.0.1/node_modules/utils-merge/index.js"(exports, module) {
     "use strict";
-    exports = module2.exports = function(a, b) {
+    exports = module.exports = function(a, b) {
       if (a && b) {
         for (var key in b) {
           a[key] = b[key];
@@ -1089,15 +1061,15 @@ var require_utils_merge = __commonJS({
 
 // ../node_modules/.pnpm/connect@3.7.0/node_modules/connect/index.js
 var require_connect = __commonJS({
-  "../node_modules/.pnpm/connect@3.7.0/node_modules/connect/index.js"(exports, module2) {
+  "../node_modules/.pnpm/connect@3.7.0/node_modules/connect/index.js"(exports, module) {
     "use strict";
     var debug = require_src()("connect:dispatcher");
-    var EventEmitter2 = require("events").EventEmitter;
+    var EventEmitter = __require("events").EventEmitter;
     var finalhandler = require_finalhandler();
-    var http = require("http");
+    var http = __require("http");
     var merge = require_utils_merge();
     var parseUrl = require_parseurl();
-    module2.exports = createServer2;
+    module.exports = createServer2;
     var env = process.env.NODE_ENV || "development";
     var proto = {};
     var defer = typeof setImmediate === "function" ? setImmediate : function(fn) {
@@ -1108,7 +1080,7 @@ var require_connect = __commonJS({
         app.handle(req, res, next);
       }
       merge(app, proto);
-      merge(app, EventEmitter2.prototype);
+      merge(app, EventEmitter.prototype);
       app.route = "/";
       app.stack = [];
       return app;
@@ -1219,35 +1191,12 @@ var require_connect = __commonJS({
   }
 });
 
-// src/node/server/middleware/indexHtml.ts
-function indexHtmlMiddleware(server) {
-  return async (req, res, next) => {
-    const url = req.url;
-    if (url?.endsWith(".html")) {
-      const htmlPath = import_path.default.resolve(server.config.root, "index.html");
-      let html = await (0, import_promises.readFile)(htmlPath, "utf-8");
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "text/html");
-      return res.end(html);
-    }
-    next();
-  };
-}
-var import_path, import_promises;
-var init_indexHtml = __esm({
-  "src/node/server/middleware/indexHtml.ts"() {
-    "use strict";
-    import_path = __toESM(require("path"));
-    import_promises = require("fs/promises");
-  }
-});
-
 // ../node_modules/.pnpm/connect-history-api-fallback@2.0.0/node_modules/connect-history-api-fallback/lib/index.js
 var require_lib = __commonJS({
-  "../node_modules/.pnpm/connect-history-api-fallback@2.0.0/node_modules/connect-history-api-fallback/lib/index.js"(exports, module2) {
+  "../node_modules/.pnpm/connect-history-api-fallback@2.0.0/node_modules/connect-history-api-fallback/lib/index.js"(exports, module) {
     "use strict";
-    var url = require("url");
-    exports = module2.exports = function historyApiFallback(options) {
+    var url = __require("url");
+    exports = module.exports = function historyApiFallback(options) {
       options = options || {};
       var logger = getLogger(options);
       return function(req, res, next) {
@@ -1356,7 +1305,28 @@ var require_lib = __commonJS({
   }
 });
 
+// src/node/server/index.ts
+var import_connect = __toESM(require_connect());
+
+// src/node/server/middleware/indexHtml.ts
+import path from "path";
+import { readFile } from "fs/promises";
+function indexHtmlMiddleware(server) {
+  return async (req, res, next) => {
+    const url = req.url;
+    if (url?.endsWith(".html")) {
+      const htmlPath = path.resolve(server.config.root, "index.html");
+      let html = await readFile(htmlPath, "utf-8");
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "text/html");
+      return res.end(html);
+    }
+    next();
+  };
+}
+
 // src/node/server/middleware/htmlFallback.ts
+var import_connect_history_api_fallback = __toESM(require_lib());
 function htmlFallbackMiddleware(server) {
   return async (req, res, next) => {
     const historyHtmlFallbackMiddleware = (0, import_connect_history_api_fallback.default)({
@@ -1373,35 +1343,27 @@ function htmlFallbackMiddleware(server) {
     return historyHtmlFallbackMiddleware(req, res, next);
   };
 }
-var import_connect_history_api_fallback;
-var init_htmlFallback = __esm({
-  "src/node/server/middleware/htmlFallback.ts"() {
-    "use strict";
-    import_connect_history_api_fallback = __toESM(require_lib());
-  }
-});
+
+// ../node_modules/.pnpm/sirv@2.0.3/node_modules/sirv/build.mjs
+import * as fs from "fs";
+import { join as join2, normalize, resolve as resolve2 } from "path";
 
 // ../node_modules/.pnpm/totalist@3.0.1/node_modules/totalist/sync/index.mjs
+import { join, resolve } from "path";
+import { readdirSync, statSync } from "fs";
 function totalist(dir, callback, pre = "") {
-  dir = (0, import_path2.resolve)(".", dir);
-  let arr = (0, import_fs.readdirSync)(dir);
+  dir = resolve(".", dir);
+  let arr = readdirSync(dir);
   let i = 0, abs, stats;
   for (; i < arr.length; i++) {
-    abs = (0, import_path2.join)(dir, arr[i]);
-    stats = (0, import_fs.statSync)(abs);
-    stats.isDirectory() ? totalist(abs, callback, (0, import_path2.join)(pre, arr[i])) : callback((0, import_path2.join)(pre, arr[i]), abs, stats);
+    abs = join(dir, arr[i]);
+    stats = statSync(abs);
+    stats.isDirectory() ? totalist(abs, callback, join(pre, arr[i])) : callback(join(pre, arr[i]), abs, stats);
   }
 }
-var import_path2, import_fs;
-var init_sync = __esm({
-  "../node_modules/.pnpm/totalist@3.0.1/node_modules/totalist/sync/index.mjs"() {
-    "use strict";
-    import_path2 = require("path");
-    import_fs = require("fs");
-  }
-});
 
 // ../node_modules/.pnpm/@polka+url@1.0.0-next.21/node_modules/@polka/url/build.mjs
+import * as qs from "querystring";
 function parse2(req) {
   let raw = req.url;
   if (raw == null)
@@ -1422,436 +1384,425 @@ function parse2(req) {
   }
   return req._parsedUrl = { pathname, search, query, raw };
 }
-var qs;
-var init_build = __esm({
-  "../node_modules/.pnpm/@polka+url@1.0.0-next.21/node_modules/@polka/url/build.mjs"() {
-    "use strict";
-    qs = __toESM(require("querystring"), 1);
-  }
-});
 
 // ../node_modules/.pnpm/mrmime@1.0.1/node_modules/mrmime/index.mjs
+var mimes = {
+  "ez": "application/andrew-inset",
+  "aw": "application/applixware",
+  "atom": "application/atom+xml",
+  "atomcat": "application/atomcat+xml",
+  "atomdeleted": "application/atomdeleted+xml",
+  "atomsvc": "application/atomsvc+xml",
+  "dwd": "application/atsc-dwd+xml",
+  "held": "application/atsc-held+xml",
+  "rsat": "application/atsc-rsat+xml",
+  "bdoc": "application/bdoc",
+  "xcs": "application/calendar+xml",
+  "ccxml": "application/ccxml+xml",
+  "cdfx": "application/cdfx+xml",
+  "cdmia": "application/cdmi-capability",
+  "cdmic": "application/cdmi-container",
+  "cdmid": "application/cdmi-domain",
+  "cdmio": "application/cdmi-object",
+  "cdmiq": "application/cdmi-queue",
+  "cu": "application/cu-seeme",
+  "mpd": "application/dash+xml",
+  "davmount": "application/davmount+xml",
+  "dbk": "application/docbook+xml",
+  "dssc": "application/dssc+der",
+  "xdssc": "application/dssc+xml",
+  "es": "application/ecmascript",
+  "ecma": "application/ecmascript",
+  "emma": "application/emma+xml",
+  "emotionml": "application/emotionml+xml",
+  "epub": "application/epub+zip",
+  "exi": "application/exi",
+  "fdt": "application/fdt+xml",
+  "pfr": "application/font-tdpfr",
+  "geojson": "application/geo+json",
+  "gml": "application/gml+xml",
+  "gpx": "application/gpx+xml",
+  "gxf": "application/gxf",
+  "gz": "application/gzip",
+  "hjson": "application/hjson",
+  "stk": "application/hyperstudio",
+  "ink": "application/inkml+xml",
+  "inkml": "application/inkml+xml",
+  "ipfix": "application/ipfix",
+  "its": "application/its+xml",
+  "jar": "application/java-archive",
+  "war": "application/java-archive",
+  "ear": "application/java-archive",
+  "ser": "application/java-serialized-object",
+  "class": "application/java-vm",
+  "js": "application/javascript",
+  "mjs": "application/javascript",
+  "json": "application/json",
+  "map": "application/json",
+  "json5": "application/json5",
+  "jsonml": "application/jsonml+json",
+  "jsonld": "application/ld+json",
+  "lgr": "application/lgr+xml",
+  "lostxml": "application/lost+xml",
+  "hqx": "application/mac-binhex40",
+  "cpt": "application/mac-compactpro",
+  "mads": "application/mads+xml",
+  "webmanifest": "application/manifest+json",
+  "mrc": "application/marc",
+  "mrcx": "application/marcxml+xml",
+  "ma": "application/mathematica",
+  "nb": "application/mathematica",
+  "mb": "application/mathematica",
+  "mathml": "application/mathml+xml",
+  "mbox": "application/mbox",
+  "mscml": "application/mediaservercontrol+xml",
+  "metalink": "application/metalink+xml",
+  "meta4": "application/metalink4+xml",
+  "mets": "application/mets+xml",
+  "maei": "application/mmt-aei+xml",
+  "musd": "application/mmt-usd+xml",
+  "mods": "application/mods+xml",
+  "m21": "application/mp21",
+  "mp21": "application/mp21",
+  "mp4s": "application/mp4",
+  "m4p": "application/mp4",
+  "doc": "application/msword",
+  "dot": "application/msword",
+  "mxf": "application/mxf",
+  "nq": "application/n-quads",
+  "nt": "application/n-triples",
+  "cjs": "application/node",
+  "bin": "application/octet-stream",
+  "dms": "application/octet-stream",
+  "lrf": "application/octet-stream",
+  "mar": "application/octet-stream",
+  "so": "application/octet-stream",
+  "dist": "application/octet-stream",
+  "distz": "application/octet-stream",
+  "pkg": "application/octet-stream",
+  "bpk": "application/octet-stream",
+  "dump": "application/octet-stream",
+  "elc": "application/octet-stream",
+  "deploy": "application/octet-stream",
+  "exe": "application/octet-stream",
+  "dll": "application/octet-stream",
+  "deb": "application/octet-stream",
+  "dmg": "application/octet-stream",
+  "iso": "application/octet-stream",
+  "img": "application/octet-stream",
+  "msi": "application/octet-stream",
+  "msp": "application/octet-stream",
+  "msm": "application/octet-stream",
+  "buffer": "application/octet-stream",
+  "oda": "application/oda",
+  "opf": "application/oebps-package+xml",
+  "ogx": "application/ogg",
+  "omdoc": "application/omdoc+xml",
+  "onetoc": "application/onenote",
+  "onetoc2": "application/onenote",
+  "onetmp": "application/onenote",
+  "onepkg": "application/onenote",
+  "oxps": "application/oxps",
+  "relo": "application/p2p-overlay+xml",
+  "xer": "application/patch-ops-error+xml",
+  "pdf": "application/pdf",
+  "pgp": "application/pgp-encrypted",
+  "asc": "application/pgp-signature",
+  "sig": "application/pgp-signature",
+  "prf": "application/pics-rules",
+  "p10": "application/pkcs10",
+  "p7m": "application/pkcs7-mime",
+  "p7c": "application/pkcs7-mime",
+  "p7s": "application/pkcs7-signature",
+  "p8": "application/pkcs8",
+  "ac": "application/pkix-attr-cert",
+  "cer": "application/pkix-cert",
+  "crl": "application/pkix-crl",
+  "pkipath": "application/pkix-pkipath",
+  "pki": "application/pkixcmp",
+  "pls": "application/pls+xml",
+  "ai": "application/postscript",
+  "eps": "application/postscript",
+  "ps": "application/postscript",
+  "provx": "application/provenance+xml",
+  "cww": "application/prs.cww",
+  "pskcxml": "application/pskc+xml",
+  "raml": "application/raml+yaml",
+  "rdf": "application/rdf+xml",
+  "owl": "application/rdf+xml",
+  "rif": "application/reginfo+xml",
+  "rnc": "application/relax-ng-compact-syntax",
+  "rl": "application/resource-lists+xml",
+  "rld": "application/resource-lists-diff+xml",
+  "rs": "application/rls-services+xml",
+  "rapd": "application/route-apd+xml",
+  "sls": "application/route-s-tsid+xml",
+  "rusd": "application/route-usd+xml",
+  "gbr": "application/rpki-ghostbusters",
+  "mft": "application/rpki-manifest",
+  "roa": "application/rpki-roa",
+  "rsd": "application/rsd+xml",
+  "rss": "application/rss+xml",
+  "rtf": "application/rtf",
+  "sbml": "application/sbml+xml",
+  "scq": "application/scvp-cv-request",
+  "scs": "application/scvp-cv-response",
+  "spq": "application/scvp-vp-request",
+  "spp": "application/scvp-vp-response",
+  "sdp": "application/sdp",
+  "senmlx": "application/senml+xml",
+  "sensmlx": "application/sensml+xml",
+  "setpay": "application/set-payment-initiation",
+  "setreg": "application/set-registration-initiation",
+  "shf": "application/shf+xml",
+  "siv": "application/sieve",
+  "sieve": "application/sieve",
+  "smi": "application/smil+xml",
+  "smil": "application/smil+xml",
+  "rq": "application/sparql-query",
+  "srx": "application/sparql-results+xml",
+  "gram": "application/srgs",
+  "grxml": "application/srgs+xml",
+  "sru": "application/sru+xml",
+  "ssdl": "application/ssdl+xml",
+  "ssml": "application/ssml+xml",
+  "swidtag": "application/swid+xml",
+  "tei": "application/tei+xml",
+  "teicorpus": "application/tei+xml",
+  "tfi": "application/thraud+xml",
+  "tsd": "application/timestamped-data",
+  "toml": "application/toml",
+  "trig": "application/trig",
+  "ttml": "application/ttml+xml",
+  "ubj": "application/ubjson",
+  "rsheet": "application/urc-ressheet+xml",
+  "td": "application/urc-targetdesc+xml",
+  "vxml": "application/voicexml+xml",
+  "wasm": "application/wasm",
+  "wgt": "application/widget",
+  "hlp": "application/winhlp",
+  "wsdl": "application/wsdl+xml",
+  "wspolicy": "application/wspolicy+xml",
+  "xaml": "application/xaml+xml",
+  "xav": "application/xcap-att+xml",
+  "xca": "application/xcap-caps+xml",
+  "xdf": "application/xcap-diff+xml",
+  "xel": "application/xcap-el+xml",
+  "xns": "application/xcap-ns+xml",
+  "xenc": "application/xenc+xml",
+  "xhtml": "application/xhtml+xml",
+  "xht": "application/xhtml+xml",
+  "xlf": "application/xliff+xml",
+  "xml": "application/xml",
+  "xsl": "application/xml",
+  "xsd": "application/xml",
+  "rng": "application/xml",
+  "dtd": "application/xml-dtd",
+  "xop": "application/xop+xml",
+  "xpl": "application/xproc+xml",
+  "xslt": "application/xml",
+  "xspf": "application/xspf+xml",
+  "mxml": "application/xv+xml",
+  "xhvml": "application/xv+xml",
+  "xvml": "application/xv+xml",
+  "xvm": "application/xv+xml",
+  "yang": "application/yang",
+  "yin": "application/yin+xml",
+  "zip": "application/zip",
+  "3gpp": "video/3gpp",
+  "adp": "audio/adpcm",
+  "amr": "audio/amr",
+  "au": "audio/basic",
+  "snd": "audio/basic",
+  "mid": "audio/midi",
+  "midi": "audio/midi",
+  "kar": "audio/midi",
+  "rmi": "audio/midi",
+  "mxmf": "audio/mobile-xmf",
+  "mp3": "audio/mpeg",
+  "m4a": "audio/mp4",
+  "mp4a": "audio/mp4",
+  "mpga": "audio/mpeg",
+  "mp2": "audio/mpeg",
+  "mp2a": "audio/mpeg",
+  "m2a": "audio/mpeg",
+  "m3a": "audio/mpeg",
+  "oga": "audio/ogg",
+  "ogg": "audio/ogg",
+  "spx": "audio/ogg",
+  "opus": "audio/ogg",
+  "s3m": "audio/s3m",
+  "sil": "audio/silk",
+  "wav": "audio/wav",
+  "weba": "audio/webm",
+  "xm": "audio/xm",
+  "ttc": "font/collection",
+  "otf": "font/otf",
+  "ttf": "font/ttf",
+  "woff": "font/woff",
+  "woff2": "font/woff2",
+  "exr": "image/aces",
+  "apng": "image/apng",
+  "avif": "image/avif",
+  "bmp": "image/bmp",
+  "cgm": "image/cgm",
+  "drle": "image/dicom-rle",
+  "emf": "image/emf",
+  "fits": "image/fits",
+  "g3": "image/g3fax",
+  "gif": "image/gif",
+  "heic": "image/heic",
+  "heics": "image/heic-sequence",
+  "heif": "image/heif",
+  "heifs": "image/heif-sequence",
+  "hej2": "image/hej2k",
+  "hsj2": "image/hsj2",
+  "ief": "image/ief",
+  "jls": "image/jls",
+  "jp2": "image/jp2",
+  "jpg2": "image/jp2",
+  "jpeg": "image/jpeg",
+  "jpg": "image/jpeg",
+  "jpe": "image/jpeg",
+  "jph": "image/jph",
+  "jhc": "image/jphc",
+  "jpm": "image/jpm",
+  "jpx": "image/jpx",
+  "jpf": "image/jpx",
+  "jxr": "image/jxr",
+  "jxra": "image/jxra",
+  "jxrs": "image/jxrs",
+  "jxs": "image/jxs",
+  "jxsc": "image/jxsc",
+  "jxsi": "image/jxsi",
+  "jxss": "image/jxss",
+  "ktx": "image/ktx",
+  "ktx2": "image/ktx2",
+  "png": "image/png",
+  "btif": "image/prs.btif",
+  "pti": "image/prs.pti",
+  "sgi": "image/sgi",
+  "svg": "image/svg+xml",
+  "svgz": "image/svg+xml",
+  "t38": "image/t38",
+  "tif": "image/tiff",
+  "tiff": "image/tiff",
+  "tfx": "image/tiff-fx",
+  "webp": "image/webp",
+  "wmf": "image/wmf",
+  "disposition-notification": "message/disposition-notification",
+  "u8msg": "message/global",
+  "u8dsn": "message/global-delivery-status",
+  "u8mdn": "message/global-disposition-notification",
+  "u8hdr": "message/global-headers",
+  "eml": "message/rfc822",
+  "mime": "message/rfc822",
+  "3mf": "model/3mf",
+  "gltf": "model/gltf+json",
+  "glb": "model/gltf-binary",
+  "igs": "model/iges",
+  "iges": "model/iges",
+  "msh": "model/mesh",
+  "mesh": "model/mesh",
+  "silo": "model/mesh",
+  "mtl": "model/mtl",
+  "obj": "model/obj",
+  "stpz": "model/step+zip",
+  "stpxz": "model/step-xml+zip",
+  "stl": "model/stl",
+  "wrl": "model/vrml",
+  "vrml": "model/vrml",
+  "x3db": "model/x3d+fastinfoset",
+  "x3dbz": "model/x3d+binary",
+  "x3dv": "model/x3d-vrml",
+  "x3dvz": "model/x3d+vrml",
+  "x3d": "model/x3d+xml",
+  "x3dz": "model/x3d+xml",
+  "appcache": "text/cache-manifest",
+  "manifest": "text/cache-manifest",
+  "ics": "text/calendar",
+  "ifb": "text/calendar",
+  "coffee": "text/coffeescript",
+  "litcoffee": "text/coffeescript",
+  "css": "text/css",
+  "csv": "text/csv",
+  "html": "text/html",
+  "htm": "text/html",
+  "shtml": "text/html",
+  "jade": "text/jade",
+  "jsx": "text/jsx",
+  "less": "text/less",
+  "markdown": "text/markdown",
+  "md": "text/markdown",
+  "mml": "text/mathml",
+  "mdx": "text/mdx",
+  "n3": "text/n3",
+  "txt": "text/plain",
+  "text": "text/plain",
+  "conf": "text/plain",
+  "def": "text/plain",
+  "list": "text/plain",
+  "log": "text/plain",
+  "in": "text/plain",
+  "ini": "text/plain",
+  "dsc": "text/prs.lines.tag",
+  "rtx": "text/richtext",
+  "sgml": "text/sgml",
+  "sgm": "text/sgml",
+  "shex": "text/shex",
+  "slim": "text/slim",
+  "slm": "text/slim",
+  "spdx": "text/spdx",
+  "stylus": "text/stylus",
+  "styl": "text/stylus",
+  "tsv": "text/tab-separated-values",
+  "t": "text/troff",
+  "tr": "text/troff",
+  "roff": "text/troff",
+  "man": "text/troff",
+  "me": "text/troff",
+  "ms": "text/troff",
+  "ttl": "text/turtle",
+  "uri": "text/uri-list",
+  "uris": "text/uri-list",
+  "urls": "text/uri-list",
+  "vcard": "text/vcard",
+  "vtt": "text/vtt",
+  "yaml": "text/yaml",
+  "yml": "text/yaml",
+  "3gp": "video/3gpp",
+  "3g2": "video/3gpp2",
+  "h261": "video/h261",
+  "h263": "video/h263",
+  "h264": "video/h264",
+  "m4s": "video/iso.segment",
+  "jpgv": "video/jpeg",
+  "jpgm": "image/jpm",
+  "mj2": "video/mj2",
+  "mjp2": "video/mj2",
+  "ts": "video/mp2t",
+  "mp4": "video/mp4",
+  "mp4v": "video/mp4",
+  "mpg4": "video/mp4",
+  "mpeg": "video/mpeg",
+  "mpg": "video/mpeg",
+  "mpe": "video/mpeg",
+  "m1v": "video/mpeg",
+  "m2v": "video/mpeg",
+  "ogv": "video/ogg",
+  "qt": "video/quicktime",
+  "mov": "video/quicktime",
+  "webm": "video/webm"
+};
 function lookup(extn) {
   let tmp = ("" + extn).trim().toLowerCase();
   let idx = tmp.lastIndexOf(".");
   return mimes[!~idx ? tmp : tmp.substring(++idx)];
 }
-var mimes;
-var init_mrmime = __esm({
-  "../node_modules/.pnpm/mrmime@1.0.1/node_modules/mrmime/index.mjs"() {
-    "use strict";
-    mimes = {
-      "ez": "application/andrew-inset",
-      "aw": "application/applixware",
-      "atom": "application/atom+xml",
-      "atomcat": "application/atomcat+xml",
-      "atomdeleted": "application/atomdeleted+xml",
-      "atomsvc": "application/atomsvc+xml",
-      "dwd": "application/atsc-dwd+xml",
-      "held": "application/atsc-held+xml",
-      "rsat": "application/atsc-rsat+xml",
-      "bdoc": "application/bdoc",
-      "xcs": "application/calendar+xml",
-      "ccxml": "application/ccxml+xml",
-      "cdfx": "application/cdfx+xml",
-      "cdmia": "application/cdmi-capability",
-      "cdmic": "application/cdmi-container",
-      "cdmid": "application/cdmi-domain",
-      "cdmio": "application/cdmi-object",
-      "cdmiq": "application/cdmi-queue",
-      "cu": "application/cu-seeme",
-      "mpd": "application/dash+xml",
-      "davmount": "application/davmount+xml",
-      "dbk": "application/docbook+xml",
-      "dssc": "application/dssc+der",
-      "xdssc": "application/dssc+xml",
-      "es": "application/ecmascript",
-      "ecma": "application/ecmascript",
-      "emma": "application/emma+xml",
-      "emotionml": "application/emotionml+xml",
-      "epub": "application/epub+zip",
-      "exi": "application/exi",
-      "fdt": "application/fdt+xml",
-      "pfr": "application/font-tdpfr",
-      "geojson": "application/geo+json",
-      "gml": "application/gml+xml",
-      "gpx": "application/gpx+xml",
-      "gxf": "application/gxf",
-      "gz": "application/gzip",
-      "hjson": "application/hjson",
-      "stk": "application/hyperstudio",
-      "ink": "application/inkml+xml",
-      "inkml": "application/inkml+xml",
-      "ipfix": "application/ipfix",
-      "its": "application/its+xml",
-      "jar": "application/java-archive",
-      "war": "application/java-archive",
-      "ear": "application/java-archive",
-      "ser": "application/java-serialized-object",
-      "class": "application/java-vm",
-      "js": "application/javascript",
-      "mjs": "application/javascript",
-      "json": "application/json",
-      "map": "application/json",
-      "json5": "application/json5",
-      "jsonml": "application/jsonml+json",
-      "jsonld": "application/ld+json",
-      "lgr": "application/lgr+xml",
-      "lostxml": "application/lost+xml",
-      "hqx": "application/mac-binhex40",
-      "cpt": "application/mac-compactpro",
-      "mads": "application/mads+xml",
-      "webmanifest": "application/manifest+json",
-      "mrc": "application/marc",
-      "mrcx": "application/marcxml+xml",
-      "ma": "application/mathematica",
-      "nb": "application/mathematica",
-      "mb": "application/mathematica",
-      "mathml": "application/mathml+xml",
-      "mbox": "application/mbox",
-      "mscml": "application/mediaservercontrol+xml",
-      "metalink": "application/metalink+xml",
-      "meta4": "application/metalink4+xml",
-      "mets": "application/mets+xml",
-      "maei": "application/mmt-aei+xml",
-      "musd": "application/mmt-usd+xml",
-      "mods": "application/mods+xml",
-      "m21": "application/mp21",
-      "mp21": "application/mp21",
-      "mp4s": "application/mp4",
-      "m4p": "application/mp4",
-      "doc": "application/msword",
-      "dot": "application/msword",
-      "mxf": "application/mxf",
-      "nq": "application/n-quads",
-      "nt": "application/n-triples",
-      "cjs": "application/node",
-      "bin": "application/octet-stream",
-      "dms": "application/octet-stream",
-      "lrf": "application/octet-stream",
-      "mar": "application/octet-stream",
-      "so": "application/octet-stream",
-      "dist": "application/octet-stream",
-      "distz": "application/octet-stream",
-      "pkg": "application/octet-stream",
-      "bpk": "application/octet-stream",
-      "dump": "application/octet-stream",
-      "elc": "application/octet-stream",
-      "deploy": "application/octet-stream",
-      "exe": "application/octet-stream",
-      "dll": "application/octet-stream",
-      "deb": "application/octet-stream",
-      "dmg": "application/octet-stream",
-      "iso": "application/octet-stream",
-      "img": "application/octet-stream",
-      "msi": "application/octet-stream",
-      "msp": "application/octet-stream",
-      "msm": "application/octet-stream",
-      "buffer": "application/octet-stream",
-      "oda": "application/oda",
-      "opf": "application/oebps-package+xml",
-      "ogx": "application/ogg",
-      "omdoc": "application/omdoc+xml",
-      "onetoc": "application/onenote",
-      "onetoc2": "application/onenote",
-      "onetmp": "application/onenote",
-      "onepkg": "application/onenote",
-      "oxps": "application/oxps",
-      "relo": "application/p2p-overlay+xml",
-      "xer": "application/patch-ops-error+xml",
-      "pdf": "application/pdf",
-      "pgp": "application/pgp-encrypted",
-      "asc": "application/pgp-signature",
-      "sig": "application/pgp-signature",
-      "prf": "application/pics-rules",
-      "p10": "application/pkcs10",
-      "p7m": "application/pkcs7-mime",
-      "p7c": "application/pkcs7-mime",
-      "p7s": "application/pkcs7-signature",
-      "p8": "application/pkcs8",
-      "ac": "application/pkix-attr-cert",
-      "cer": "application/pkix-cert",
-      "crl": "application/pkix-crl",
-      "pkipath": "application/pkix-pkipath",
-      "pki": "application/pkixcmp",
-      "pls": "application/pls+xml",
-      "ai": "application/postscript",
-      "eps": "application/postscript",
-      "ps": "application/postscript",
-      "provx": "application/provenance+xml",
-      "cww": "application/prs.cww",
-      "pskcxml": "application/pskc+xml",
-      "raml": "application/raml+yaml",
-      "rdf": "application/rdf+xml",
-      "owl": "application/rdf+xml",
-      "rif": "application/reginfo+xml",
-      "rnc": "application/relax-ng-compact-syntax",
-      "rl": "application/resource-lists+xml",
-      "rld": "application/resource-lists-diff+xml",
-      "rs": "application/rls-services+xml",
-      "rapd": "application/route-apd+xml",
-      "sls": "application/route-s-tsid+xml",
-      "rusd": "application/route-usd+xml",
-      "gbr": "application/rpki-ghostbusters",
-      "mft": "application/rpki-manifest",
-      "roa": "application/rpki-roa",
-      "rsd": "application/rsd+xml",
-      "rss": "application/rss+xml",
-      "rtf": "application/rtf",
-      "sbml": "application/sbml+xml",
-      "scq": "application/scvp-cv-request",
-      "scs": "application/scvp-cv-response",
-      "spq": "application/scvp-vp-request",
-      "spp": "application/scvp-vp-response",
-      "sdp": "application/sdp",
-      "senmlx": "application/senml+xml",
-      "sensmlx": "application/sensml+xml",
-      "setpay": "application/set-payment-initiation",
-      "setreg": "application/set-registration-initiation",
-      "shf": "application/shf+xml",
-      "siv": "application/sieve",
-      "sieve": "application/sieve",
-      "smi": "application/smil+xml",
-      "smil": "application/smil+xml",
-      "rq": "application/sparql-query",
-      "srx": "application/sparql-results+xml",
-      "gram": "application/srgs",
-      "grxml": "application/srgs+xml",
-      "sru": "application/sru+xml",
-      "ssdl": "application/ssdl+xml",
-      "ssml": "application/ssml+xml",
-      "swidtag": "application/swid+xml",
-      "tei": "application/tei+xml",
-      "teicorpus": "application/tei+xml",
-      "tfi": "application/thraud+xml",
-      "tsd": "application/timestamped-data",
-      "toml": "application/toml",
-      "trig": "application/trig",
-      "ttml": "application/ttml+xml",
-      "ubj": "application/ubjson",
-      "rsheet": "application/urc-ressheet+xml",
-      "td": "application/urc-targetdesc+xml",
-      "vxml": "application/voicexml+xml",
-      "wasm": "application/wasm",
-      "wgt": "application/widget",
-      "hlp": "application/winhlp",
-      "wsdl": "application/wsdl+xml",
-      "wspolicy": "application/wspolicy+xml",
-      "xaml": "application/xaml+xml",
-      "xav": "application/xcap-att+xml",
-      "xca": "application/xcap-caps+xml",
-      "xdf": "application/xcap-diff+xml",
-      "xel": "application/xcap-el+xml",
-      "xns": "application/xcap-ns+xml",
-      "xenc": "application/xenc+xml",
-      "xhtml": "application/xhtml+xml",
-      "xht": "application/xhtml+xml",
-      "xlf": "application/xliff+xml",
-      "xml": "application/xml",
-      "xsl": "application/xml",
-      "xsd": "application/xml",
-      "rng": "application/xml",
-      "dtd": "application/xml-dtd",
-      "xop": "application/xop+xml",
-      "xpl": "application/xproc+xml",
-      "xslt": "application/xml",
-      "xspf": "application/xspf+xml",
-      "mxml": "application/xv+xml",
-      "xhvml": "application/xv+xml",
-      "xvml": "application/xv+xml",
-      "xvm": "application/xv+xml",
-      "yang": "application/yang",
-      "yin": "application/yin+xml",
-      "zip": "application/zip",
-      "3gpp": "video/3gpp",
-      "adp": "audio/adpcm",
-      "amr": "audio/amr",
-      "au": "audio/basic",
-      "snd": "audio/basic",
-      "mid": "audio/midi",
-      "midi": "audio/midi",
-      "kar": "audio/midi",
-      "rmi": "audio/midi",
-      "mxmf": "audio/mobile-xmf",
-      "mp3": "audio/mpeg",
-      "m4a": "audio/mp4",
-      "mp4a": "audio/mp4",
-      "mpga": "audio/mpeg",
-      "mp2": "audio/mpeg",
-      "mp2a": "audio/mpeg",
-      "m2a": "audio/mpeg",
-      "m3a": "audio/mpeg",
-      "oga": "audio/ogg",
-      "ogg": "audio/ogg",
-      "spx": "audio/ogg",
-      "opus": "audio/ogg",
-      "s3m": "audio/s3m",
-      "sil": "audio/silk",
-      "wav": "audio/wav",
-      "weba": "audio/webm",
-      "xm": "audio/xm",
-      "ttc": "font/collection",
-      "otf": "font/otf",
-      "ttf": "font/ttf",
-      "woff": "font/woff",
-      "woff2": "font/woff2",
-      "exr": "image/aces",
-      "apng": "image/apng",
-      "avif": "image/avif",
-      "bmp": "image/bmp",
-      "cgm": "image/cgm",
-      "drle": "image/dicom-rle",
-      "emf": "image/emf",
-      "fits": "image/fits",
-      "g3": "image/g3fax",
-      "gif": "image/gif",
-      "heic": "image/heic",
-      "heics": "image/heic-sequence",
-      "heif": "image/heif",
-      "heifs": "image/heif-sequence",
-      "hej2": "image/hej2k",
-      "hsj2": "image/hsj2",
-      "ief": "image/ief",
-      "jls": "image/jls",
-      "jp2": "image/jp2",
-      "jpg2": "image/jp2",
-      "jpeg": "image/jpeg",
-      "jpg": "image/jpeg",
-      "jpe": "image/jpeg",
-      "jph": "image/jph",
-      "jhc": "image/jphc",
-      "jpm": "image/jpm",
-      "jpx": "image/jpx",
-      "jpf": "image/jpx",
-      "jxr": "image/jxr",
-      "jxra": "image/jxra",
-      "jxrs": "image/jxrs",
-      "jxs": "image/jxs",
-      "jxsc": "image/jxsc",
-      "jxsi": "image/jxsi",
-      "jxss": "image/jxss",
-      "ktx": "image/ktx",
-      "ktx2": "image/ktx2",
-      "png": "image/png",
-      "btif": "image/prs.btif",
-      "pti": "image/prs.pti",
-      "sgi": "image/sgi",
-      "svg": "image/svg+xml",
-      "svgz": "image/svg+xml",
-      "t38": "image/t38",
-      "tif": "image/tiff",
-      "tiff": "image/tiff",
-      "tfx": "image/tiff-fx",
-      "webp": "image/webp",
-      "wmf": "image/wmf",
-      "disposition-notification": "message/disposition-notification",
-      "u8msg": "message/global",
-      "u8dsn": "message/global-delivery-status",
-      "u8mdn": "message/global-disposition-notification",
-      "u8hdr": "message/global-headers",
-      "eml": "message/rfc822",
-      "mime": "message/rfc822",
-      "3mf": "model/3mf",
-      "gltf": "model/gltf+json",
-      "glb": "model/gltf-binary",
-      "igs": "model/iges",
-      "iges": "model/iges",
-      "msh": "model/mesh",
-      "mesh": "model/mesh",
-      "silo": "model/mesh",
-      "mtl": "model/mtl",
-      "obj": "model/obj",
-      "stpz": "model/step+zip",
-      "stpxz": "model/step-xml+zip",
-      "stl": "model/stl",
-      "wrl": "model/vrml",
-      "vrml": "model/vrml",
-      "x3db": "model/x3d+fastinfoset",
-      "x3dbz": "model/x3d+binary",
-      "x3dv": "model/x3d-vrml",
-      "x3dvz": "model/x3d+vrml",
-      "x3d": "model/x3d+xml",
-      "x3dz": "model/x3d+xml",
-      "appcache": "text/cache-manifest",
-      "manifest": "text/cache-manifest",
-      "ics": "text/calendar",
-      "ifb": "text/calendar",
-      "coffee": "text/coffeescript",
-      "litcoffee": "text/coffeescript",
-      "css": "text/css",
-      "csv": "text/csv",
-      "html": "text/html",
-      "htm": "text/html",
-      "shtml": "text/html",
-      "jade": "text/jade",
-      "jsx": "text/jsx",
-      "less": "text/less",
-      "markdown": "text/markdown",
-      "md": "text/markdown",
-      "mml": "text/mathml",
-      "mdx": "text/mdx",
-      "n3": "text/n3",
-      "txt": "text/plain",
-      "text": "text/plain",
-      "conf": "text/plain",
-      "def": "text/plain",
-      "list": "text/plain",
-      "log": "text/plain",
-      "in": "text/plain",
-      "ini": "text/plain",
-      "dsc": "text/prs.lines.tag",
-      "rtx": "text/richtext",
-      "sgml": "text/sgml",
-      "sgm": "text/sgml",
-      "shex": "text/shex",
-      "slim": "text/slim",
-      "slm": "text/slim",
-      "spdx": "text/spdx",
-      "stylus": "text/stylus",
-      "styl": "text/stylus",
-      "tsv": "text/tab-separated-values",
-      "t": "text/troff",
-      "tr": "text/troff",
-      "roff": "text/troff",
-      "man": "text/troff",
-      "me": "text/troff",
-      "ms": "text/troff",
-      "ttl": "text/turtle",
-      "uri": "text/uri-list",
-      "uris": "text/uri-list",
-      "urls": "text/uri-list",
-      "vcard": "text/vcard",
-      "vtt": "text/vtt",
-      "yaml": "text/yaml",
-      "yml": "text/yaml",
-      "3gp": "video/3gpp",
-      "3g2": "video/3gpp2",
-      "h261": "video/h261",
-      "h263": "video/h263",
-      "h264": "video/h264",
-      "m4s": "video/iso.segment",
-      "jpgv": "video/jpeg",
-      "jpgm": "image/jpm",
-      "mj2": "video/mj2",
-      "mjp2": "video/mj2",
-      "ts": "video/mp2t",
-      "mp4": "video/mp4",
-      "mp4v": "video/mp4",
-      "mpg4": "video/mp4",
-      "mpeg": "video/mpeg",
-      "mpg": "video/mpeg",
-      "mpe": "video/mpeg",
-      "m1v": "video/mpeg",
-      "m2v": "video/mpeg",
-      "ogv": "video/ogg",
-      "qt": "video/quicktime",
-      "mov": "video/quicktime",
-      "webm": "video/webm"
-    };
-  }
-});
 
 // ../node_modules/.pnpm/sirv@2.0.3/node_modules/sirv/build.mjs
+var noop = () => {
+};
 function isMatch(uri, arr) {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i].test(uri))
@@ -1883,7 +1834,7 @@ function viaLocal(dir, isEtag, uri, extns) {
   let i = 0, arr = toAssume(uri, extns);
   let abs, stats, name, headers;
   for (; i < arr.length; i++) {
-    abs = (0, import_path3.normalize)((0, import_path3.join)(dir, name = arr[i]));
+    abs = normalize(join2(dir, name = arr[i]));
     if (abs.startsWith(dir) && fs.existsSync(abs)) {
       stats = fs.statSync(abs);
       if (stats.isDirectory())
@@ -1928,6 +1879,10 @@ function send(req, res, file, stats, headers) {
   res.writeHead(code, headers);
   fs.createReadStream(file, opts).pipe(res);
 }
+var ENCODING = {
+  ".br": "br",
+  ".gz": "gzip"
+};
 function toHeaders(name, stats, isEtag) {
   let enc = ENCODING[name.slice(-3)];
   let ctype = lookup(name.slice(0, enc && -3)) || "";
@@ -1945,7 +1900,7 @@ function toHeaders(name, stats, isEtag) {
   return headers;
 }
 function build_default(dir, opts = {}) {
-  dir = (0, import_path3.resolve)(dir || ".");
+  dir = resolve2(dir || ".");
   let isNotFound = opts.onNoMatch || is404;
   let setHeaders = opts.setHeaders || noop;
   let extensions = opts.extensions || ["html", "htm"];
@@ -2016,25 +1971,14 @@ function build_default(dir, opts = {}) {
     send(req, res, data.abs, data.stats, data.headers);
   };
 }
-var fs, import_path3, noop, ENCODING;
-var init_build2 = __esm({
-  "../node_modules/.pnpm/sirv@2.0.3/node_modules/sirv/build.mjs"() {
-    "use strict";
-    fs = __toESM(require("fs"), 1);
-    import_path3 = require("path");
-    init_sync();
-    init_build();
-    init_mrmime();
-    noop = () => {
-    };
-    ENCODING = {
-      ".br": "br",
-      ".gz": "gzip"
-    };
-  }
-});
 
 // src/node/server/middleware/static.ts
+var sirvOptions = {
+  // sirv的一些配置
+  dev: true,
+  etag: true,
+  extensions: []
+};
 function serveStaticMiddleware(server) {
   return function viteServeStaticMiddleware(req, res, next) {
     const serve = build_default(
@@ -2045,49 +1989,34 @@ function serveStaticMiddleware(server) {
     serve(req, res, next);
   };
 }
-var sirvOptions;
-var init_static = __esm({
-  "src/node/server/middleware/static.ts"() {
-    "use strict";
-    init_build2();
-    sirvOptions = {
-      // sirv的一些配置
-      dev: true,
-      etag: true,
-      extensions: []
-    };
-  }
-});
+
+// src/node/server/middleware/transform.ts
+import path3 from "node:path";
 
 // src/node/utils.ts
+import path2 from "node:path";
+import os from "node:os";
 function cleanUrl(url) {
   return url.replace(/[?#].*$/s, "");
 }
+var CSS_LANGS_RE = /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/;
+var isCSSRequest = (request) => CSS_LANGS_RE.test(request);
+var isWindows = os.platform() === "win32";
 function slash(p) {
   return p.replace(/\\/g, "/");
 }
 function normalizePath(id) {
-  return import_node_path.default.posix.normalize(isWindows ? slash(id) : id);
+  return path2.posix.normalize(isWindows ? slash(id) : id);
 }
-var import_node_path, import_node_os, CSS_LANGS_RE, isCSSRequest, isWindows;
-var init_utils = __esm({
-  "src/node/utils.ts"() {
-    "use strict";
-    import_node_path = __toESM(require("path"));
-    import_node_os = __toESM(require("os"));
-    CSS_LANGS_RE = /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/;
-    isCSSRequest = (request) => CSS_LANGS_RE.test(request);
-    isWindows = import_node_os.default.platform() === "win32";
-  }
-});
 
 // src/node/server/middleware/transform.ts
+import { readFile as readFile2 } from "fs/promises";
 function transformMiddleware(server) {
   return async (req, res, next) => {
     let url = cleanUrl(req.url);
     if (isCSSRequest(url)) {
-      const cssPath = normalizePath(import_node_path2.default.join(server.config.root, url));
-      const cssContent = await (0, import_promises2.readFile)(cssPath, "utf-8");
+      const cssPath = normalizePath(path3.join(server.config.root, url));
+      const cssContent = await readFile2(cssPath, "utf-8");
       const code = [
         `const id = "${url}"`,
         `const __vite__css = ${JSON.stringify(cssContent)}`,
@@ -2101,21 +2030,8 @@ function transformMiddleware(server) {
     next();
   };
 }
-var import_node_path2, import_promises2;
-var init_transform = __esm({
-  "src/node/server/middleware/transform.ts"() {
-    "use strict";
-    import_node_path2 = __toESM(require("path"));
-    init_utils();
-    import_promises2 = require("fs/promises");
-  }
-});
 
 // src/node/server/index.ts
-var server_exports = {};
-__export(server_exports, {
-  createServer: () => createServer
-});
 async function createServer() {
   const app = (0, import_connect.default)();
   const config = {
@@ -2136,618 +2052,9 @@ async function createServer() {
   app.use(indexHtmlMiddleware(server));
   return server;
 }
-var import_connect;
-var init_server = __esm({
-  "src/node/server/index.ts"() {
-    "use strict";
-    import_connect = __toESM(require_connect());
-    init_indexHtml();
-    init_htmlFallback();
-    init_static();
-    init_transform();
-  }
-});
-
-// ../node_modules/.pnpm/cac@6.7.14/node_modules/cac/dist/index.mjs
-var import_events = require("events");
-function toArr(any) {
-  return any == null ? [] : Array.isArray(any) ? any : [any];
-}
-function toVal(out, key, val, opts) {
-  var x, old = out[key], nxt = !!~opts.string.indexOf(key) ? val == null || val === true ? "" : String(val) : typeof val === "boolean" ? val : !!~opts.boolean.indexOf(key) ? val === "false" ? false : val === "true" || (out._.push((x = +val, x * 0 === 0) ? x : val), !!val) : (x = +val, x * 0 === 0) ? x : val;
-  out[key] = old == null ? nxt : Array.isArray(old) ? old.concat(nxt) : [old, nxt];
-}
-function mri2(args, opts) {
-  args = args || [];
-  opts = opts || {};
-  var k, arr, arg, name, val, out = { _: [] };
-  var i = 0, j = 0, idx = 0, len = args.length;
-  const alibi = opts.alias !== void 0;
-  const strict = opts.unknown !== void 0;
-  const defaults = opts.default !== void 0;
-  opts.alias = opts.alias || {};
-  opts.string = toArr(opts.string);
-  opts.boolean = toArr(opts.boolean);
-  if (alibi) {
-    for (k in opts.alias) {
-      arr = opts.alias[k] = toArr(opts.alias[k]);
-      for (i = 0; i < arr.length; i++) {
-        (opts.alias[arr[i]] = arr.concat(k)).splice(i, 1);
-      }
-    }
-  }
-  for (i = opts.boolean.length; i-- > 0; ) {
-    arr = opts.alias[opts.boolean[i]] || [];
-    for (j = arr.length; j-- > 0; )
-      opts.boolean.push(arr[j]);
-  }
-  for (i = opts.string.length; i-- > 0; ) {
-    arr = opts.alias[opts.string[i]] || [];
-    for (j = arr.length; j-- > 0; )
-      opts.string.push(arr[j]);
-  }
-  if (defaults) {
-    for (k in opts.default) {
-      name = typeof opts.default[k];
-      arr = opts.alias[k] = opts.alias[k] || [];
-      if (opts[name] !== void 0) {
-        opts[name].push(k);
-        for (i = 0; i < arr.length; i++) {
-          opts[name].push(arr[i]);
-        }
-      }
-    }
-  }
-  const keys = strict ? Object.keys(opts.alias) : [];
-  for (i = 0; i < len; i++) {
-    arg = args[i];
-    if (arg === "--") {
-      out._ = out._.concat(args.slice(++i));
-      break;
-    }
-    for (j = 0; j < arg.length; j++) {
-      if (arg.charCodeAt(j) !== 45)
-        break;
-    }
-    if (j === 0) {
-      out._.push(arg);
-    } else if (arg.substring(j, j + 3) === "no-") {
-      name = arg.substring(j + 3);
-      if (strict && !~keys.indexOf(name)) {
-        return opts.unknown(arg);
-      }
-      out[name] = false;
-    } else {
-      for (idx = j + 1; idx < arg.length; idx++) {
-        if (arg.charCodeAt(idx) === 61)
-          break;
-      }
-      name = arg.substring(j, idx);
-      val = arg.substring(++idx) || (i + 1 === len || ("" + args[i + 1]).charCodeAt(0) === 45 || args[++i]);
-      arr = j === 2 ? [name] : name;
-      for (idx = 0; idx < arr.length; idx++) {
-        name = arr[idx];
-        if (strict && !~keys.indexOf(name))
-          return opts.unknown("-".repeat(j) + name);
-        toVal(out, name, idx + 1 < arr.length || val, opts);
-      }
-    }
-  }
-  if (defaults) {
-    for (k in opts.default) {
-      if (out[k] === void 0) {
-        out[k] = opts.default[k];
-      }
-    }
-  }
-  if (alibi) {
-    for (k in out) {
-      arr = opts.alias[k] || [];
-      while (arr.length > 0) {
-        out[arr.shift()] = out[k];
-      }
-    }
-  }
-  return out;
-}
-var removeBrackets = (v) => v.replace(/[<[].+/, "").trim();
-var findAllBrackets = (v) => {
-  const ANGLED_BRACKET_RE_GLOBAL = /<([^>]+)>/g;
-  const SQUARE_BRACKET_RE_GLOBAL = /\[([^\]]+)\]/g;
-  const res = [];
-  const parse3 = (match) => {
-    let variadic = false;
-    let value = match[1];
-    if (value.startsWith("...")) {
-      value = value.slice(3);
-      variadic = true;
-    }
-    return {
-      required: match[0].startsWith("<"),
-      value,
-      variadic
-    };
-  };
-  let angledMatch;
-  while (angledMatch = ANGLED_BRACKET_RE_GLOBAL.exec(v)) {
-    res.push(parse3(angledMatch));
-  }
-  let squareMatch;
-  while (squareMatch = SQUARE_BRACKET_RE_GLOBAL.exec(v)) {
-    res.push(parse3(squareMatch));
-  }
-  return res;
+export {
+  createServer
 };
-var getMriOptions = (options) => {
-  const result = { alias: {}, boolean: [] };
-  for (const [index, option] of options.entries()) {
-    if (option.names.length > 1) {
-      result.alias[option.names[0]] = option.names.slice(1);
-    }
-    if (option.isBoolean) {
-      if (option.negated) {
-        const hasStringTypeOption = options.some((o, i) => {
-          return i !== index && o.names.some((name) => option.names.includes(name)) && typeof o.required === "boolean";
-        });
-        if (!hasStringTypeOption) {
-          result.boolean.push(option.names[0]);
-        }
-      } else {
-        result.boolean.push(option.names[0]);
-      }
-    }
-  }
-  return result;
-};
-var findLongest = (arr) => {
-  return arr.sort((a, b) => {
-    return a.length > b.length ? -1 : 1;
-  })[0];
-};
-var padRight = (str, length) => {
-  return str.length >= length ? str : `${str}${" ".repeat(length - str.length)}`;
-};
-var camelcase = (input) => {
-  return input.replace(/([a-z])-([a-z])/g, (_, p1, p2) => {
-    return p1 + p2.toUpperCase();
-  });
-};
-var setDotProp = (obj, keys, val) => {
-  let i = 0;
-  let length = keys.length;
-  let t = obj;
-  let x;
-  for (; i < length; ++i) {
-    x = t[keys[i]];
-    t = t[keys[i]] = i === length - 1 ? val : x != null ? x : !!~keys[i + 1].indexOf(".") || !(+keys[i + 1] > -1) ? {} : [];
-  }
-};
-var setByType = (obj, transforms) => {
-  for (const key of Object.keys(transforms)) {
-    const transform = transforms[key];
-    if (transform.shouldTransform) {
-      obj[key] = Array.prototype.concat.call([], obj[key]);
-      if (typeof transform.transformFunction === "function") {
-        obj[key] = obj[key].map(transform.transformFunction);
-      }
-    }
-  }
-};
-var getFileName = (input) => {
-  const m = /([^\\\/]+)$/.exec(input);
-  return m ? m[1] : "";
-};
-var camelcaseOptionName = (name) => {
-  return name.split(".").map((v, i) => {
-    return i === 0 ? camelcase(v) : v;
-  }).join(".");
-};
-var CACError = class extends Error {
-  constructor(message) {
-    super(message);
-    this.name = this.constructor.name;
-    if (typeof Error.captureStackTrace === "function") {
-      Error.captureStackTrace(this, this.constructor);
-    } else {
-      this.stack = new Error(message).stack;
-    }
-  }
-};
-var Option = class {
-  constructor(rawName, description, config) {
-    this.rawName = rawName;
-    this.description = description;
-    this.config = Object.assign({}, config);
-    rawName = rawName.replace(/\.\*/g, "");
-    this.negated = false;
-    this.names = removeBrackets(rawName).split(",").map((v) => {
-      let name = v.trim().replace(/^-{1,2}/, "");
-      if (name.startsWith("no-")) {
-        this.negated = true;
-        name = name.replace(/^no-/, "");
-      }
-      return camelcaseOptionName(name);
-    }).sort((a, b) => a.length > b.length ? 1 : -1);
-    this.name = this.names[this.names.length - 1];
-    if (this.negated && this.config.default == null) {
-      this.config.default = true;
-    }
-    if (rawName.includes("<")) {
-      this.required = true;
-    } else if (rawName.includes("[")) {
-      this.required = false;
-    } else {
-      this.isBoolean = true;
-    }
-  }
-};
-var processArgs = process.argv;
-var platformInfo = `${process.platform}-${process.arch} node-${process.version}`;
-var Command = class {
-  constructor(rawName, description, config = {}, cli2) {
-    this.rawName = rawName;
-    this.description = description;
-    this.config = config;
-    this.cli = cli2;
-    this.options = [];
-    this.aliasNames = [];
-    this.name = removeBrackets(rawName);
-    this.args = findAllBrackets(rawName);
-    this.examples = [];
-  }
-  usage(text) {
-    this.usageText = text;
-    return this;
-  }
-  allowUnknownOptions() {
-    this.config.allowUnknownOptions = true;
-    return this;
-  }
-  ignoreOptionDefaultValue() {
-    this.config.ignoreOptionDefaultValue = true;
-    return this;
-  }
-  version(version, customFlags = "-v, --version") {
-    this.versionNumber = version;
-    this.option(customFlags, "Display version number");
-    return this;
-  }
-  example(example) {
-    this.examples.push(example);
-    return this;
-  }
-  option(rawName, description, config) {
-    const option = new Option(rawName, description, config);
-    this.options.push(option);
-    return this;
-  }
-  alias(name) {
-    this.aliasNames.push(name);
-    return this;
-  }
-  action(callback) {
-    this.commandAction = callback;
-    return this;
-  }
-  isMatched(name) {
-    return this.name === name || this.aliasNames.includes(name);
-  }
-  get isDefaultCommand() {
-    return this.name === "" || this.aliasNames.includes("!");
-  }
-  get isGlobalCommand() {
-    return this instanceof GlobalCommand;
-  }
-  hasOption(name) {
-    name = name.split(".")[0];
-    return this.options.find((option) => {
-      return option.names.includes(name);
-    });
-  }
-  outputHelp() {
-    const { name, commands } = this.cli;
-    const {
-      versionNumber,
-      options: globalOptions,
-      helpCallback
-    } = this.cli.globalCommand;
-    let sections = [
-      {
-        body: `${name}${versionNumber ? `/${versionNumber}` : ""}`
-      }
-    ];
-    sections.push({
-      title: "Usage",
-      body: `  $ ${name} ${this.usageText || this.rawName}`
-    });
-    const showCommands = (this.isGlobalCommand || this.isDefaultCommand) && commands.length > 0;
-    if (showCommands) {
-      const longestCommandName = findLongest(commands.map((command) => command.rawName));
-      sections.push({
-        title: "Commands",
-        body: commands.map((command) => {
-          return `  ${padRight(command.rawName, longestCommandName.length)}  ${command.description}`;
-        }).join("\n")
-      });
-      sections.push({
-        title: `For more info, run any command with the \`--help\` flag`,
-        body: commands.map((command) => `  $ ${name}${command.name === "" ? "" : ` ${command.name}`} --help`).join("\n")
-      });
-    }
-    let options = this.isGlobalCommand ? globalOptions : [...this.options, ...globalOptions || []];
-    if (!this.isGlobalCommand && !this.isDefaultCommand) {
-      options = options.filter((option) => option.name !== "version");
-    }
-    if (options.length > 0) {
-      const longestOptionName = findLongest(options.map((option) => option.rawName));
-      sections.push({
-        title: "Options",
-        body: options.map((option) => {
-          return `  ${padRight(option.rawName, longestOptionName.length)}  ${option.description} ${option.config.default === void 0 ? "" : `(default: ${option.config.default})`}`;
-        }).join("\n")
-      });
-    }
-    if (this.examples.length > 0) {
-      sections.push({
-        title: "Examples",
-        body: this.examples.map((example) => {
-          if (typeof example === "function") {
-            return example(name);
-          }
-          return example;
-        }).join("\n")
-      });
-    }
-    if (helpCallback) {
-      sections = helpCallback(sections) || sections;
-    }
-    console.log(sections.map((section) => {
-      return section.title ? `${section.title}:
-${section.body}` : section.body;
-    }).join("\n\n"));
-  }
-  outputVersion() {
-    const { name } = this.cli;
-    const { versionNumber } = this.cli.globalCommand;
-    if (versionNumber) {
-      console.log(`${name}/${versionNumber} ${platformInfo}`);
-    }
-  }
-  checkRequiredArgs() {
-    const minimalArgsCount = this.args.filter((arg) => arg.required).length;
-    if (this.cli.args.length < minimalArgsCount) {
-      throw new CACError(`missing required args for command \`${this.rawName}\``);
-    }
-  }
-  checkUnknownOptions() {
-    const { options, globalCommand } = this.cli;
-    if (!this.config.allowUnknownOptions) {
-      for (const name of Object.keys(options)) {
-        if (name !== "--" && !this.hasOption(name) && !globalCommand.hasOption(name)) {
-          throw new CACError(`Unknown option \`${name.length > 1 ? `--${name}` : `-${name}`}\``);
-        }
-      }
-    }
-  }
-  checkOptionValue() {
-    const { options: parsedOptions, globalCommand } = this.cli;
-    const options = [...globalCommand.options, ...this.options];
-    for (const option of options) {
-      const value = parsedOptions[option.name.split(".")[0]];
-      if (option.required) {
-        const hasNegated = options.some((o) => o.negated && o.names.includes(option.name));
-        if (value === true || value === false && !hasNegated) {
-          throw new CACError(`option \`${option.rawName}\` value is missing`);
-        }
-      }
-    }
-  }
-};
-var GlobalCommand = class extends Command {
-  constructor(cli2) {
-    super("@@global@@", "", {}, cli2);
-  }
-};
-var __assign = Object.assign;
-var CAC = class extends import_events.EventEmitter {
-  constructor(name = "") {
-    super();
-    this.name = name;
-    this.commands = [];
-    this.rawArgs = [];
-    this.args = [];
-    this.options = {};
-    this.globalCommand = new GlobalCommand(this);
-    this.globalCommand.usage("<command> [options]");
-  }
-  usage(text) {
-    this.globalCommand.usage(text);
-    return this;
-  }
-  command(rawName, description, config) {
-    const command = new Command(rawName, description || "", config, this);
-    command.globalCommand = this.globalCommand;
-    this.commands.push(command);
-    return command;
-  }
-  option(rawName, description, config) {
-    this.globalCommand.option(rawName, description, config);
-    return this;
-  }
-  help(callback) {
-    this.globalCommand.option("-h, --help", "Display this message");
-    this.globalCommand.helpCallback = callback;
-    this.showHelpOnExit = true;
-    return this;
-  }
-  version(version, customFlags = "-v, --version") {
-    this.globalCommand.version(version, customFlags);
-    this.showVersionOnExit = true;
-    return this;
-  }
-  example(example) {
-    this.globalCommand.example(example);
-    return this;
-  }
-  outputHelp() {
-    if (this.matchedCommand) {
-      this.matchedCommand.outputHelp();
-    } else {
-      this.globalCommand.outputHelp();
-    }
-  }
-  outputVersion() {
-    this.globalCommand.outputVersion();
-  }
-  setParsedInfo({ args, options }, matchedCommand, matchedCommandName) {
-    this.args = args;
-    this.options = options;
-    if (matchedCommand) {
-      this.matchedCommand = matchedCommand;
-    }
-    if (matchedCommandName) {
-      this.matchedCommandName = matchedCommandName;
-    }
-    return this;
-  }
-  unsetMatchedCommand() {
-    this.matchedCommand = void 0;
-    this.matchedCommandName = void 0;
-  }
-  parse(argv = processArgs, {
-    run = true
-  } = {}) {
-    this.rawArgs = argv;
-    if (!this.name) {
-      this.name = argv[1] ? getFileName(argv[1]) : "cli";
-    }
-    let shouldParse = true;
-    for (const command of this.commands) {
-      const parsed = this.mri(argv.slice(2), command);
-      const commandName = parsed.args[0];
-      if (command.isMatched(commandName)) {
-        shouldParse = false;
-        const parsedInfo = __assign(__assign({}, parsed), {
-          args: parsed.args.slice(1)
-        });
-        this.setParsedInfo(parsedInfo, command, commandName);
-        this.emit(`command:${commandName}`, command);
-      }
-    }
-    if (shouldParse) {
-      for (const command of this.commands) {
-        if (command.name === "") {
-          shouldParse = false;
-          const parsed = this.mri(argv.slice(2), command);
-          this.setParsedInfo(parsed, command);
-          this.emit(`command:!`, command);
-        }
-      }
-    }
-    if (shouldParse) {
-      const parsed = this.mri(argv.slice(2));
-      this.setParsedInfo(parsed);
-    }
-    if (this.options.help && this.showHelpOnExit) {
-      this.outputHelp();
-      run = false;
-      this.unsetMatchedCommand();
-    }
-    if (this.options.version && this.showVersionOnExit && this.matchedCommandName == null) {
-      this.outputVersion();
-      run = false;
-      this.unsetMatchedCommand();
-    }
-    const parsedArgv = { args: this.args, options: this.options };
-    if (run) {
-      this.runMatchedCommand();
-    }
-    if (!this.matchedCommand && this.args[0]) {
-      this.emit("command:*");
-    }
-    return parsedArgv;
-  }
-  mri(argv, command) {
-    const cliOptions = [
-      ...this.globalCommand.options,
-      ...command ? command.options : []
-    ];
-    const mriOptions = getMriOptions(cliOptions);
-    let argsAfterDoubleDashes = [];
-    const doubleDashesIndex = argv.indexOf("--");
-    if (doubleDashesIndex > -1) {
-      argsAfterDoubleDashes = argv.slice(doubleDashesIndex + 1);
-      argv = argv.slice(0, doubleDashesIndex);
-    }
-    let parsed = mri2(argv, mriOptions);
-    parsed = Object.keys(parsed).reduce((res, name) => {
-      return __assign(__assign({}, res), {
-        [camelcaseOptionName(name)]: parsed[name]
-      });
-    }, { _: [] });
-    const args = parsed._;
-    const options = {
-      "--": argsAfterDoubleDashes
-    };
-    const ignoreDefault = command && command.config.ignoreOptionDefaultValue ? command.config.ignoreOptionDefaultValue : this.globalCommand.config.ignoreOptionDefaultValue;
-    let transforms = /* @__PURE__ */ Object.create(null);
-    for (const cliOption of cliOptions) {
-      if (!ignoreDefault && cliOption.config.default !== void 0) {
-        for (const name of cliOption.names) {
-          options[name] = cliOption.config.default;
-        }
-      }
-      if (Array.isArray(cliOption.config.type)) {
-        if (transforms[cliOption.name] === void 0) {
-          transforms[cliOption.name] = /* @__PURE__ */ Object.create(null);
-          transforms[cliOption.name]["shouldTransform"] = true;
-          transforms[cliOption.name]["transformFunction"] = cliOption.config.type[0];
-        }
-      }
-    }
-    for (const key of Object.keys(parsed)) {
-      if (key !== "_") {
-        const keys = key.split(".");
-        setDotProp(options, keys, parsed[key]);
-        setByType(options, transforms);
-      }
-    }
-    return {
-      args,
-      options
-    };
-  }
-  runMatchedCommand() {
-    const { args, options, matchedCommand: command } = this;
-    if (!command || !command.commandAction)
-      return;
-    command.checkUnknownOptions();
-    command.checkOptionValue();
-    command.checkRequiredArgs();
-    const actionArgs = [];
-    command.args.forEach((arg, index) => {
-      if (arg.variadic) {
-        actionArgs.push(args.slice(index));
-      } else {
-        actionArgs.push(args[index]);
-      }
-    });
-    actionArgs.push(options);
-    return command.commandAction.apply(this, actionArgs);
-  }
-};
-var cac = (name = "") => new CAC(name);
-var dist_default = cac;
-
-// src/node/cli.ts
-var cli = dist_default("vite");
-cli.command("[root]", "start dev server").alias("serve").alias("dev").action(async () => {
-  const { createServer: createServer2 } = await Promise.resolve().then(() => (init_server(), server_exports));
-  const server = await createServer2();
-  await server.listen();
-});
-cli.help();
-cli.parse();
 /*! Bundled license information:
 
 encodeurl/index.js:

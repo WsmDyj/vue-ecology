@@ -1,5 +1,6 @@
 import path from "node:path"
 import os from 'node:os'
+import { CLIENT_PUBLIC_PATH } from './constants'
 
 // 去除url的参数 /cac/test?query=da -> /cac/test
 export function cleanUrl(url: string): string {
@@ -32,3 +33,7 @@ export function slash(p: string): string {
 export function normalizePath(id: string): string {
   return path.posix.normalize(isWindows ? slash(id) : id)
 }
+
+const internalPrefixes = [CLIENT_PUBLIC_PATH]
+const InternalPrefixRE = new RegExp(`^(?:${internalPrefixes.join('|')})`)
+export const isInternalRequest = (url: string): boolean => InternalPrefixRE.test(url)

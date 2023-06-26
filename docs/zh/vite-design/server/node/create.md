@@ -57,11 +57,11 @@ require('../dist/cli.js')
 ```
 到这里我们完成了 vite dev 指令的创建。在项目中可以通过执行 vite dev 会执行对应 action 中的方法。vite指令遍也是如此。
 ## playground初始化
-上文完成了vite dev指令的生成，接下来需要在playground使用packages下的vite包。通过制定workspace安装本地 vite 包。
+上文完成了vite dev指令的生成，接下来需要在playground使用packages下的vite包。通过指定workspace安装本地 vite 包，而不会安装线上npm模块的vite。
 ```sh
 pnpm add vite --filter playground --workspace
 ```
-并添加启动命令：
+安装好vite之后，在 packages.json 中添加项目启动命令：
 ```
 {
  "scripts": {
@@ -69,5 +69,5 @@ pnpm add vite --filter playground --workspace
   }
 }
 ```
-在playground下运行 `pnpm run dev` 指令，控制台可以看到输出 **`vite dev 启动项目`**。表明我们的 vite dev 指令生效了，项目搭建成功，后续会逐步实现vite的功能模块。请确保这一步是成功的，如果失败了，可直接拷贝开头已经创建好的模版。
+最后在playground下运行 `pnpm run dev` 指令，控制台可以看到输出 **`vite dev 启动项目`**。表明我们的 vite dev 指令生效了，项目搭建成功，后续会逐步实现vite的功能模块。请确保这一步是成功的，如果失败了，可直接拷贝开头已经创建好的模版。
 

@@ -2,7 +2,7 @@ import { DefaultTheme } from 'vitepress';
 export const sidebar: DefaultTheme.Sidebar = {
   "/zh/vite-design": [
     {
-      text: "开篇词",
+      text: "第一章：开篇词",
       collapsed: false,
       items: [
         {
@@ -16,7 +16,7 @@ export const sidebar: DefaultTheme.Sidebar = {
       ]
     },
     {
-      text: "第一章：本地服务",
+      text: "第二章：本地服务",
       collapsed: false,
       items: [
         {
@@ -28,13 +28,23 @@ export const sidebar: DefaultTheme.Sidebar = {
           link: "/zh/vite-design/server/node/server"
         },
         {
-          text: "05 | 静态资源加载",
+          text: "05 | 页面资源加载",
           link: "/zh/vite-design/server/node/static"
-        }
+        },
       ]
     },
     {
-      text: "第二章：依赖预构建",
+      text: "第三章：插件体系",
+      collapsed: false,
+      items: [
+        {
+          text: "06 | 插件化架构",
+          link: "/zh/vite-design/server/plugin/plugin"
+        },
+      ]
+    },
+    {
+      text: "第四章：依赖预构建",
       collapsed: false,
       items: [
         {
@@ -56,12 +66,14 @@ export const sidebar: DefaultTheme.Sidebar = {
       ]
     },
     {
-      text: "第三章：插件体系",
+      text: "第五章：客户端client",
       collapsed: false,
-      items: []
+      items: [
+        
+      ]
     },
     {
-      text: "第四章：热更新",
+      text: "第六章：热更新",
       collapsed: false,
       items: []
     }

@@ -1087,14 +1087,14 @@ var require_connect = __commonJS({
     }
     proto.use = function use(route, fn) {
       var handle = fn;
-      var path4 = route;
+      var path3 = route;
       if (typeof route !== "string") {
         handle = route;
-        path4 = "/";
+        path3 = "/";
       }
       if (typeof handle.handle === "function") {
         var server = handle;
-        server.route = path4;
+        server.route = path3;
         handle = function(req, res, next) {
           server.handle(req, res, next);
         };
@@ -1102,11 +1102,11 @@ var require_connect = __commonJS({
       if (handle instanceof http.Server) {
         handle = handle.listeners("request")[0];
       }
-      if (path4[path4.length - 1] === "/") {
-        path4 = path4.slice(0, -1);
+      if (path3[path3.length - 1] === "/") {
+        path3 = path3.slice(0, -1);
       }
-      debug("use %s %s", path4 || "/", handle.name || "anonymous");
-      this.stack.push({ route: path4, handle });
+      debug("use %s %s", path3 || "/", handle.name || "anonymous");
+      this.stack.push({ route: path3, handle });
       return this;
     };
     proto.handle = function handle(req, res, out) {
@@ -1134,12 +1134,12 @@ var require_connect = __commonJS({
           defer(done, err);
           return;
         }
-        var path4 = parseUrl(req).pathname || "/";
+        var path3 = parseUrl(req).pathname || "/";
         var route = layer.route;
-        if (path4.toLowerCase().substr(0, route.length) !== route.toLowerCase()) {
+        if (path3.toLowerCase().substr(0, route.length) !== route.toLowerCase()) {
           return next(err);
         }
-        var c = path4.length > route.length && path4[route.length];
+        var c = path3.length > route.length && path3[route.length];
         if (c && c !== "/" && c !== ".") {
           return next(err);
         }
@@ -1311,6 +1311,11 @@ var import_connect = __toESM(require_connect());
 // src/node/server/middleware/indexHtml.ts
 import path from "path";
 import { readFile } from "fs/promises";
+
+// src/node/constants.ts
+var CLIENT_PUBLIC_PATH = `/@vite/client`;
+
+// src/node/server/middleware/indexHtml.ts
 function serializeAttrs(attrs) {
   let res = "";
   for (const key in attrs) {
@@ -1330,7 +1335,7 @@ function createDevHtmlTransformFn(html) {
         tag: "script",
         attrs: {
           type: "module",
-          src: path.posix.join("/", `./client/client.js`)
+          src: path.posix.join("/", CLIENT_PUBLIC_PATH)
         },
         injectTo: "head-prepend"
       }
@@ -2005,6 +2010,32 @@ function build_default(dir, opts = {}) {
   };
 }
 
+// src/node/utils.ts
+import path2 from "node:path";
+import os from "node:os";
+function cleanUrl(url) {
+  return url.replace(/[?#].*$/s, "");
+}
+var CSS_LANGS_RE = /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/;
+var knownJsSrcRE = /\.(?:[jt]sx?|m[jt]s|vue|marko|svelte|astro|imba)(?:$|\?)/;
+var importQueryRE = /(\?|&)import=?(?:&|$)/;
+var isImportRequest = (url) => importQueryRE.test(url);
+var isJSRequest = (url) => {
+  url = cleanUrl(url);
+  if (knownJsSrcRE.test(url)) {
+    return true;
+  }
+  if (!path2.extname(url) && url[url.length - 1] !== "/") {
+    return true;
+  }
+  return false;
+};
+var isCSSRequest = (request) => CSS_LANGS_RE.test(request);
+var isWindows = os.platform() === "win32";
+var internalPrefixes = [CLIENT_PUBLIC_PATH];
+var InternalPrefixRE = new RegExp(`^(?:${internalPrefixes.join("|")})`);
+var isInternalRequest = (url) => InternalPrefixRE.test(url);
+
 // src/node/server/middleware/static.ts
 var sirvOptions = {
   // sirv的一些配置
@@ -2014,6 +2045,9 @@ var sirvOptions = {
 };
 function serveStaticMiddleware(server) {
   return function viteServeStaticMiddleware(req, res, next) {
+    if (isInternalRequest(req.url)) {
+      return next();
+    }
     const serve = build_default(
       server.config.root,
       // 项目根路径
@@ -2023,45 +2057,22 @@ function serveStaticMiddleware(server) {
   };
 }
 
-// src/node/server/middleware/cssTransform.ts
-import path3 from "node:path";
-import { readFile as readFile2 } from "fs/promises";
-
-// src/node/utils.ts
-import path2 from "node:path";
-import os from "node:os";
-function cleanUrl(url) {
-  return url.replace(/[?#].*$/s, "");
-}
-var CSS_LANGS_RE = /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/;
-var isCSSRequest = (request) => CSS_LANGS_RE.test(request);
-var isWindows = os.platform() === "win32";
-function slash(p) {
-  return p.replace(/\\/g, "/");
-}
-function normalizePath(id) {
-  return path2.posix.normalize(isWindows ? slash(id) : id);
-}
-
-// src/node/server/middleware/cssTransform.ts
-function cssMiddleware(server) {
+// src/node/server/middleware/transform.ts
+function transformMiddleware(server) {
   return async (req, res, next) => {
-    let url = cleanUrl(req.url);
-    if (isCSSRequest(url)) {
-      const cssPath = normalizePath(path3.join(server.config.root, url));
-      const cssContent = await readFile2(cssPath, "utf-8");
-      const code = [
-        `import { updateStyle as __vite__updateStyle } from ${JSON.stringify(
-          path3.posix.join("/", `/@vite/client`)
-        )}`,
-        `const id = "${url}"`,
-        `const __vite__css = ${JSON.stringify(cssContent)}`,
-        `__vite__updateStyle(id, __vite__css)`,
-        `export default __vite__css`
-      ].join("\n");
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/javascript");
-      return res.end(code);
+    if (req.method !== "GET") {
+      return next();
+    }
+    let url = req.url;
+    if (isJSRequest(url) || isImportRequest(url) || isCSSRequest(url)) {
+      console.log(url);
+      try {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/javascript");
+        return res.end("");
+      } catch (e) {
+        console.log(e);
+      }
     }
     next();
   };
@@ -2082,7 +2093,7 @@ async function createServer() {
       });
     }
   };
-  app.use(cssMiddleware(server));
+  app.use(transformMiddleware(server));
   app.use(serveStaticMiddleware(server));
   app.use(htmlFallbackMiddleware(server));
   app.use(indexHtmlMiddleware(server));

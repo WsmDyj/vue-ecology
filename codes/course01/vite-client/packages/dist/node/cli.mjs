@@ -1,4 +1,4 @@
-import "./chunk-QHOBBTS4.mjs";
+import "../chunk-QHOBBTS4.mjs";
 
 // ../node_modules/.pnpm/cac@6.7.14/node_modules/cac/dist/index.mjs
 import { EventEmitter } from "events";
@@ -594,7 +594,7 @@ var dist_default = cac;
 // src/node/cli.ts
 var cli = dist_default("vite");
 cli.command("[root]", "start dev server").alias("serve").alias("dev").action(async () => {
-  const { createServer } = await import("./server-YTT6AY7L.mjs");
+  const { createServer } = await import("../server-QBQ5PFAD.mjs");
   const server = await createServer();
   await server.listen();
 });

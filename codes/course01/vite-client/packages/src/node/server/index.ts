@@ -3,6 +3,7 @@ import connect from "connect"
 import { indexHtmlMiddleware } from './middleware/indexHtml'
 import { htmlFallbackMiddleware } from './middleware/htmlFallback'
 import { serveStaticMiddleware } from './middleware/static'
+import { cssMiddleware } from './middleware/cssTransform'
 import { transformMiddleware } from './middleware/transform'
 
 export interface ResolvedConfig {
@@ -33,6 +34,8 @@ export async function createServer(): Promise<ViteDevServer> {
 
 
   app.use(transformMiddleware(server)) //  资源请求转发
+
+  // app.use(cssMiddleware(server)) // 资源请求转发
 
   app.use(serveStaticMiddleware(server)) // 静态资源
 

@@ -1115,14 +1115,14 @@ var require_connect = __commonJS({
     }
     proto.use = function use(route, fn) {
       var handle = fn;
-      var path4 = route;
+      var path3 = route;
       if (typeof route !== "string") {
         handle = route;
-        path4 = "/";
+        path3 = "/";
       }
       if (typeof handle.handle === "function") {
         var server = handle;
-        server.route = path4;
+        server.route = path3;
         handle = function(req, res, next) {
           server.handle(req, res, next);
         };
@@ -1130,11 +1130,11 @@ var require_connect = __commonJS({
       if (handle instanceof http.Server) {
         handle = handle.listeners("request")[0];
       }
-      if (path4[path4.length - 1] === "/") {
-        path4 = path4.slice(0, -1);
+      if (path3[path3.length - 1] === "/") {
+        path3 = path3.slice(0, -1);
       }
-      debug("use %s %s", path4 || "/", handle.name || "anonymous");
-      this.stack.push({ route: path4, handle });
+      debug("use %s %s", path3 || "/", handle.name || "anonymous");
+      this.stack.push({ route: path3, handle });
       return this;
     };
     proto.handle = function handle(req, res, out) {
@@ -1162,12 +1162,12 @@ var require_connect = __commonJS({
           defer(done, err);
           return;
         }
-        var path4 = parseUrl(req).pathname || "/";
+        var path3 = parseUrl(req).pathname || "/";
         var route = layer.route;
-        if (path4.toLowerCase().substr(0, route.length) !== route.toLowerCase()) {
+        if (path3.toLowerCase().substr(0, route.length) !== route.toLowerCase()) {
           return next(err);
         }
-        var c = path4.length > route.length && path4[route.length];
+        var c = path3.length > route.length && path3[route.length];
         if (c && c !== "/" && c !== ".") {
           return next(err);
         }
@@ -1219,13 +1219,54 @@ var require_connect = __commonJS({
   }
 });
 
+// src/node/constants.ts
+var CLIENT_PUBLIC_PATH;
+var init_constants = __esm({
+  "src/node/constants.ts"() {
+    "use strict";
+    CLIENT_PUBLIC_PATH = `/@vite/client`;
+  }
+});
+
 // src/node/server/middleware/indexHtml.ts
+function serializeAttrs(attrs) {
+  let res = "";
+  for (const key in attrs) {
+    res += ` ${key}=${JSON.stringify(attrs[key])}`;
+  }
+  return res;
+}
+function serializeTags(tags) {
+  return tags.map(({ tag, attrs }) => `<${tag}${serializeAttrs(attrs)}></${tag}>
+`).join("");
+}
+function createDevHtmlTransformFn(html) {
+  const devHtmlHook = {
+    tags: [
+      {
+        tag: "script",
+        attrs: {
+          type: "module",
+          src: import_path.default.posix.join("/", CLIENT_PUBLIC_PATH)
+        },
+        injectTo: "head-prepend"
+      }
+    ]
+  };
+  html = html.replace(
+    headPrependInjectRE,
+    (match) => `${match}
+${serializeTags(devHtmlHook.tags)}`
+  );
+  return html;
+}
 function indexHtmlMiddleware(server) {
   return async (req, res, next) => {
     const url = req.url;
     if (url?.endsWith(".html")) {
       const htmlPath = import_path.default.resolve(server.config.root, "index.html");
       let html = await (0, import_promises.readFile)(htmlPath, "utf-8");
+      html = createDevHtmlTransformFn(html);
       res.statusCode = 200;
       res.setHeader("Content-Type", "text/html");
       return res.end(html);
@@ -1233,12 +1274,14 @@ function indexHtmlMiddleware(server) {
     next();
   };
 }
-var import_path, import_promises;
+var import_path, import_promises, headPrependInjectRE;
 var init_indexHtml = __esm({
   "src/node/server/middleware/indexHtml.ts"() {
     "use strict";
     import_path = __toESM(require("path"));
     import_promises = require("fs/promises");
+    init_constants();
+    headPrependInjectRE = /([ \t]*)<head[^>]*>/i;
   }
 });
 
@@ -2034,9 +2077,45 @@ var init_build2 = __esm({
   }
 });
 
+// src/node/utils.ts
+function cleanUrl(url) {
+  return url.replace(/[?#].*$/s, "");
+}
+var import_node_path, import_node_os, CSS_LANGS_RE, knownJsSrcRE, importQueryRE, isImportRequest, isJSRequest, isCSSRequest, isWindows, internalPrefixes, InternalPrefixRE, isInternalRequest;
+var init_utils = __esm({
+  "src/node/utils.ts"() {
+    "use strict";
+    import_node_path = __toESM(require("path"));
+    import_node_os = __toESM(require("os"));
+    init_constants();
+    CSS_LANGS_RE = /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/;
+    knownJsSrcRE = /\.(?:[jt]sx?|m[jt]s|vue|marko|svelte|astro|imba)(?:$|\?)/;
+    importQueryRE = /(\?|&)import=?(?:&|$)/;
+    isImportRequest = (url) => importQueryRE.test(url);
+    isJSRequest = (url) => {
+      url = cleanUrl(url);
+      if (knownJsSrcRE.test(url)) {
+        return true;
+      }
+      if (!import_node_path.default.extname(url) && url[url.length - 1] !== "/") {
+        return true;
+      }
+      return false;
+    };
+    isCSSRequest = (request) => CSS_LANGS_RE.test(request);
+    isWindows = import_node_os.default.platform() === "win32";
+    internalPrefixes = [CLIENT_PUBLIC_PATH];
+    InternalPrefixRE = new RegExp(`^(?:${internalPrefixes.join("|")})`);
+    isInternalRequest = (url) => InternalPrefixRE.test(url);
+  }
+});
+
 // src/node/server/middleware/static.ts
 function serveStaticMiddleware(server) {
   return function viteServeStaticMiddleware(req, res, next) {
+    if (isInternalRequest(req.url)) {
+      return next();
+    }
     const serve = build_default(
       server.config.root,
       // 项目根路径
@@ -2050,6 +2129,7 @@ var init_static = __esm({
   "src/node/server/middleware/static.ts"() {
     "use strict";
     init_build2();
+    init_utils();
     sirvOptions = {
       // sirv的一些配置
       dev: true,
@@ -2059,55 +2139,30 @@ var init_static = __esm({
   }
 });
 
-// src/node/utils.ts
-function cleanUrl(url) {
-  return url.replace(/[?#].*$/s, "");
-}
-function slash(p) {
-  return p.replace(/\\/g, "/");
-}
-function normalizePath(id) {
-  return import_node_path.default.posix.normalize(isWindows ? slash(id) : id);
-}
-var import_node_path, import_node_os, CSS_LANGS_RE, isCSSRequest, isWindows;
-var init_utils = __esm({
-  "src/node/utils.ts"() {
-    "use strict";
-    import_node_path = __toESM(require("path"));
-    import_node_os = __toESM(require("os"));
-    CSS_LANGS_RE = /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/;
-    isCSSRequest = (request) => CSS_LANGS_RE.test(request);
-    isWindows = import_node_os.default.platform() === "win32";
-  }
-});
-
 // src/node/server/middleware/transform.ts
 function transformMiddleware(server) {
   return async (req, res, next) => {
-    let url = cleanUrl(req.url);
-    if (isCSSRequest(url)) {
-      const cssPath = normalizePath(import_node_path2.default.join(server.config.root, url));
-      const cssContent = await (0, import_promises2.readFile)(cssPath, "utf-8");
-      const code = [
-        `const id = "${url}"`,
-        `const __vite__css = ${JSON.stringify(cssContent)}`,
-        `updateStyle(id, __vite__css)`,
-        `export default __vite__css`
-      ].join("\n");
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/javascript");
-      return res.end(code);
+    if (req.method !== "GET") {
+      return next();
+    }
+    let url = req.url;
+    if (isJSRequest(url) || isImportRequest(url) || isCSSRequest(url)) {
+      console.log(url);
+      try {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/javascript");
+        return res.end("");
+      } catch (e) {
+        console.log(e);
+      }
     }
     next();
   };
 }
-var import_node_path2, import_promises2;
 var init_transform = __esm({
   "src/node/server/middleware/transform.ts"() {
     "use strict";
-    import_node_path2 = __toESM(require("path"));
     init_utils();
-    import_promises2 = require("fs/promises");
   }
 });
 
