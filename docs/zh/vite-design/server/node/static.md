@@ -149,6 +149,4 @@ export function transformMiddleware(server: ViteDevServer): NextHandleFunction {
 
 ## 总结
 在这一章节中，我们开发了 static 中间件通过借助 sirv 这个库的能力，用于加载静态资源。这时，如果项目中不是通过静态方式加载的资源，比如css通过import的方式引入，也会当成js请求去加载，因此我们开发了 transform 中间件先通过正则的方式匹配出所有请求为css资源的url，读取这个url路径下的文件并动态创建style标签，将css文件内容写入到style标签下并返回给浏览器，用于加载css资源。
-<center>
-  <ZoomImg src="../../../../public/images/node/static04.png" />
-</center>
+
