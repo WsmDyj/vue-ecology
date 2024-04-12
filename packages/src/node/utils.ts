@@ -29,6 +29,7 @@ export const isImportRequest = (url: string): boolean => importQueryRE.test(url)
 export const isCSSRequest = (request: string): boolean => CSS_LANGS_RE.test(request)
 
 
+
 export const isWindows = os.platform() === 'win32'
 
 const windowsSlashRE = /\\/g

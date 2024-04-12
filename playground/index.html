@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
+
 <body>
+  <img src="/public/vite.svg" alt="" srcset="">
+  <img src="/public/vue.png" style="width: 32px" alt="" srcset="">
   <div id="app"></div>
   <script type="module" src="/src/main.js"></script>
   <script>
-        window.process = {
-            env: {
-              NODE_ENV: 'dev'
-            }
-          }
-          const sheetMap = new Map()
-            document.querySelectorAll('style[data-vite-dev-id]').forEach((el) => {
-              sheetMap.set(el.getAttribute('data-vite-dev-id'), el)
-            })
+    window.process = {
+      env: {
+        NODE_ENV: 'dev'
+      }
+    }
+    const sheetMap = new Map()
     
-           function updateStyle (id, content) {
-              let style = sheetMap.get(id)
-              if (!style) {
-                style = document.createElement('style')
-                style.setAttribute('type', 'text/css')
-                style.setAttribute('data-vite-dev-id', id)
-                style.textContent = content
-                document.head.appendChild(style)
-              } else {
-                style.textContent = content
-              }
-              sheetMap.set(id, style)
-            }
-      </script>
+    document.querySelectorAll('style[data-vite-dev-id]').forEach((el) => {
+      sheetMap.set(el.getAttribute('data-vite-dev-id'), el)
+    })
+
+    function updateStyle (id, content) {
+      let style = sheetMap.get(id)
+      if (!style) {
+        style = document.createElement('style')
+        style.setAttribute('type', 'text/css')
+        style.setAttribute('data-vite-dev-id', id)
+        style.textContent = content
+        document.head.appendChild(style)
+      } else {
+        style.textContent = content
+      }
+      sheetMap.set(id, style)
+    }
+  </script>
 </body>
+
 </html>

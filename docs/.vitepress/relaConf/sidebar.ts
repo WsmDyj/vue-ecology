@@ -7,11 +7,15 @@ export const sidebar: DefaultTheme.Sidebar = {
       items: [
         {
           text: "01 | 故事的开始",
-          link: "/zh/vite-design/guide"
+          link: "/zh/vite-design/guide/start"
         },
         {
-          text: "02 | vite的本质",
-          link: "/zh/vite-design/nature"
+          text: "02 | 前端模块化",
+          link: "/zh/vite-design/guide/module"
+        },
+        {
+          text: "03 | vite的本质",
+          link: "/zh/vite-design/guide/nature"
         }
       ]
     },
@@ -20,15 +24,15 @@ export const sidebar: DefaultTheme.Sidebar = {
       collapsed: false,
       items: [
         {
-          text: "03 | 开发环境搭建",
+          text: "04 | 开发环境搭建",
           link: "/zh/vite-design/server/node/create"
         },
         {
-          text: "04 | 创建后台服务",
+          text: "05 | 创建后台服务",
           link: "/zh/vite-design/server/node/server"
         },
         {
-          text: "05 | 页面资源加载",
+          text: "06 | 页面资源加载",
           link: "/zh/vite-design/server/node/static"
         },
       ]
@@ -38,8 +42,16 @@ export const sidebar: DefaultTheme.Sidebar = {
       collapsed: false,
       items: [
         {
-          text: "06 | 插件化架构",
+          text: "07 | 插件化架构",
           link: "/zh/vite-design/server/plugin/plugin"
+        },
+        {
+          text: "08 | Rollup打包Vue3",
+          link: "/zh/vite-design/server/plugin/rollup"
+        },
+        {
+          text: "09 | Rollup插件机制",
+          link: "/zh/vite-design/server/plugin/container"
         },
       ]
     },

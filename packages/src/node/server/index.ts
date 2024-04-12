@@ -4,9 +4,12 @@ import { initDepsOptimizer } from '../optimizer'
 
 import { transformMiddleware } from './middleware/transform'
 import { indexHtmlMiddleware } from './middleware/indexHtml'
+import { htmlFallbackMiddleware } from "./middleware/htmlFallback";
+import { serveStaticMiddleware } from "./middleware/static";
 
 import type { PluginContainer } from "./pluginContainer"
 import { createPluginContainer } from "./pluginContainer"
+
 
 export interface ResolvedConfig {
   root: string
@@ -15,7 +18,7 @@ export interface ResolvedConfig {
 export interface ViteDevServer {
   config: ResolvedConfig
   pluginContainer: PluginContainer
-  listen(): Promise<void>
+  listen(port?: number, isRestart?: boolean): Promise<void>
 }
 
 
@@ -38,9 +41,10 @@ export async function createServer(): Promise<ViteDevServer> {
   const server: ViteDevServer = {
     config,
     pluginContainer: container,
+
     async listen() {
-      // 依赖构建
-      await initDepsOptimizer(config)
+      // 依赖预构建
+      // await initDepsOptimizer(config)
       // 启动项目
       app.listen(3000, async () => {
         console.log(`> 本地访问路径: "http://localhost:3000"`);
@@ -48,11 +52,13 @@ export async function createServer(): Promise<ViteDevServer> {
     }
   } 
 
+  app.use(transformMiddleware(server)) // 资源请求转发
 
-  // 文件内容的转化
-  app.use(transformMiddleware(server))
+  app.use(serveStaticMiddleware(server)) // 加载静态资源
 
-  app.use(indexHtmlMiddleware(server))
+  app.use(htmlFallbackMiddleware(server)) // 重定向到index.html
+
+  app.use(indexHtmlMiddleware(server)) // 通过use的方式注册中间件并传递参数server作为参数
 
  
   return server

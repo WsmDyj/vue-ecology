@@ -17,6 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/connect": "^3.4.35",
+    "@types/connect-history-api-fallback": "^1.5.4",
     "@types/fs-extra": "^11.0.1",
     "@types/hash-sum": "^1.0.0",
     "@types/lodash-es": "^4.17.7",
@@ -24,17 +25,20 @@
     "@vue/compiler-sfc": "^3.3.4",
     "commander": "^10.0.1",
     "connect": "^3.7.0",
+    "connect-history-api-fallback": "^2.0.0",
     "es-module-lexer": "^1.2.1",
     "fast-glob": "^3.2.12",
     "fs-extra": "^11.1.1",
     "hash-sum": "^2.0.0",
     "magic-string": "^0.30.0",
     "rollup": "^3.23.0",
+    "sirv": "^2.0.4",
     "ws": "^8.13.0"
   },
   "dependencies": {
     "cac": "^6.7.14",
     "esbuild": "^0.17.19",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "tsup": "^8.0.2"
   }
 }

@@ -6,7 +6,7 @@ import path from 'path'
 export function indexHtmlMiddleware(server: ViteDevServer): NextHandleFunction {
   return async (req, res, next) => {
     const url = req.url
-    if (url === '/') {
+    if (url?.endsWith('.html')) {
       const htmlPath = path.resolve(server.config.root, 'index.html')
       let html = await readFile(htmlPath, 'utf-8')
       res.statusCode = 200;

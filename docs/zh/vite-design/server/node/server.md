@@ -44,7 +44,7 @@ cli
 进入 packages 执行 `pnpm run dev` 启动我们的vite，这时在 playground 下执行dev启动项目控制台输出 `启动本地服务`。
 
 ## 开启一个 Server
-Vite4 中使用 [Connect](https://www.npmjs.com/package/connect) 这个库创建http服务，在开发过程中进行实时的热更新和模块热替换。Connect是一个Node.js的中间件框架，它提供了一种简单的方式来创建HTTP服务器，当一个请求发送到 server 时，会经过一个个的中间件，中间件本质是一个回调函数，每次请求都会执行回调。这样我们可以通过中间件的方式分别对请求进行处理，每个中间件只负责特定的事情，并进行响应。这样可以将业务逻辑很好的拆分，并允许开发者使用各种插件来扩展其功能，大大增加了代码的可扩展性和维护性。
+Vite 中使用 [Connect](https://www.npmjs.com/package/connect) 这个库创建http服务，在开发过程中进行实时的热更新和模块热替换。Connect是一个Node.js的中间件框架，它提供了一种简单的方式来创建HTTP服务器，当一个请求发送到 server 时，会经过一个个的中间件，中间件本质是一个回调函数，每次请求都会执行回调。通过中间件的方式分别对请求进行处理(比如html、css、js...)，每个中间件只负责特定的事情，并进行响应。这样可以将业务逻辑很好的拆分，并允许开发者使用或自定义各种插件来扩展其功能，大大增加了代码的可扩展性和维护性。
 
 <center>
   <ZoomImg src="../../../../public/images/node/connect.webp" />
@@ -129,7 +129,11 @@ export async function createServer(): Promise<ViteDevServer> {
 
 因此我们需要把所有的get请求都定位到指定的索引文件（index.html），然后再由vue-router、react-router等来接管页面路由。而不再根据路径的path（'/'）来直接去加载index.html。
 
-借助 [connect-history-api-fallback](https://www.npmjs.com/package/connect-history-api-fallback) 把所有的get方式的请求都发给/index.html。在packages下安装依赖包：`pnpm i connect-history-api-fallback -D`。自定义一个connect中间件去处理这部分逻辑，新建`/packages/src/node/server/middleware/htmlFallback.ts` 内容如下：
+借助 [connect-history-api-fallback](https://www.npmjs.com/package/connect-history-api-fallback) 把所有的get方式的请求都发给/index.html。在packages下安装依赖包：
+```sh
+pnpm i connect-history-api-fallback @types/connect-history-api-fallback -D
+```
+自定义一个connect中间件去处理这部分逻辑，新建`/packages/src/node/server/middleware/htmlFallback.ts` 内容如下：
 ```typescript
 import fs from 'node:fs'
 import path from 'node:path'

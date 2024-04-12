@@ -11,7 +11,6 @@ export function transformMiddleware(server: ViteDevServer): NextHandleFunction {
       return next()
     }
     let url = req.url!
-
     if (isJSRequest(url) || isImportRequest(url) || isCSSRequest(url)) {
       try {
         const result = await transformRequest(url, server)
