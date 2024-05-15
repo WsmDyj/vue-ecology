@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "pnpm run -C packages dev",
-    "docs:dev": "pnpm run -C docs docs:dev",
+    "docs:dev": "pnpm run -C docs dev",
     "docs:build": "pnpm run -C docs docs:build"
   },
   "keywords": [],

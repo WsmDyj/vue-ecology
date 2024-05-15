@@ -5,6 +5,7 @@ export default defineConfig({
   title: 'vue-ecology',
   outDir: 'dist',
   description: 'vue三大生态',
+  ignoreDeadLinks: true,
   themeConfig: {
     editLink: {
       pattern: 'https://github.com/WsmDyj/vue-ecology/tree/main/docs/:path',
