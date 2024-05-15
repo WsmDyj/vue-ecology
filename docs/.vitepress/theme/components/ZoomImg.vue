@@ -9,7 +9,7 @@ const props = defineProps({
 
 const imgRef = ref(null)
 const imgSrc = computed(() => {
-  if (window.location.href.indexOf('vercel.app') !== -1) {
+  if (import.meta.env.PROD) {
     return 'https://raw.githubusercontent.com/WsmDyj/vue-ecology/main/docs/' + props.src.replaceAll('../', '')
   } else {
     return props.src
