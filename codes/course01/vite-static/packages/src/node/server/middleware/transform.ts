@@ -1,5 +1,5 @@
 import path from 'node:path'
-import type { NextHandleFunction } from 'connect'
+import type { NextHandleFunction } from '../../../../../../../course02/vite-plugin/playground/node_modules/.pnpm/@types+connect@3.4.35/node_modules/@types/connect'
 import type { ViteDevServer } from '../../server'
 import { cleanUrl, isCSSRequest, normalizePath } from "../../utils"
 import { readFile } from 'fs/promises'

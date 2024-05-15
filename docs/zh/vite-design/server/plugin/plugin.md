@@ -4,10 +4,6 @@
   <ZoomImg src="../../../../public/images/node/static04.png" />
 </center>
 
-> TIP
->
-> 本章节完整代码：[https://github.com/WsmDyj/vue-ecology/tree/main/codes/course02/vite-plugin](https://github.com/WsmDyj/vue-ecology/tree/main/codes/course02/vite-plugin) 
-
 
 ## 什么是插件化架构
 插件化架构（Plug-in Architecture），有时候又被称为微内核架构（Microkernel Architecture），是一种面向功能进行拆分的可扩展性架构。微内核架构模式允许你将其他应用程序功能作为插件添加到核心应用程序，从而提供可扩展性以及功能分离与隔离。

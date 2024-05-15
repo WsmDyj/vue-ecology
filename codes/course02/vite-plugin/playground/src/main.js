@@ -1,2 +1,7 @@
 import './assets/normalize.css'
-console.log('i am main.js')
+
+import { get } from 'lodash-es'
+
+const a = get({a: '1'}, 'a')
+
+console.log(a)

@@ -11,6 +11,7 @@ const knownJsSrcRE = /\.(?:[jt]sx?|m[jt]s|vue|marko|svelte|astro|imba)(?:$|\?)/
 const importQueryRE = /(\?|&)import=?(?:&|$)/
 
 export const isImportRequest = (url: string): boolean => importQueryRE.test(url)
+
 export const isJSRequest = (url: string): boolean => {
   url = cleanUrl(url)
   if (knownJsSrcRE.test(url)) {
@@ -21,6 +22,7 @@ export const isJSRequest = (url: string): boolean => {
   }
   return false
 }
+
 export const isCSSRequest = (request: string): boolean => CSS_LANGS_RE.test(request)
 
 export const isWindows = os.platform() === 'win32'

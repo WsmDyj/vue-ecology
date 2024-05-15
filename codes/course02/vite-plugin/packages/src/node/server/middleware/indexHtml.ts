@@ -1,6 +1,6 @@
 import path from "path"
 import type { NextHandleFunction } from "connect"
-import type { ViteDevServer } from "../../server"
+import type { ViteDevServer } from ".."
 import { readFile } from "fs/promises"
 
 export function indexHtmlMiddleware(server: ViteDevServer): NextHandleFunction {

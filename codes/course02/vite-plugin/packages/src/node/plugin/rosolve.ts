@@ -10,7 +10,6 @@ export function resolvePlugin(resolveOptions: ResolvedConfig): Plugin {
     name: 'vite:resolve',
     async resolveId(id, importer) {
       const { root } = resolveOptions
-
       if (id[0] === '/' && !id.startsWith(root)) {
         const fsPath = path.resolve(root, id.slice(1))
         return { id: fsPath }
@@ -22,14 +21,13 @@ export function resolvePlugin(resolveOptions: ResolvedConfig): Plugin {
         return { id: fsPath }
       }
 
-      // 绝对路径
       if (path.isAbsolute(id)) {
         return { id };
       }
-
       // 第三方库
       if (bareImportRE.test(id)) {
         let prefix = path.resolve(root, 'node_modules', id)
+        // 找到第三方库的入口
         const module = require(prefix + '/package.json').module
         const fsPath = path.join(prefix, module)
         return { id: fsPath }

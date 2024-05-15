@@ -1,5 +1,5 @@
 import type { NextHandleFunction } from "connect"
-import type { ViteDevServer } from "../../server"
+import type { ViteDevServer } from ".."
 
 import history from 'connect-history-api-fallback'
 

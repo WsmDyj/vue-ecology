@@ -37,42 +37,46 @@ export const sidebar: DefaultTheme.Sidebar = {
         },
       ]
     },
-    {
-      text: "第三章：插件体系",
+     {
+      text: "第四章：插件体系",
       collapsed: false,
       items: [
         {
-          text: "07 | 插件化架构",
+          text: "07 | 插件化架构设计",
           link: "/zh/vite-design/server/plugin/plugin"
         },
         {
-          text: "08 | Rollup打包Vue3",
+          text: "08 | Rollup插件机制",
           link: "/zh/vite-design/server/plugin/rollup"
         },
         {
-          text: "09 | Rollup插件机制",
-          link: "/zh/vite-design/server/plugin/container"
+          text: "09 | Vite 插件机制",
+          link: "/zh/vite-design/server/plugin/vite"
+        },
+        {
+          text: "10 | Vite 插件实现",
+          link: "/zh/vite-design/server/plugin/achieve"
         },
       ]
     },
     {
-      text: "第四章：依赖预构建",
+      text: "第三章：依赖预构建",
       collapsed: false,
       items: [
         {
-          text: "06 | 介绍",
+          text: "07 | 介绍",
           link: "/zh/vite-design/server/optimizer/index"
         },
         {
-          text: "07 | 依赖扫描",
+          text: "08 | 依赖扫描",
           link: "/zh/vite-design/server/optimizer/scan"
         },
         {
-          text: "08 | 依赖构建",
+          text: "09 | 依赖构建",
           link: "/zh/vite-design/server/optimizer/build"
         },
         {
-          text: "07 | 依赖替换",
+          text: "10 | 依赖替换",
           link: "/zh/vite-design/server/optimizer/code"
         }
       ]

@@ -1,4 +1,4 @@
-import connect from "connect"
+import connect from "../../../../../../course02/vite-plugin/playground/node_modules/.pnpm/@types+connect@3.4.35/node_modules/@types/connect"
 
 import { indexHtmlMiddleware } from './middleware/indexHtml'
 import { htmlFallbackMiddleware } from './middleware/htmlFallback'

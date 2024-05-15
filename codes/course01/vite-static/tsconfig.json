@@ -15,5 +15,5 @@
     "baseUrl": "./"
   },
   "include": ["packages", "playground", "types/*"],
-  "exclude": ["node_modules", "server"]
+  "exclude": ["../../course02/vite-plugin/playground/node_modules", "server"]
 }

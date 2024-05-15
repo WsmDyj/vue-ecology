@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "vite": "workspace:^"
+  },
+  "devDependencies": {
+    "lodash-es": "^4.17.21"
   }
 }

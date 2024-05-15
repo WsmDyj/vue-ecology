@@ -1,5 +1,5 @@
 import type { NextHandleFunction } from "connect"
-import type { ViteDevServer } from "../../server"
+import type { ViteDevServer } from ".."
 import sirv from 'sirv'
 import type { Options } from 'sirv'
 

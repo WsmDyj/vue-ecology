@@ -20,15 +20,16 @@ export async function createPluginContainer(config: ResolvedConfig): Promise<Plu
   class Context {
     async resolve(id: string, importer?: string | undefined) {
       let out = await container.resolveId(id, importer)
-      if (typeof out === "string") out = { id: out }
+      if (typeof out === "string") {
+        out = { id: out }
+      }
       return out 
     }
   }
 
-   const plugins = await resolvePlugins(config)
+  const plugins = await resolvePlugins(config)
 
   const container: PluginContainer = {
-    
     async resolveId(rawId, importer = join(root, 'index.html')) {
       const ctx = new Context()
       let id: string | null = null

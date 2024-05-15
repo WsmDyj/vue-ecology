@@ -1,15 +1,20 @@
-# Rollup构建Vue3项目
-在这一章中，我们通过配置一个Rollup打包Vue3的例子先来了解下Rollup整个打包过程，加深大家对Rollup的理解。如果对rollup比较熟悉的同学可以跳过这章。
+# Rollup插件机制
+在这一章中，我们通过配置一个Rollup打包Vue3的例子先来了解下Rollup整个打包过程，然后介绍Rollup在打包阶段的一个完整的工作流。
 
+> TIP
+>
+> 本章节完整代码：[https://github.com/WsmDyj/vue-ecology/tree/main/codes/course02/rollup-vue3](https://github.com/WsmDyj/vue-ecology/tree/main/codes/course02/rollup-vue3) 
 
-用 Rollup 来搭建 Vue.js 3 项目，可以分成以下几个步骤：
+## Rollup构建 Vue.js 3 项目
+
+整个过程可以分成以下几个步骤：
 1. 项目目录和源码准备；
 2. 安装依赖；
 3. Vue.js 3 的 Rollup 编译脚本配置；
 4. 执行开发模式和生产模式的 Vue.js 3 编译。
 
 
-首先我们准备一个基础项目，本章节完整代码：[案例demo](https://github.com/WsmDyj/vue-ecology/tree/main/codes/course02/rollup-vue3) 
+首先我们准备一个基础项目：
 ```
 ├── index.html
 ├── package.json
@@ -109,4 +114,47 @@ module.exports = {
 
 通过访问 [http://localhost:6001/](http://localhost:6001/) 可以看到vue3项目已经跑起来了。
 
-在这个项目中我们引用了8个plugin，如果把这些场景的处理逻辑与核心的打包逻辑都写到一起，打包器本身的代码会变得十分臃肿，二来也会对原有的核心代码产生一定的侵入性，混入很多与核心流程无关的代码，不易于后期的维护。因此 ，Rollup 设计出了一套完整的插件机制，将自身的核心逻辑与插件逻辑分离，让你能按需引入插件功能，提高了 Rollup 自身的可扩展性。
+在这个项目中我们引用了几个plugin，如果把这些plugin场景的处理逻辑与核心的打包逻辑都写到一起，打包器本身的代码会变得十分臃肿，二来也会对原有的核心代码产生一定的侵入性，混入很多与核心流程无关的代码，不易于后期的维护。因此 ，Rollup 设计出了一套完整的插件机制，将自身的核心逻辑与插件逻辑分离，让你能按需引入插件功能，提高了 Rollup 自身的可扩展性。
+
+## Rollup 插件机制
+Vite 在生产环境中通过 Rollup 对整个项目进行打包，开发环境依然沿用 Rollup 设计的一套完整的插件机制。那么rollup插件是什么？ 引用官网的解释：Rollup 插件是一个具有下面描述的一个或多个属性、构建钩子和输出生成钩子的对象。
+
+插件允许你定制 Rollup 的行为，例如，在捆绑之前编译代码，或者在你的 node_modules 文件夹中找到第三方模块。
+
+Rollup 在打包过程中，会定义一套完整的构建生命周期，从开始打包到产物输出，中途会经历一些标志性的阶段，并且在不同阶段会自动执行对应的插件钩子函数(Hook)。对 Rollup 插件来讲，最重要的部分是钩子函数，一方面它定义了插件的执行逻辑，也就是"做什么"；另一方面也声明了插件的作用阶段，即"什么时候做"，这与 Rollup 本身的构建生命周期息息相关。
+
+## Rollup 整体构建阶段
+那对于一次完整的构建过程而言， Rollup 内部主要经历了 **Build** 和 **Output** 两大阶段。
+
+Rollup 会先进入到 Build 阶段，解析各模块的内容及依赖关系，然后进入Output阶段，完成打包及输出的过程。对于不同的阶段，Rollup 插件会有不同的插件工作流程。
+
+```js
+// Build 阶段
+const bundle = await rollup.rollup(inputOptions);
+// Output 阶段
+await Promise.all(outputOptions.map(bundle.write));
+// 构建结束
+await bundle.close();
+```
+
+## Build 阶段工作流
+首先，我们来分析 Build 阶段的插件工作流程。对于 Build 阶段，插件 Hook 的调用流程如下图所示:
+<table rules="none">
+<tr>
+<td style="width: 40%">
+<ZoomImg src="../../../../public/images/plugin/plugin03.png" />
+</td>
+<td style="font-size: 16px; width: 60%">
+
+1. options阶段进行配置转换，得到处理后的配置集合
+2. 调用 buildStart 钩子，开始构建
+3. 进入 resolveId 钩子中解析文件路径。(从 input 配置指定的入口文件开始)
+4. 调用 load 钩子加载模块内容。
+5. 执行所有的 transform 钩子来对模块内容进行进行自定义的转换，比如 babel 转译。
+6. 拿到最后的模块内容，进行 AST 分析，得到所有的 import 内容，调用 moduleParsed 钩子:
+    * 如果是普通的 import，则执行 resolveId 钩子，继续回到步骤3。
+    * 如果是动态 import，则执行 resolveDynamicImport 钩子解析路径，如果解析成功，则回到步骤4加载模块，否则回到步骤3通过 resolveId 解析路径。
+7. 直到所有的 import 都解析完毕，Rollup 执行buildEnd钩子，Build 阶段结束。
+</td>
+</tr>
+</table>  

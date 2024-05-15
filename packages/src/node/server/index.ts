@@ -1,6 +1,6 @@
 import connect from "connect";
 
-import { initDepsOptimizer } from '../optimizer'
+// import { initDepsOptimizer } from '../optimizer'
 
 import { transformMiddleware } from './middleware/transform'
 import { indexHtmlMiddleware } from './middleware/indexHtml'

@@ -1,4 +1,4 @@
-import type { NextHandleFunction } from "connect"
+import type { NextHandleFunction } from "../../../../../../../course02/vite-plugin/playground/node_modules/.pnpm/@types+connect@3.4.35/node_modules/@types/connect"
 import type { ViteDevServer } from "../../server"
 import sirv from 'sirv'
 import type { Options } from 'sirv'

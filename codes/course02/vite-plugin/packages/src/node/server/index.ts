@@ -4,20 +4,17 @@ import { indexHtmlMiddleware } from './middleware/indexHtml'
 import { htmlFallbackMiddleware } from './middleware/htmlFallback'
 import { serveStaticMiddleware } from './middleware/static'
 import { transformMiddleware } from './middleware/transform'
-
-import type { PluginContainer } from './pluginContainer'
-import { createPluginContainer } from './pluginContainer'
+import { PluginContainer, createPluginContainer } from "./pluginContainer"
 
 export interface ResolvedConfig {
-  root: string
+  root: string 
 }
 
 export interface ViteDevServer {
   config: ResolvedConfig
-  listen(): Promise<void>
   pluginContainer: PluginContainer
+  listen(): Promise<void>
 }
-
 export async function createServer(): Promise<ViteDevServer> {
   // 创建http请求
   const app = connect()
@@ -26,7 +23,8 @@ export async function createServer(): Promise<ViteDevServer> {
     root: process.cwd() // 定义一个全局root
   }
 
-  const container = await createPluginContainer()
+  // 注册插件系统
+  const container = await createPluginContainer(config)
 
   const server: ViteDevServer = {
     config,
@@ -39,9 +37,10 @@ export async function createServer(): Promise<ViteDevServer> {
     }
   }
 
+
   app.use(transformMiddleware(server)) //  资源请求转发
 
-  app.use(serveStaticMiddleware(server)) // 静态资源
+  app.use(serveStaticMiddleware(server)) // 加载静态资源
 
   app.use(htmlFallbackMiddleware(server)) // 重定向到index.html
 

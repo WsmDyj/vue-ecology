@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "vite": "workspace:*",
     "vue": "^3.3.4"
   },
   "devDependencies": {
